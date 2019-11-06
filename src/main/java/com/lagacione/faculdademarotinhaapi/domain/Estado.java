@@ -3,7 +3,7 @@ package com.lagacione.faculdademarotinhaapi.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Estado")
+@Table(name = "estado")
 public class Estado {
 
     @Id
