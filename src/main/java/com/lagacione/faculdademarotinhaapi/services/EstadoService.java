@@ -1,0 +1,4 @@
+package com.lagacione.faculdademarotinhaapi.services;
+
+public class EstadoService {
+}
