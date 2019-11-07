@@ -33,7 +33,7 @@ public class EstadoResource {
     public ResponseEntity<Page<EstadoDTO>> findPage(
             @RequestParam(value="page", defaultValue="0") Integer page,
             @RequestParam(value="size", defaultValue="25") Integer size,
-            @RequestParam(value="orderBy", defaultValue="nome") String orderBy,
+            @RequestParam(value="orderBy", defaultValue="name") String orderBy,
             @RequestParam(value="direction", defaultValue="ASC") String direction
     ) {
         return ResponseEntity.ok().body(this.estadoService.findPage(page, size, orderBy, direction));
