@@ -1,6 +1,8 @@
 package com.lagacione.faculdademarotinhaapi.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "materia")
@@ -11,6 +13,9 @@ public class Materia {
 
     @Column(name = "name")
     private String  name;
+
+    @ManyToMany(mappedBy = "materias")
+    private List<Curso> cursos = new ArrayList<>();
 
     public Materia() {}
 
