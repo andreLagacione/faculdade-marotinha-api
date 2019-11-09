@@ -35,7 +35,7 @@ public class MateriaService {
 
     public Materia find(Integer id) throws ObjectNotFoundException {
         Optional<Materia> materia = this.materiaRepository.findById(id);
-        return materia.orElseThrow(() -> new ObjectNotFoundException("Cidade não encontrada!"));
+        return materia.orElseThrow(() -> new ObjectNotFoundException("Matéria não encontrada!"));
     }
 
     private Materia insert(Materia materia) {
@@ -59,8 +59,8 @@ public class MateriaService {
         }
     }
 
-    public Materia fromDto(MateriaDTO MateriaDTO) {
-        return new Materia(MateriaDTO.getId(), MateriaDTO.getName());
+    public Materia fromDto(MateriaDTO materiaDTO) {
+        return new Materia(materiaDTO.getId(), materiaDTO.getName());
     }
 
     private void updateData(Materia newMateria, Materia materia) {
