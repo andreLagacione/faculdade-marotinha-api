@@ -78,7 +78,7 @@ public class CursoService {
 
     public Curso salvarRegistro(CursoDTO cursoDTO, Boolean adicionar) {
         Curso curso = this.fromDto(cursoDTO);
-        this.adicionarMaterias(curso);
+        this.validarMaterias(curso);
 
         if (adicionar) {
             return this.insert(curso);
@@ -87,7 +87,7 @@ public class CursoService {
         return this.update(curso);
     }
 
-    private void adicionarMaterias(Curso curso) {
+    private void validarMaterias(Curso curso) {
         List<Materia> materiasCurso = curso.getMaterias();
 
         if (materiasCurso == null || materiasCurso.size() == 0) {
