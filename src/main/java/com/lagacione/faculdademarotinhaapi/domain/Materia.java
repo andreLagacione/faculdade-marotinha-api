@@ -17,6 +17,9 @@ public class Materia {
     @ManyToMany(mappedBy = "materias")
     private List<Curso> cursos = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "materiasLecionadas")
+    private List<Professor> professores;
+
     public Materia() {}
 
     public Materia(Integer id, String name) {

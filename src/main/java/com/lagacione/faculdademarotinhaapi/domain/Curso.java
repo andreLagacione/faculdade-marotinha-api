@@ -26,6 +26,9 @@ public class Curso {
     )
     private List<Materia> materias = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "cursosLecionados")
+    private List<Professor> professores = new ArrayList<>();
+
     public Curso() {}
 
     public Curso(Integer id, String name, List<Materia> materias) {
