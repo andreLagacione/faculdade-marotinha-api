@@ -1,10 +1,12 @@
 package com.lagacione.faculdademarotinhaapi.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lagacione.faculdademarotinhaapi.dto.CursoDTO;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "curso")
@@ -30,7 +32,7 @@ public class Curso {
     private List<Professor> professores = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "curso")
+    @ManyToMany(mappedBy = "cursos")
     private List<Aluno> alunos = new ArrayList<>();
 
     public Curso() {}
@@ -79,5 +81,14 @@ public class Curso {
 
     public void setAlunos(List<Aluno> alunos) {
         this.alunos = alunos;
+    }
+
+    public static Curso of(CursoDTO cursoDTO) {
+        Curso curso = new Curso();
+        curso.setId(cursoDTO.getId());
+        List<Materia> materias = cursoDTO.getMaterias().stream().map(Materia::of).collect(Collectors.toList());
+        curso.setMaterias(materias);
+        curso.setName(cursoDTO.getName());
+        return curso;
     }
 }

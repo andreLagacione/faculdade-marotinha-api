@@ -1,6 +1,11 @@
 package com.lagacione.faculdademarotinhaapi.domain;
 
+import com.lagacione.faculdademarotinhaapi.dto.AlunoDTO;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Aluno")
@@ -9,17 +14,15 @@ public class Aluno extends Pessoa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "curso_id", referencedColumnName = "id")
-    private Curso curso;
+    @ManyToMany
+    @JoinTable(
+        name = "aluno_curso",
+        joinColumns = @JoinColumn(name = "aluno_id"),
+        inverseJoinColumns = @JoinColumn(name = "curso_id")
+    )
+    private List<Curso> cursos = new ArrayList<>();
 
     public Aluno() {}
-
-    public Aluno(String name, Integer age, String cpf, Long phone, Integer id, Curso curso) {
-        super(name, age, cpf, phone);
-        this.id = id;
-        this.curso = curso;
-    }
 
     public Integer getId() {
         return id;
@@ -29,11 +32,23 @@ public class Aluno extends Pessoa {
         this.id = id;
     }
 
-    public Curso getCurso() {
-        return curso;
+    public List<Curso> getCursos() {
+        return cursos;
     }
 
-    public void setCurso(Curso curso) {
-        this.curso = curso;
+    public void setCursos(List<Curso> cursos) {
+        this.cursos = cursos;
+    }
+
+    public static Aluno of(AlunoDTO alunoDTO) {
+        Aluno aluno = new Aluno();
+        aluno.setId(alunoDTO.getId());
+        aluno.setName(alunoDTO.getName());
+        aluno.setAge(alunoDTO.getAge());
+        aluno.setCpf(alunoDTO.getCpf());
+        aluno.setPhone(alunoDTO.getPhone());
+        List<Curso> cursos = alunoDTO.getCursos().stream().map(Curso::of).collect(Collectors.toList());
+        aluno.setCursos(cursos);
+        return aluno;
     }
 }

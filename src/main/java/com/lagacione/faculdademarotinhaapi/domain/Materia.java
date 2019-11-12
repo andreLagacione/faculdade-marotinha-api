@@ -1,6 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lagacione.faculdademarotinhaapi.dto.MateriaDTO;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -26,11 +27,6 @@ public class Materia {
 
     public Materia() {}
 
-    public Materia(Integer id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -45,5 +41,12 @@ public class Materia {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public static Materia of(MateriaDTO materiaDTO) {
+        Materia materia = new Materia();
+        materia.setId(materiaDTO.getId());
+        materia.setName(materiaDTO.getName());
+        return materia;
     }
 }

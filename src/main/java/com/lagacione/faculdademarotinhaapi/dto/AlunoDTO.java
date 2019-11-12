@@ -1,23 +1,21 @@
 package com.lagacione.faculdademarotinhaapi.dto;
 
+import com.lagacione.faculdademarotinhaapi.domain.Aluno;
 import com.lagacione.faculdademarotinhaapi.domain.Curso;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AlunoDTO extends PessoaDTO {
 
     private Integer id;
 
     @NotNull(message = "Informe um curso")
-    private Curso curso;
+    private List<CursoDTO> cursos = new ArrayList<>();
 
     public AlunoDTO() {}
-
-    public AlunoDTO(String name, Integer age, String cpf, Long phone, Integer id, Curso curso) {
-        super(name, age, cpf, phone);
-        this.id = id;
-        this.curso = curso;
-    }
 
     public Integer getId() {
         return id;
@@ -27,11 +25,23 @@ public class AlunoDTO extends PessoaDTO {
         this.id = id;
     }
 
-    public Curso getCurso() {
-        return curso;
+    public List<CursoDTO> getCursos() {
+        return cursos;
     }
 
-    public void setCurso(Curso curso) {
-        this.curso = curso;
+    public void setCursos(List<CursoDTO> cursos) {
+        this.cursos = cursos;
+    }
+
+    public static AlunoDTO of(Aluno aluno) {
+        AlunoDTO alunoDTO = new AlunoDTO();
+        alunoDTO.setId(aluno.getId());
+        alunoDTO.setName(aluno.getName());
+        alunoDTO.setAge(aluno.getAge());
+        alunoDTO.setCpf(aluno.getCpf());
+        alunoDTO.setPhone(aluno.getPhone());
+        List<CursoDTO> cursosDTO = aluno.getCursos().stream().map(CursoDTO::of).collect(Collectors.toList());
+        alunoDTO.setCursos(cursosDTO);
+        return alunoDTO;
     }
 }

@@ -15,11 +15,6 @@ public class MateriaDTO {
 
     public MateriaDTO() {}
 
-    public MateriaDTO(Materia materia) {
-        this.id = materia.getId();
-        this.name = materia.getName();
-    }
-
     public Integer getId() {
         return id;
     }
@@ -34,5 +29,12 @@ public class MateriaDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public static MateriaDTO of(Materia materia) {
+        MateriaDTO materiaDTO = new MateriaDTO();
+        materiaDTO.setId(materia.getId());
+        materiaDTO.setName(materia.getName());
+        return materiaDTO;
     }
 }

@@ -1,8 +1,11 @@
 package com.lagacione.faculdademarotinhaapi.domain;
 
+import com.lagacione.faculdademarotinhaapi.dto.ProfessorDTO;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "professor")
@@ -30,13 +33,6 @@ public class Professor extends Pessoa {
 
     public Professor() {}
 
-    public Professor(String name, Integer age, String cpf, Long phone, Integer id, List<Materia> materiasLecionadas, List<Curso> cursosLecionados) {
-        super(name, age, cpf, phone);
-        this.id = id;
-        this.materiasLecionadas = materiasLecionadas;
-        this.cursosLecionados = cursosLecionados;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -59,5 +55,19 @@ public class Professor extends Pessoa {
 
     public void setCursosLecionados(List<Curso> cursosLecionados) {
         this.cursosLecionados = cursosLecionados;
+    }
+
+    public static Professor of(ProfessorDTO professorDTO) {
+        Professor professor = new Professor();
+        professor.setId(professorDTO.getId());
+        professor.setName(professorDTO.getName());
+        professor.setAge(professorDTO.getAge());
+        professor.setCpf(professorDTO.getCpf());
+        professor.setPhone(professorDTO.getPhone());
+        List<Materia> materias = professorDTO.getMateriasLecionadas().stream().map(Materia::of).collect(Collectors.toList());
+        List<Curso> cursos = professorDTO.getCursosLecionados().stream().map(Curso::of).collect(Collectors.toList());
+        professor.setMateriasLecionadas(materias);
+        professor.setCursosLecionados(cursos);
+        return professor;
     }
 }

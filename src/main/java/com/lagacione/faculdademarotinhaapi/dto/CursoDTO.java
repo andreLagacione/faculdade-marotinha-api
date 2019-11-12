@@ -8,8 +8,10 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CursoDTO {
+
     private Integer id;
 
     @NotEmpty(message = "Campo obrigatório!")
@@ -17,15 +19,9 @@ public class CursoDTO {
     private String name;
 
     @NotNull(message = "Campo obrigatório!")
-    private List<Materia> materias = new ArrayList<>();
+    private List<MateriaDTO> materias = new ArrayList<>();
 
     public CursoDTO() {}
-
-    public CursoDTO(Curso curso) {
-        this.id = curso.getId();
-        this.name = curso.getName();
-        this.materias = curso.getMaterias();
-    }
 
     public Integer getId() {
         return id;
@@ -43,11 +39,20 @@ public class CursoDTO {
         this.name = name;
     }
 
-    public List<Materia> getMaterias() {
+    public List<MateriaDTO> getMaterias() {
         return materias;
     }
 
-    public void setMaterias(List<Materia> materias) {
+    public void setMaterias(List<MateriaDTO> materias) {
         this.materias = materias;
+    }
+
+    public static CursoDTO of(Curso curso) {
+        CursoDTO cursoDTO = new CursoDTO();
+        cursoDTO.setId(curso.getId());
+        List<MateriaDTO> materiasDTO = curso.getMaterias().stream().map(MateriaDTO::of).collect(Collectors.toList());
+        cursoDTO.setMaterias(materiasDTO);
+        cursoDTO.setName(curso.getName());
+        return cursoDTO;
     }
 }
