@@ -17,7 +17,6 @@ public class Curso {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(
         name = "curso_materias",
@@ -26,8 +25,13 @@ public class Curso {
     )
     private List<Materia> materias = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "cursosLecionados")
     private List<Professor> professores = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "curso")
+    private List<Aluno> alunos = new ArrayList<>();
 
     public Curso() {}
 
@@ -59,5 +63,21 @@ public class Curso {
 
     public void setMaterias(List<Materia> materias) {
         this.materias = materias;
+    }
+
+    public List<Professor> getProfessores() {
+        return professores;
+    }
+
+    public void setProfessores(List<Professor> professores) {
+        this.professores = professores;
+    }
+
+    public List<Aluno> getAlunos() {
+        return alunos;
+    }
+
+    public void setAlunos(List<Aluno> alunos) {
+        this.alunos = alunos;
     }
 }
