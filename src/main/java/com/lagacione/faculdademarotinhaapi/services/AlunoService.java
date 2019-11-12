@@ -27,7 +27,7 @@ public class AlunoService {
     public List<AlunoDTO> findAll() {
         List<Aluno> alunos = this.alunoRepository.findAll();
         List<AlunoDTO> alunosDTO = alunos.stream().map(
-                obj -> new AlunoDTO(obj.getName(), obj.getAge(), obj.getCpf(), obj.getPhone(), obj.getId(), obj.getCurso())
+                obj -> new AlunoDTO(obj.getName(), obj.getAge(), obj.getCpf(), obj.getPhone(), obj.getId(), obj.getCursos())
         ).collect(Collectors.toList());
         return alunosDTO;
     }
@@ -36,7 +36,7 @@ public class AlunoService {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.valueOf(direction), orderBy);
         Page<Aluno> alunos = this.alunoRepository.findAll(pageRequest);
         Page<AlunoDTO> alunosDTO = alunos.map(
-                obj -> new AlunoDTO(obj.getName(), obj.getAge(), obj.getCpf(), obj.getPhone(), obj.getId(), obj.getCurso())
+                obj -> new AlunoDTO(obj.getName(), obj.getAge(), obj.getCpf(), obj.getPhone(), obj.getId(), obj.getCursos())
         );
         return alunosDTO;
     }
@@ -101,10 +101,14 @@ public class AlunoService {
     }
 
     private void validarCurso(AlunoDTO alunoDTO) throws ObjectNotFoundException {
-        Curso curso = this.cursoService.find(alunoDTO.getCurso().getId());
+        List<Curso> cursos = alunoDTO.getCurso();
 
-        if (curso == null) {
-            throw new ObjectNotFoundException("Curso não encontrado. Por favor informe um curso válido!");
+        if (cursos == null || cursos.size() == 0) {
+            throw new ObjectNotFoundException("Por favor informe ao menos um curso!");
+        }
+
+        for (Curso curso : cursos) {
+            this.cursoService.find(curso.getId());
         }
     }
 

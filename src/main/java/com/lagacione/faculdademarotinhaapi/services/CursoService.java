@@ -26,14 +26,14 @@ public class CursoService {
 
     public List<CursoDTO> findAll() {
         List<Curso> cursos = this.cursoRepository.findAll();
-        List<CursoDTO> cursosDTO = cursos.stream().map(obj -> new CursoDTO(obj)).collect(Collectors.toList());
+        List<CursoDTO> cursosDTO = cursos.stream().map(CursoDTO::of).collect(Collectors.toList());
         return cursosDTO;
     }
 
     public Page<CursoDTO> findPage(Integer page, Integer size, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, size, Direction.valueOf(direction), orderBy);
         Page<Curso> cursos = this.cursoRepository.findAll(pageRequest);
-        Page<CursoDTO> cursosDTO = cursos.map(obj -> new CursoDTO(obj));
+        Page<CursoDTO> cursosDTO = cursos.map(CursoDTO::of);
         return cursosDTO;
     }
 
@@ -63,21 +63,13 @@ public class CursoService {
         }
     }
 
-    public Curso fromDto(CursoDTO cursoDTO) {
-        return new Curso(
-                cursoDTO.getId(),
-                cursoDTO.getName(),
-                cursoDTO.getMaterias()
-        );
-    }
-
     private void updateData(Curso newCurso, Curso curso) {
         newCurso.setName(curso.getName());
         newCurso.setMaterias(curso.getMaterias());
     }
 
     public Curso salvarRegistro(CursoDTO cursoDTO, Boolean adicionar) {
-        Curso curso = this.fromDto(cursoDTO);
+        Curso curso = Curso.of(cursoDTO);
         this.validarMaterias(curso);
 
         if (adicionar) {
