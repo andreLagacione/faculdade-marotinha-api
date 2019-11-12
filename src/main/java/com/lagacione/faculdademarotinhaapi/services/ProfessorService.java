@@ -67,7 +67,7 @@ public class ProfessorService {
         try {
             this.professorRepository.deleteById(id);
         } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException("Não é possível remover este professo, pois existem registros atrelados a ele!");
+            throw new DataIntegrityViolationException("Não é possível remover este professor, pois existem registros atrelados a ele!");
         }
     }
 
@@ -93,12 +93,13 @@ public class ProfessorService {
         newProfessor.setCursosLecionados(professor.getCursosLecionados());
     }
 
-    public Professor salvarRegistro(ProfessorDTO professorDTO, Boolean adicionar) throws ObjectNotFoundException {
+    public Professor salvarRegistro(ProfessorDTO professorDTO, Boolean adicionar) throws Exception {
         this.validarMaterias(professorDTO);
         this.validarCursos(professorDTO);
         Professor professor = this.fromDto(professorDTO);
 
         if (adicionar) {
+            this.validarCpf(professorDTO);
             return this.insert(professor);
         }
 
@@ -126,6 +127,14 @@ public class ProfessorService {
 
         for (Curso curso : cursos) {
             this.cursoService.find(curso.getId());
+        }
+    }
+
+    private void validarCpf(ProfessorDTO professorDTO) throws Exception {
+        Integer validar = this.professorRepository.pesquisarCpf(professorDTO.getCpf());
+
+        if (validar > 0) {
+            throw new Exception("Já existe um professor cadastrado com esse CPF. Por favor informe outro CPF!");
         }
     }
 }

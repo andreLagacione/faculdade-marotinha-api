@@ -44,7 +44,7 @@ public class ProfessorResource {
     }
 
     @RequestMapping(method=RequestMethod.POST)
-    public ResponseEntity<PadraoMensagemRetorno> insert(@Valid @RequestBody ProfessorDTO professorDTO) {
+    public ResponseEntity<PadraoMensagemRetorno> insert(@Valid @RequestBody ProfessorDTO professorDTO) throws Exception {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(this.professorService.salvarRegistro(professorDTO, true).getId()).toUri();
         PadraoMensagemRetorno mensagemRetorno = new PadraoMensagemRetorno(HttpStatus.CREATED, HttpStatus.valueOf("CREATED").value(), "Professor adicionado com sucesso!");
         return ResponseEntity.created(uri).body(mensagemRetorno);
@@ -53,7 +53,7 @@ public class ProfessorResource {
     @RequestMapping(method=RequestMethod.PUT)
     public ResponseEntity<PadraoMensagemRetorno> update(
             @Valid @RequestBody ProfessorDTO professorDTO
-    ) throws ObjectNotFoundException {
+    ) throws Exception {
         this.professorService.salvarRegistro(professorDTO, false);
         PadraoMensagemRetorno mensagemRetorno = new PadraoMensagemRetorno(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Professor editado com sucesso!");
         return ResponseEntity.ok(mensagemRetorno);
