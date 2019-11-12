@@ -1,5 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +16,11 @@ public class Materia {
     @Column(name = "name")
     private String  name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "materias")
     private List<Curso> cursos = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "materiasLecionadas")
     private List<Professor> professores;
 
