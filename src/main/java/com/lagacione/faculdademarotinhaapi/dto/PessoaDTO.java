@@ -1,6 +1,5 @@
 package com.lagacione.faculdademarotinhaapi.dto;
 
-import com.lagacione.faculdademarotinhaapi.domain.Pessoa;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;

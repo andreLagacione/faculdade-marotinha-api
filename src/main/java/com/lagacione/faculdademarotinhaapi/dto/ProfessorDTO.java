@@ -1,8 +1,5 @@
 package com.lagacione.faculdademarotinhaapi.dto;
 
-import com.lagacione.faculdademarotinhaapi.domain.Curso;
-import com.lagacione.faculdademarotinhaapi.domain.Materia;
-import com.lagacione.faculdademarotinhaapi.domain.Pessoa;
 import com.lagacione.faculdademarotinhaapi.domain.Professor;
 
 import javax.validation.constraints.NotNull;

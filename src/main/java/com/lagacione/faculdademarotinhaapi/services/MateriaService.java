@@ -22,14 +22,14 @@ public class MateriaService {
 
     public List<MateriaDTO> findAll() {
         List<Materia> materias = this.materiaRepository.findAll();
-        List<MateriaDTO> materiasDTO = materias.stream().map(obj -> new MateriaDTO(obj)).collect(Collectors.toList());
+        List<MateriaDTO> materiasDTO = materias.stream().map(MateriaDTO::of).collect(Collectors.toList());
         return materiasDTO;
     }
 
     public Page<MateriaDTO> findPage(Integer page, Integer size, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.valueOf(direction), orderBy);
         Page<Materia> materias = this.materiaRepository.findAll(pageRequest);
-        Page<MateriaDTO> materiasDTO = materias.map(obj -> new MateriaDTO(obj));
+        Page<MateriaDTO> materiasDTO = materias.map(MateriaDTO::of);
         return materiasDTO;
     }
 
@@ -59,16 +59,12 @@ public class MateriaService {
         }
     }
 
-    public Materia fromDto(MateriaDTO materiaDTO) {
-        return new Materia(materiaDTO.getId(), materiaDTO.getName());
-    }
-
     private void updateData(Materia newMateria, Materia materia) {
         newMateria.setName(materia.getName());
     }
 
     public Materia salvarRegistro(MateriaDTO materiaDTO, Boolean adicionar) throws ObjectNotFoundException {
-        Materia materia = this.fromDto(materiaDTO);
+        Materia materia = Materia.of(materiaDTO);
 
         if (adicionar) {
             return this.insert(materia);

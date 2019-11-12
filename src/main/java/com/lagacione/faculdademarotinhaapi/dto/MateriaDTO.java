@@ -3,7 +3,6 @@ package com.lagacione.faculdademarotinhaapi.dto;
 import com.lagacione.faculdademarotinhaapi.domain.Materia;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 
 public class MateriaDTO {

@@ -1,8 +1,8 @@
 package com.lagacione.faculdademarotinhaapi.services;
 
-import com.lagacione.faculdademarotinhaapi.domain.Curso;
-import com.lagacione.faculdademarotinhaapi.domain.Materia;
 import com.lagacione.faculdademarotinhaapi.domain.Professor;
+import com.lagacione.faculdademarotinhaapi.dto.CursoDTO;
+import com.lagacione.faculdademarotinhaapi.dto.MateriaDTO;
 import com.lagacione.faculdademarotinhaapi.dto.ProfessorDTO;
 import com.lagacione.faculdademarotinhaapi.repositories.ProfessorRepository;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
@@ -30,18 +30,14 @@ public class ProfessorService {
 
     public List<ProfessorDTO> findAll() {
         List<Professor> professores = this.professorRepository.findAll();
-        List<ProfessorDTO> professoresDTO = professores.stream().map(
-                obj -> new ProfessorDTO(obj.getName(), obj.getAge(), obj.getCpf(), obj.getPhone(), obj.getId(), obj.getMateriasLecionadas(), obj.getCursosLecionados())
-        ).collect(Collectors.toList());
+        List<ProfessorDTO> professoresDTO = professores.stream().map(ProfessorDTO::of).collect(Collectors.toList());
         return professoresDTO;
     }
 
     public Page<ProfessorDTO> findPage(Integer page, Integer size, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, size, Direction.valueOf(direction), orderBy);
         Page<Professor> professores = this.professorRepository.findAll(pageRequest);
-        Page<ProfessorDTO> professoresDTO = professores.map(
-                obj -> new ProfessorDTO(obj.getName(), obj.getAge(), obj.getCpf(), obj.getPhone(), obj.getId(), obj.getMateriasLecionadas(), obj.getCursosLecionados())
-        );
+        Page<ProfessorDTO> professoresDTO = professores.map(ProfessorDTO::of);
         return professoresDTO;
     }
 
@@ -71,18 +67,6 @@ public class ProfessorService {
         }
     }
 
-    public Professor fromDto(ProfessorDTO professorDTO) {
-        return new Professor(
-                professorDTO.getName(),
-                professorDTO.getAge(),
-                professorDTO.getCpf(),
-                professorDTO.getPhone(),
-                professorDTO.getId(),
-                professorDTO.getMateriasLecionadas(),
-                professorDTO.getCursosLecionados()
-        );
-    }
-
     private void updateData(Professor newProfessor, Professor professor) {
         newProfessor.setName(professor.getName());
         newProfessor.setAge(professor.getAge());
@@ -96,7 +80,7 @@ public class ProfessorService {
     public Professor salvarRegistro(ProfessorDTO professorDTO, Boolean adicionar) throws Exception {
         this.validarMaterias(professorDTO);
         this.validarCursos(professorDTO);
-        Professor professor = this.fromDto(professorDTO);
+        Professor professor = Professor.of(professorDTO);
 
         if (adicionar) {
             this.validarCpf(professorDTO);
@@ -107,26 +91,26 @@ public class ProfessorService {
     }
 
     private void validarMaterias(ProfessorDTO professorDTO) {
-        List<Materia> materias = professorDTO.getMateriasLecionadas();
+        List<MateriaDTO> materiasDTO = professorDTO.getMateriasLecionadas();
 
-        if (materias == null || materias.size() == 0) {
+        if (materiasDTO == null || materiasDTO.size() == 0) {
             throw new ObjectNotFoundException("Informe pelo menos uma matéria!");
         }
 
-        for (Materia materia : materias) {
-            this.materiaService.find(materia.getId());
+        for (MateriaDTO materiaDTO : materiasDTO) {
+            this.materiaService.find(materiaDTO.getId());
         }
     }
 
     private void validarCursos(ProfessorDTO professorDTO) {
-        List<Curso> cursos = professorDTO.getCursosLecionados();
+        List<CursoDTO> cursosDTO = professorDTO.getCursosLecionados();
 
-        if (cursos == null || cursos.size() == 0) {
+        if (cursosDTO == null || cursosDTO.size() == 0) {
             throw new ObjectNotFoundException("Informe pelo menos um curso!");
         }
 
-        for (Curso curso : cursos) {
-            this.cursoService.find(curso.getId());
+        for (CursoDTO cursoDTO : cursosDTO) {
+            this.cursoService.find(cursoDTO.getId());
         }
     }
 

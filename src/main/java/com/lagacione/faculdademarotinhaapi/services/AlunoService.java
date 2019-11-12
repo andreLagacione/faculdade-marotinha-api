@@ -1,8 +1,8 @@
 package com.lagacione.faculdademarotinhaapi.services;
 
 import com.lagacione.faculdademarotinhaapi.domain.Aluno;
-import com.lagacione.faculdademarotinhaapi.domain.Curso;
 import com.lagacione.faculdademarotinhaapi.dto.AlunoDTO;
+import com.lagacione.faculdademarotinhaapi.dto.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.repositories.AlunoRepository;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +26,14 @@ public class AlunoService {
 
     public List<AlunoDTO> findAll() {
         List<Aluno> alunos = this.alunoRepository.findAll();
-        List<AlunoDTO> alunosDTO = alunos.stream().map(
-                obj -> new AlunoDTO(obj.getName(), obj.getAge(), obj.getCpf(), obj.getPhone(), obj.getId(), obj.getCursos())
-        ).collect(Collectors.toList());
+        List<AlunoDTO> alunosDTO = alunos.stream().map(AlunoDTO::of).collect(Collectors.toList());
         return alunosDTO;
     }
 
     public Page<AlunoDTO> findPage(Integer page, Integer size, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.valueOf(direction), orderBy);
         Page<Aluno> alunos = this.alunoRepository.findAll(pageRequest);
-        Page<AlunoDTO> alunosDTO = alunos.map(
-                obj -> new AlunoDTO(obj.getName(), obj.getAge(), obj.getCpf(), obj.getPhone(), obj.getId(), obj.getCursos())
-        );
+        Page<AlunoDTO> alunosDTO = alunos.map(AlunoDTO::of);
         return alunosDTO;
     }
 
@@ -67,30 +63,19 @@ public class AlunoService {
         }
     }
 
-    public Aluno fromDto(AlunoDTO alunoDTO) {
-        return new Aluno(
-                alunoDTO.getName(),
-                alunoDTO.getAge(),
-                alunoDTO.getCpf(),
-                alunoDTO.getPhone(),
-                alunoDTO.getId(),
-                alunoDTO.getCurso()
-        );
-    }
-
-    private void updateData(Aluno newProfessor, Aluno professor) {
-        newProfessor.setName(professor.getName());
-        newProfessor.setAge(professor.getAge());
-        newProfessor.setCpf(professor.getCpf());
-        newProfessor.setPhone(professor.getPhone());
-        newProfessor.setId(professor.getId());
-        newProfessor.setCurso(professor.getCurso());
+    private void updateData(Aluno newAluno, Aluno aluno) {
+        newAluno.setName(aluno.getName());
+        newAluno.setAge(aluno.getAge());
+        newAluno.setCpf(aluno.getCpf());
+        newAluno.setPhone(aluno.getPhone());
+        newAluno.setId(aluno.getId());
+        newAluno.setCursos(aluno.getCursos());
     }
 
     public Aluno salvarRegistro(AlunoDTO alunoDTO, Boolean adicionar) throws Exception {
         this.validarCurso(alunoDTO);
 
-        Aluno aluno = this.fromDto(alunoDTO);
+        Aluno aluno = Aluno.of(alunoDTO);
 
         if (adicionar) {
             this.validarCpf(alunoDTO);
@@ -101,14 +86,14 @@ public class AlunoService {
     }
 
     private void validarCurso(AlunoDTO alunoDTO) throws ObjectNotFoundException {
-        List<Curso> cursos = alunoDTO.getCurso();
+        List<CursoDTO> cursos = alunoDTO.getCursos();
 
         if (cursos == null || cursos.size() == 0) {
             throw new ObjectNotFoundException("Por favor informe ao menos um curso!");
         }
 
-        for (Curso curso : cursos) {
-            this.cursoService.find(curso.getId());
+        for (CursoDTO cursoDTO : cursos) {
+            this.cursoService.find(cursoDTO.getId());
         }
     }
 

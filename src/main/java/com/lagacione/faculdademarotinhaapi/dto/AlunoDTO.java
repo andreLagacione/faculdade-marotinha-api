@@ -1,7 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.dto;
 
 import com.lagacione.faculdademarotinhaapi.domain.Aluno;
-import com.lagacione.faculdademarotinhaapi.domain.Curso;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
