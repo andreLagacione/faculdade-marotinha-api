@@ -55,7 +55,7 @@ public class MateriaResource {
             @Valid @RequestBody MateriaDTO materiaDTO
     ) throws ObjectNotFoundException {
         this.materiaService.salvarRegistro(materiaDTO, false);
-        PadraoMensagemRetorno mensagemRetorno = new PadraoMensagemRetorno(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Matéria criada com sucesso!");
+        PadraoMensagemRetorno mensagemRetorno = new PadraoMensagemRetorno(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Matéria editada com sucesso!");
         return ResponseEntity.ok(mensagemRetorno);
     }
 
