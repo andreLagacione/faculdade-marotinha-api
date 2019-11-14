@@ -42,9 +42,9 @@ public class AlunoService {
         return aluno.orElseThrow(() -> new ObjectNotFoundException("Aluno não encontrado!"));
     }
 
-    private Aluno insert(Aluno professor) {
-        professor.setId(null);
-        return this.alunoRepository.save(professor);
+    private Aluno insert(Aluno aluno) {
+        aluno.setId(null);
+        return this.alunoRepository.save(aluno);
     }
 
     private Aluno update(Aluno aluno) throws ObjectNotFoundException {

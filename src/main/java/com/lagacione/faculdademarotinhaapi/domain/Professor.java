@@ -1,5 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lagacione.faculdademarotinhaapi.dto.ProfessorDTO;
 
 import javax.persistence.*;
@@ -30,6 +31,9 @@ public class Professor extends Pessoa {
         inverseJoinColumns = @JoinColumn(name = "curso_id")
     )
     private List<Curso> cursosLecionados = new ArrayList<>();
+
+    @OneToMany(mappedBy = "professor")
+    private List<Boletim> boletins;
 
     public Professor() {}
 
