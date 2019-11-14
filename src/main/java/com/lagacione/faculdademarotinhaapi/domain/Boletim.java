@@ -22,8 +22,8 @@ public class Boletim {
     @JoinColumn(name = "aluno_id", referencedColumnName = "id")
     private Aluno aluno;
 
-    @Column(name = "materia_nota")
-    private List<MateriaNota> materiaNotas = new ArrayList<>();
+//    @Column(name = "materia_nota")
+//    private List<MateriaNota> materiaNotas = new ArrayList<>();
 
     public Boletim() {}
 
