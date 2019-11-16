@@ -1,11 +1,29 @@
 package com.lagacione.faculdademarotinhaapi.dto;
 
-import com.lagacione.faculdademarotinhaapi.domain.Materia;
-import com.lagacione.faculdademarotinhaapi.domain.MateriaNota;
+import com.lagacione.faculdademarotinhaapi.domain.*;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 public class MateriaNotaDTO {
     private Integer id;
+
+    @NotNull(message = "Informe o aluno.")
+    private Aluno aluno;
+
+    @NotNull(message = "Informe o curso.")
+    private Curso curso;
+
+    @NotNull(message = "Informe o bimestre.")
+    private Bimestre bimestre;
+
+    @NotNull(message = "Informe o materia.")
     private Materia materia;
+
+    @NotNull(message = "Informe o nota.")
+    @Min(value = 0, message = "A nota deve estar entre 0 e 10.")
+    @Max(value = 10, message = "A nota deve estar entre 0 e 10.")
     private Double nota;
 
     public MateriaNotaDTO() {}
@@ -16,6 +34,30 @@ public class MateriaNotaDTO {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Aluno getAluno() {
+        return aluno;
+    }
+
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
+    }
+
+    public Curso getCurso() {
+        return curso;
+    }
+
+    public void setCurso(Curso curso) {
+        this.curso = curso;
+    }
+
+    public Bimestre getBimestre() {
+        return bimestre;
+    }
+
+    public void setBimestre(Bimestre bimestre) {
+        this.bimestre = bimestre;
     }
 
     public Materia getMateria() {
@@ -37,6 +79,9 @@ public class MateriaNotaDTO {
     public static MateriaNotaDTO of(MateriaNota materiaNota) {
         MateriaNotaDTO materiaNotaDTO = new MateriaNotaDTO();
         materiaNotaDTO.setId(materiaNota.getId());
+        materiaNotaDTO.setAluno(materiaNota.getAluno());
+        materiaNotaDTO.setCurso(materiaNota.getCurso());
+        materiaNotaDTO.setBimestre(materiaNota.getBimestre());
         materiaNotaDTO.setMateria(materiaNota.getMateria());
         materiaNotaDTO.setNota(materiaNota.getNota());
         return materiaNotaDTO;
