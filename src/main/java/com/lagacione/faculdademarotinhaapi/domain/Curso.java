@@ -35,6 +35,10 @@ public class Curso {
     @ManyToMany(mappedBy = "cursos")
     private List<Aluno> alunos = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "curso")
+    private List<MateriaNota> materiaNotas = new ArrayList<>();
+
     public Curso() {}
 
     public Curso(Integer id, String name, List<Materia> materias) {
@@ -81,6 +85,14 @@ public class Curso {
 
     public void setAlunos(List<Aluno> alunos) {
         this.alunos = alunos;
+    }
+
+    public List<MateriaNota> getMateriaNotas() {
+        return materiaNotas;
+    }
+
+    public void setMateriaNotas(List<MateriaNota> materiaNotas) {
+        this.materiaNotas = materiaNotas;
     }
 
     public static Curso of(CursoDTO cursoDTO) {

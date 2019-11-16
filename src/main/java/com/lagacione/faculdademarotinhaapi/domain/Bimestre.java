@@ -1,8 +1,11 @@
 package com.lagacione.faculdademarotinhaapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lagacione.faculdademarotinhaapi.dto.BimestreDTO;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "bimestre")
@@ -16,6 +19,10 @@ public class Bimestre {
 
     @Column(name = "bimestre")
     private Integer bimestre;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "bimestre")
+    private List<MateriaNota> materiaNotas = new ArrayList<>();
 
     public Bimestre() {}
 
@@ -41,6 +48,14 @@ public class Bimestre {
 
     public void setBimestre(Integer bimestre) {
         this.bimestre = bimestre;
+    }
+
+    public List<MateriaNota> getMateriaNotas() {
+        return materiaNotas;
+    }
+
+    public void setMateriaNotas(List<MateriaNota> materiaNotas) {
+        this.materiaNotas = materiaNotas;
     }
 
     public static Bimestre of(BimestreDTO bimestreDTO) {
