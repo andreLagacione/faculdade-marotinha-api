@@ -15,15 +15,20 @@ public class Boletim {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "professor", referencedColumnName = "id")
+    @JoinColumn(name = "id_professor", referencedColumnName = "id")
     private Professor professor;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "aluno_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "id_aluno", referencedColumnName = "id")
     private Aluno aluno;
 
-//    @Column(name = "materia_nota")
-//    private List<MateriaNota> materiaNotas = new ArrayList<>();
+    @OneToMany
+    @JoinTable(
+            name = "boletim_nota",
+            joinColumns = @JoinColumn(name = "id_boletim", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id_nota", referencedColumnName = "id")
+    )
+    private List<MateriaNota> materiaNotas = new ArrayList<>();
 
     public Boletim() {}
 
