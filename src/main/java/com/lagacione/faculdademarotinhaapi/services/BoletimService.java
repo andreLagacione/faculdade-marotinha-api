@@ -1,6 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.services;
 
-import com.lagacione.faculdademarotinhaapi.domain.Boletim;
+import com.lagacione.faculdademarotinhaapi.domain.*;
 import com.lagacione.faculdademarotinhaapi.dto.BoletimDTO;
 import com.lagacione.faculdademarotinhaapi.dto.MateriaNotaDTO;
 import com.lagacione.faculdademarotinhaapi.repositories.BoletimRepository;
@@ -28,7 +28,7 @@ public class BoletimService {
     private AlunoService alunoService;
 
     @Autowired
-    private MateriaService materiaService;
+    private MateriaNotaService materiaNotaService;
 
     public List<BoletimDTO> findAll() {
         List<Boletim> boletins = this.boletimRepository.findAll();
@@ -105,15 +105,33 @@ public class BoletimService {
             throw new Exception("Informe uma matéria e a nota");
         }
 
-        for (MateriaNotaDTO materiaNota : materiaNotas) {
-            this.materiaService.find(materiaNota.getMateria().getId());
-            this.validarNota(materiaNota.getNota());
+        for (MateriaNotaDTO materiaNotaDTO : materiaNotas) {
+            MateriaNota materiaNota = this.materiaNotaService.find(materiaNotaDTO.getId());
+
+            if (materiaNota != null) {
+                this.validarAlunoNota(materiaNota, boletimDTO.getAluno().getId());
+            }
         }
     }
 
-    private void validarNota(Double nota) throws Exception {
-        if (nota < 0 && nota > 10) {
-            throw new Exception("A nota deve estar entre 0 e 10");
+    private void validarAlunoNota(MateriaNota materiaNota, Integer idAlunoBoletim) throws Exception {
+        Aluno aluno = materiaNota.getAluno();
+
+        if (aluno.getId() != idAlunoBoletim) {
+            Aluno alunoBoletim = this.alunoService.find(idAlunoBoletim);
+            Curso curso = materiaNota.getCurso();
+            Bimestre bimestre = materiaNota.getBimestre();
+            Materia materia = materiaNota.getMateria();
+            Double nota = materiaNota.getNota();
+
+            String mensagem = "A nota " + nota + " não pode ser atribuída para o aluno(a) ";
+            mensagem += alunoBoletim.getName() + " pois ela já está atribuída para o aluno(a) ";
+            mensagem += aluno.getName() + " na matéria ";
+            mensagem += materia.getName() + " no curso ";
+            mensagem += curso.getName() + " para o bimestre ";
+            mensagem += bimestre.getBimestre() + "/" + bimestre.getAno();
+
+            throw new Exception(mensagem);
         }
     }
 }
