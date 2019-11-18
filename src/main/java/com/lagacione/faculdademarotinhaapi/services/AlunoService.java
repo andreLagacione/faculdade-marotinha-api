@@ -2,6 +2,7 @@ package com.lagacione.faculdademarotinhaapi.services;
 
 import com.lagacione.faculdademarotinhaapi.domain.Aluno;
 import com.lagacione.faculdademarotinhaapi.dto.AlunoDTO;
+import com.lagacione.faculdademarotinhaapi.dto.AlunoListaDTO;
 import com.lagacione.faculdademarotinhaapi.dto.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.repositories.AlunoRepository;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
@@ -30,11 +31,11 @@ public class AlunoService {
         return alunosDTO;
     }
 
-    public Page<AlunoDTO> findPage(Integer page, Integer size, String orderBy, String direction) {
+    public Page<AlunoListaDTO> findPage(Integer page, Integer size, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.valueOf(direction), orderBy);
         Page<Aluno> alunos = this.alunoRepository.findAll(pageRequest);
-        Page<AlunoDTO> alunosDTO = alunos.map(AlunoDTO::of);
-        return alunosDTO;
+        Page<AlunoListaDTO> alunoListaDTO = alunos.map(AlunoListaDTO::of);
+        return alunoListaDTO;
     }
 
     public Aluno find(Integer id) throws ObjectNotFoundException {

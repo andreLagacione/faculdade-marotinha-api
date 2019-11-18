@@ -2,6 +2,7 @@ package com.lagacione.faculdademarotinhaapi.resources;
 
 import com.lagacione.faculdademarotinhaapi.domain.Aluno;
 import com.lagacione.faculdademarotinhaapi.dto.AlunoDTO;
+import com.lagacione.faculdademarotinhaapi.dto.AlunoListaDTO;
 import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetorno;
 import com.lagacione.faculdademarotinhaapi.services.AlunoService;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
@@ -29,7 +30,7 @@ public class AlunoResource {
     }
 
     @RequestMapping(method=RequestMethod.GET)
-    public ResponseEntity<Page<AlunoDTO>> findPage(
+    public ResponseEntity<Page<AlunoListaDTO>> findPage(
             @RequestParam(value="page", defaultValue="0") Integer page,
             @RequestParam(value="size", defaultValue="25") Integer size,
             @RequestParam(value="orderBy", defaultValue="name") String orderBy,
