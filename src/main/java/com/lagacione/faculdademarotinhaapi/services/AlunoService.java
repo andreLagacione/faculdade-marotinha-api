@@ -1,6 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.services;
 
 import com.lagacione.faculdademarotinhaapi.domain.Aluno;
+import com.lagacione.faculdademarotinhaapi.dto.AlunoCursoListaDTO;
 import com.lagacione.faculdademarotinhaapi.dto.AlunoDTO;
 import com.lagacione.faculdademarotinhaapi.dto.AlunoListaDTO;
 import com.lagacione.faculdademarotinhaapi.dto.CursoDTO;
@@ -25,10 +26,10 @@ public class AlunoService {
     @Autowired
     private CursoService cursoService;
 
-    public List<AlunoDTO> findAll() {
+    public List<AlunoListaDTO> findAll() {
         List<Aluno> alunos = this.alunoRepository.findAll();
-        List<AlunoDTO> alunosDTO = alunos.stream().map(AlunoDTO::of).collect(Collectors.toList());
-        return alunosDTO;
+        List<AlunoListaDTO> alunoListaDTO = alunos.stream().map(AlunoListaDTO::of).collect(Collectors.toList());
+        return alunoListaDTO;
     }
 
     public Page<AlunoListaDTO> findPage(Integer page, Integer size, String orderBy, String direction) {
@@ -38,9 +39,16 @@ public class AlunoService {
         return alunoListaDTO;
     }
 
-    public Aluno find(Integer id) throws ObjectNotFoundException {
+    public AlunoCursoListaDTO find(Integer id) throws ObjectNotFoundException {
         Optional<Aluno> aluno = this.alunoRepository.findById(id);
-        return aluno.orElseThrow(() -> new ObjectNotFoundException("Aluno não encontrado!"));
+
+        if (aluno != null) {
+            AlunoCursoListaDTO alunoCursoListaDTO = new AlunoCursoListaDTO();
+            alunoCursoListaDTO = alunoCursoListaDTO.of(aluno.get());
+            return alunoCursoListaDTO;
+        }
+
+        throw new ObjectNotFoundException("Aluno não encontrado!");
     }
 
     private Aluno insert(Aluno aluno) {
@@ -48,8 +56,13 @@ public class AlunoService {
         return this.alunoRepository.save(aluno);
     }
 
+    public Aluno findOptional(Integer id) throws ObjectNotFoundException {
+        Optional<Aluno> aluno = this.alunoRepository.findById(id);
+        return aluno.orElseThrow(() -> new ObjectNotFoundException("Aluno não encontrado!"));
+    }
+
     private Aluno update(Aluno aluno) throws ObjectNotFoundException {
-        Aluno newAluno = this.find(aluno.getId());
+        Aluno newAluno = this.findOptional(aluno.getId());
         this.updateData(newAluno, aluno);
         return this.alunoRepository.save(newAluno);
     }
