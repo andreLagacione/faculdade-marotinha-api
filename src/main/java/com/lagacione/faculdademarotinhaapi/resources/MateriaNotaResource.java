@@ -2,7 +2,7 @@ package com.lagacione.faculdademarotinhaapi.resources;
 
 import com.lagacione.faculdademarotinhaapi.domain.MateriaNota;
 import com.lagacione.faculdademarotinhaapi.dto.MateriaNotaDTO;
-import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetorno;
+import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.services.MateriaNotaService;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,25 +44,25 @@ public class MateriaNotaResource {
     }
 
     @RequestMapping(method=RequestMethod.POST)
-    public ResponseEntity<PadraoMensagemRetorno> insert(@Valid @RequestBody MateriaNotaDTO materiaNotaDTO) throws Exception {
+    public ResponseEntity<PadraoMensagemRetornoDTO> insert(@Valid @RequestBody MateriaNotaDTO materiaNotaDTO) throws Exception {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(this.materiaNotaService.salvarRegistro(materiaNotaDTO, true).getId()).toUri();
-        PadraoMensagemRetorno mensagemRetorno = new PadraoMensagemRetorno(HttpStatus.CREATED, HttpStatus.valueOf("CREATED").value(), "Nota adicionada com sucesso!");
+        PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.CREATED, HttpStatus.valueOf("CREATED").value(), "Nota adicionada com sucesso!");
         return ResponseEntity.created(uri).body(mensagemRetorno);
     }
 
     @RequestMapping(method=RequestMethod.PUT)
-    public ResponseEntity<PadraoMensagemRetorno> update(
+    public ResponseEntity<PadraoMensagemRetornoDTO> update(
             @Valid @RequestBody MateriaNotaDTO materiaNotaDTO
     ) throws Exception {
         this.materiaNotaService.salvarRegistro(materiaNotaDTO, false);
-        PadraoMensagemRetorno mensagemRetorno = new PadraoMensagemRetorno(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Nota editada com sucesso!");
+        PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Nota editada com sucesso!");
         return ResponseEntity.ok(mensagemRetorno);
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-    public ResponseEntity<PadraoMensagemRetorno> delete(@PathVariable Integer id) throws ObjectNotFoundException {
+    public ResponseEntity<PadraoMensagemRetornoDTO> delete(@PathVariable Integer id) throws ObjectNotFoundException {
         this.materiaNotaService.delete(id);
-        PadraoMensagemRetorno mensagemRetorno = new PadraoMensagemRetorno(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Nota removida com sucesso!");
+        PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Nota removida com sucesso!");
         return ResponseEntity.ok().body(mensagemRetorno);
     }
 }

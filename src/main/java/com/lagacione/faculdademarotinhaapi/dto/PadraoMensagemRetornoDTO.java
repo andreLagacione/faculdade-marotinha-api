@@ -2,15 +2,15 @@ package com.lagacione.faculdademarotinhaapi.dto;
 
 import org.springframework.http.HttpStatus;
 
-public class PadraoMensagemRetorno {
+public class PadraoMensagemRetornoDTO {
 
     private HttpStatus httpStatus;
     private Integer httpStatusCode;
     private String mensagem;
 
-    public PadraoMensagemRetorno() {}
+    public PadraoMensagemRetornoDTO() {}
 
-    public PadraoMensagemRetorno(HttpStatus httpStatus, Integer httpStatusCode, String mensagem) {
+    public PadraoMensagemRetornoDTO(HttpStatus httpStatus, Integer httpStatusCode, String mensagem) {
         this.httpStatus = httpStatus;
         this.httpStatusCode = httpStatusCode;
         this.mensagem = mensagem;

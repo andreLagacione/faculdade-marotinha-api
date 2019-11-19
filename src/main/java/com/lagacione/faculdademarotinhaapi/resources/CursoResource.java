@@ -2,7 +2,7 @@ package com.lagacione.faculdademarotinhaapi.resources;
 
 import com.lagacione.faculdademarotinhaapi.domain.Curso;
 import com.lagacione.faculdademarotinhaapi.dto.CursoDTO;
-import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetorno;
+import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.services.CursoService;
 import javassist.tools.rmi.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,25 +44,25 @@ public class CursoResource {
     }
 
     @RequestMapping(method=RequestMethod.POST)
-    public ResponseEntity<PadraoMensagemRetorno> insert(@Valid @RequestBody CursoDTO cursoDTO) {
+    public ResponseEntity<PadraoMensagemRetornoDTO> insert(@Valid @RequestBody CursoDTO cursoDTO) {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(this.cursoService.salvarRegistro(cursoDTO, true).getId()).toUri();
-        PadraoMensagemRetorno mensagemRetorno = new PadraoMensagemRetorno(HttpStatus.CREATED, HttpStatus.valueOf("CREATED").value(), "Curso adicionado com sucesso!");
+        PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.CREATED, HttpStatus.valueOf("CREATED").value(), "Curso adicionado com sucesso!");
         return ResponseEntity.created(uri).body(mensagemRetorno);
     }
 
     @RequestMapping(method=RequestMethod.PUT)
-    public ResponseEntity<PadraoMensagemRetorno> update(
+    public ResponseEntity<PadraoMensagemRetornoDTO> update(
             @Valid @RequestBody CursoDTO cursoDTO
     ) throws ObjectNotFoundException {
         this.cursoService.salvarRegistro(cursoDTO, false);
-        PadraoMensagemRetorno mensagemRetorno = new PadraoMensagemRetorno(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Curso editado com sucesso!");
+        PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Curso editado com sucesso!");
         return ResponseEntity.ok(mensagemRetorno);
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-    public ResponseEntity<PadraoMensagemRetorno> delete(@PathVariable Integer id) throws ObjectNotFoundException {
+    public ResponseEntity<PadraoMensagemRetornoDTO> delete(@PathVariable Integer id) throws ObjectNotFoundException {
         this.cursoService.delete(id);
-        PadraoMensagemRetorno mensagemRetorno = new PadraoMensagemRetorno(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Curso removido com sucesso!");
+        PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Curso removido com sucesso!");
         return ResponseEntity.ok().body(mensagemRetorno);
     }
 }
