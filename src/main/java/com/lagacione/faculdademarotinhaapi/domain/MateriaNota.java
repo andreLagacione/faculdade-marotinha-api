@@ -85,7 +85,7 @@ public class MateriaNota {
         materiaNota.setId(materiaNotaDTO.getId());
         materiaNota.setAluno(materiaNotaDTO.getAluno());
         materiaNota.setCurso(materiaNotaDTO.getCurso());
-        materiaNota.setBimestre(materiaNotaDTO.getBimestre());
+        materiaNota.setBimestre(Bimestre.of(materiaNotaDTO.getBimestre()));
         materiaNota.setMateria(materiaNotaDTO.getMateria());
         materiaNota.setNota(materiaNotaDTO.getNota());
         return materiaNota;

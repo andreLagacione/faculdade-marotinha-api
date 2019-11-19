@@ -2,6 +2,7 @@ package com.lagacione.faculdademarotinhaapi.services;
 
 import com.lagacione.faculdademarotinhaapi.domain.*;
 import com.lagacione.faculdademarotinhaapi.dto.BoletimDTO;
+import com.lagacione.faculdademarotinhaapi.dto.BoletimListaDTO;
 import com.lagacione.faculdademarotinhaapi.dto.MateriaNotaDTO;
 import com.lagacione.faculdademarotinhaapi.repositories.BoletimRepository;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
@@ -36,11 +37,12 @@ public class BoletimService {
         return boletinsDTO;
     }
 
-    public Page<BoletimDTO> findPage(Integer page, Integer size, String orderBy, String direction) {
+    public Page<BoletimListaDTO> findPage(Integer page, Integer size, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.valueOf(direction), orderBy);
         Page<Boletim> boletins = this.boletimRepository.findAll(pageRequest);
         Page<BoletimDTO> boletinsDTO = boletins.map(BoletimDTO::of);
-        return boletinsDTO;
+        Page<BoletimListaDTO> boletimLista = boletinsDTO.map(BoletimListaDTO::of);
+        return boletimLista;
     }
 
     public Boletim find(Integer id) throws ObjectNotFoundException {

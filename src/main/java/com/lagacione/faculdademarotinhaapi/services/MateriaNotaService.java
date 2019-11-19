@@ -1,6 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.services;
 
 import com.lagacione.faculdademarotinhaapi.domain.*;
+import com.lagacione.faculdademarotinhaapi.dto.BimestreDTO;
 import com.lagacione.faculdademarotinhaapi.dto.MateriaNotaDTO;
 import com.lagacione.faculdademarotinhaapi.repositories.MateriaNotaRepository;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
@@ -117,7 +118,7 @@ public class MateriaNotaService {
     }
 
     private void validarBimestre(MateriaNotaDTO materiaNotaDTO) {
-        Bimestre bimestre = materiaNotaDTO.getBimestre();
+        BimestreDTO bimestre = materiaNotaDTO.getBimestre();
 
         if (bimestre == null) {
             throw new ObjectNotFoundException("O bimestre informado não foi encontrado. Informe um bimestre válido!");
