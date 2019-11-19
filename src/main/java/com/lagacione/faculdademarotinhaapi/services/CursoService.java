@@ -3,6 +3,8 @@ package com.lagacione.faculdademarotinhaapi.services;
 import com.lagacione.faculdademarotinhaapi.domain.Curso;
 import com.lagacione.faculdademarotinhaapi.domain.Materia;
 import com.lagacione.faculdademarotinhaapi.dto.CursoDTO;
+import com.lagacione.faculdademarotinhaapi.dto.CursoListaDTO;
+import com.lagacione.faculdademarotinhaapi.dto.CursoToEditDTO;
 import com.lagacione.faculdademarotinhaapi.repositories.CursoRepository;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,20 +26,30 @@ public class CursoService {
     @Autowired
     private MateriaService materiaService;
 
-    public List<CursoDTO> findAll() {
+    public List<CursoListaDTO> findAll() {
         List<Curso> cursos = this.cursoRepository.findAll();
-        List<CursoDTO> cursosDTO = cursos.stream().map(CursoDTO::of).collect(Collectors.toList());
-        return cursosDTO;
+        List<CursoListaDTO> cursosLista = cursos.stream().map(CursoListaDTO::of).collect(Collectors.toList());
+        return cursosLista;
     }
 
-    public Page<CursoDTO> findPage(Integer page, Integer size, String orderBy, String direction) {
+    public Page<CursoListaDTO> findPage(Integer page, Integer size, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, size, Direction.valueOf(direction), orderBy);
         Page<Curso> cursos = this.cursoRepository.findAll(pageRequest);
-        Page<CursoDTO> cursosDTO = cursos.map(CursoDTO::of);
-        return cursosDTO;
+        Page<CursoListaDTO> cursosLista = cursos.map(CursoListaDTO::of);
+        return cursosLista;
     }
 
-    public Curso find(Integer id) throws ObjectNotFoundException {
+    public CursoToEditDTO find(Integer id) throws ObjectNotFoundException {
+        Optional<Curso> curso = this.cursoRepository.findById(id);
+
+        if (curso == null) {
+            throw new ObjectNotFoundException("Curso não encontrado!");
+        }
+
+        return CursoToEditDTO.of(curso.get());
+    }
+
+    public Curso findForUpdate(Integer id) throws ObjectNotFoundException {
         Optional<Curso> curso = this.cursoRepository.findById(id);
         return curso.orElseThrow(() -> new ObjectNotFoundException("Curso não encontrado!"));
     }
@@ -48,7 +60,7 @@ public class CursoService {
     }
 
     private Curso update(Curso curso) throws ObjectNotFoundException {
-        Curso newCurso = this.find(curso.getId());
+        Curso newCurso = this.findForUpdate(curso.getId());
         this.updateData(newCurso, curso);
         return this.cursoRepository.save(newCurso);
     }

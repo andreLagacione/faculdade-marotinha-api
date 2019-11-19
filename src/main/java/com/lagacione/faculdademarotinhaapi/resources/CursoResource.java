@@ -2,6 +2,8 @@ package com.lagacione.faculdademarotinhaapi.resources;
 
 import com.lagacione.faculdademarotinhaapi.domain.Curso;
 import com.lagacione.faculdademarotinhaapi.dto.CursoDTO;
+import com.lagacione.faculdademarotinhaapi.dto.CursoListaDTO;
+import com.lagacione.faculdademarotinhaapi.dto.CursoToEditDTO;
 import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.services.CursoService;
 import javassist.tools.rmi.ObjectNotFoundException;
@@ -24,12 +26,12 @@ public class CursoResource {
     private CursoService cursoService;
 
     @RequestMapping(value="/lista", method= RequestMethod.GET)
-    public ResponseEntity<List<CursoDTO>> findAll() {
+    public ResponseEntity<List<CursoListaDTO>> findAll() {
         return ResponseEntity.ok().body(this.cursoService.findAll());
     }
 
     @RequestMapping(method=RequestMethod.GET)
-    public ResponseEntity<Page<CursoDTO>> findPage(
+    public ResponseEntity<Page<CursoListaDTO>> findPage(
             @RequestParam(value="page", defaultValue="0") Integer page,
             @RequestParam(value="size", defaultValue="25") Integer size,
             @RequestParam(value="orderBy", defaultValue="name") String orderBy,
@@ -39,7 +41,7 @@ public class CursoResource {
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
-    public ResponseEntity<Curso> find(@PathVariable Integer id) throws ObjectNotFoundException {
+    public ResponseEntity<CursoToEditDTO> find(@PathVariable Integer id) throws ObjectNotFoundException {
         return ResponseEntity.ok().body(this.cursoService.find(id));
     }
 
