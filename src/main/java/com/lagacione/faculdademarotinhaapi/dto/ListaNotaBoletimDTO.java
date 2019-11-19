@@ -1,17 +1,37 @@
 package com.lagacione.faculdademarotinhaapi.dto;
 
+import com.lagacione.faculdademarotinhaapi.domain.MateriaNota;
+
 public class ListaNotaBoletimDTO {
-    private BimestreDTO bimestre;
+    private String professor;
+    private String aluno;
+    private String bimestre;
     private String materia;
     private Double nota;
 
     public ListaNotaBoletimDTO() {}
 
-    public BimestreDTO getBimestre() {
+    public String getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(String professor) {
+        this.professor = professor;
+    }
+
+    public String getAluno() {
+        return aluno;
+    }
+
+    public void setAluno(String aluno) {
+        this.aluno = aluno;
+    }
+
+    public String getBimestre() {
         return bimestre;
     }
 
-    public void setBimestre(BimestreDTO bimestre) {
+    public void setBimestre(String bimestre) {
         this.bimestre = bimestre;
     }
 
@@ -31,11 +51,17 @@ public class ListaNotaBoletimDTO {
         this.nota = nota;
     }
 
-    public static ListaNotaBoletimDTO of(MateriaNotaDTO materiaNota) {
+    public static ListaNotaBoletimDTO of(MateriaNota materiaNota) {
         ListaNotaBoletimDTO boletim = new ListaNotaBoletimDTO();
-        boletim.setBimestre(materiaNota.getBimestre());
+        boletim.setAluno(materiaNota.getAluno().getName());
+        boletim.setProfessor(materiaNota.getProfessor().getName());
         boletim.setMateria(materiaNota.getMateria().getName());
         boletim.setNota(materiaNota.getNota());
+
+        String bimestre = Integer.toString(materiaNota.getBimestre().getBimestre());
+        String ano = Integer.toString(materiaNota.getBimestre().getAno());
+
+        boletim.setBimestre(bimestre + "/" + ano);
         return boletim;
     }
 }

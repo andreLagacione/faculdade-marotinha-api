@@ -2,6 +2,7 @@ package com.lagacione.faculdademarotinhaapi.services;
 
 import com.lagacione.faculdademarotinhaapi.domain.*;
 import com.lagacione.faculdademarotinhaapi.dto.BoletimDTO;
+import com.lagacione.faculdademarotinhaapi.dto.BoletimFormDTO;
 import com.lagacione.faculdademarotinhaapi.dto.BoletimListaDTO;
 import com.lagacione.faculdademarotinhaapi.dto.MateriaNotaDTO;
 import com.lagacione.faculdademarotinhaapi.repositories.BoletimRepository;
@@ -44,7 +45,17 @@ public class BoletimService {
         return boletimLista;
     }
 
-    public Boletim find(Integer id) throws ObjectNotFoundException {
+    public BoletimFormDTO find(Integer id) throws ObjectNotFoundException {
+        Optional<Boletim> boletim = this.boletimRepository.findById(id);
+
+        if (boletim == null) {
+            throw new ObjectNotFoundException("Boletim não encontrado!");
+        }
+
+        return BoletimFormDTO.of(boletim.get());
+    }
+
+    public Boletim findForUpdate(Integer id) throws ObjectNotFoundException {
         Optional<Boletim> boletim = this.boletimRepository.findById(id);
         return boletim.orElseThrow(() -> new ObjectNotFoundException("Boletim não encontrado!"));
     }
@@ -55,7 +66,7 @@ public class BoletimService {
     }
 
     private Boletim update(Boletim boletim) throws ObjectNotFoundException {
-        Boletim newBoletim = this.find(boletim.getId());
+        Boletim newBoletim = this.findForUpdate(boletim.getId());
         this.updateData(newBoletim, boletim);
         return this.boletimRepository.save(newBoletim);
     }

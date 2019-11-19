@@ -35,6 +35,10 @@ public class Professor extends Pessoa {
     @OneToMany(mappedBy = "professor")
     private List<Boletim> boletins;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "professor")
+    private List<MateriaNota> materiaNotas = new ArrayList<>();
+
     public Professor() {}
 
     public Integer getId() {
@@ -59,6 +63,22 @@ public class Professor extends Pessoa {
 
     public void setCursosLecionados(List<Curso> cursosLecionados) {
         this.cursosLecionados = cursosLecionados;
+    }
+
+    public List<Boletim> getBoletins() {
+        return boletins;
+    }
+
+    public void setBoletins(List<Boletim> boletins) {
+        this.boletins = boletins;
+    }
+
+    public List<MateriaNota> getMateriaNotas() {
+        return materiaNotas;
+    }
+
+    public void setMateriaNotas(List<MateriaNota> materiaNotas) {
+        this.materiaNotas = materiaNotas;
     }
 
     public static Professor of(ProfessorDTO professorDTO) {

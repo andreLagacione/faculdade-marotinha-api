@@ -16,6 +16,10 @@ public class MateriaNota {
     private Aluno aluno;
 
     @ManyToOne
+    @JoinColumn(name = "id_professor", referencedColumnName = "id")
+    private Professor professor;
+
+    @ManyToOne
     @JoinColumn(name = "id_curso", referencedColumnName = "id")
     private Curso curso;
 
@@ -46,6 +50,14 @@ public class MateriaNota {
 
     public void setAluno(Aluno aluno) {
         this.aluno = aluno;
+    }
+
+    public Professor getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
     }
 
     public Curso getCurso() {
@@ -84,6 +96,7 @@ public class MateriaNota {
         MateriaNota materiaNota = new MateriaNota();
         materiaNota.setId(materiaNotaDTO.getId());
         materiaNota.setAluno(materiaNotaDTO.getAluno());
+        materiaNota.setProfessor(materiaNotaDTO.getProfessor());
         materiaNota.setCurso(materiaNotaDTO.getCurso());
         materiaNota.setBimestre(Bimestre.of(materiaNotaDTO.getBimestre()));
         materiaNota.setMateria(materiaNotaDTO.getMateria());

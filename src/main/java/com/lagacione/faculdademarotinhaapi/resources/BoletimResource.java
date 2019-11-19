@@ -2,6 +2,7 @@ package com.lagacione.faculdademarotinhaapi.resources;
 
 import com.lagacione.faculdademarotinhaapi.domain.Boletim;
 import com.lagacione.faculdademarotinhaapi.dto.BoletimDTO;
+import com.lagacione.faculdademarotinhaapi.dto.BoletimFormDTO;
 import com.lagacione.faculdademarotinhaapi.dto.BoletimListaDTO;
 import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.services.BoletimService;
@@ -40,7 +41,7 @@ public class BoletimResource {
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
-    public ResponseEntity<Boletim> find(@PathVariable Integer id) throws ObjectNotFoundException {
+    public ResponseEntity<BoletimFormDTO> find(@PathVariable Integer id) throws ObjectNotFoundException {
         return ResponseEntity.ok().body(this.boletimService.find(id));
     }
 

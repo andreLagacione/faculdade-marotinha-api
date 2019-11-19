@@ -12,6 +12,9 @@ public class MateriaNotaDTO {
     @NotNull(message = "Informe o aluno.")
     private Aluno aluno;
 
+    @NotNull(message = "Informe o professor.")
+    private Professor professor;
+
     @NotNull(message = "Informe o curso.")
     private Curso curso;
 
@@ -42,6 +45,14 @@ public class MateriaNotaDTO {
 
     public void setAluno(Aluno aluno) {
         this.aluno = aluno;
+    }
+
+    public Professor getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
     }
 
     public Curso getCurso() {
@@ -80,6 +91,7 @@ public class MateriaNotaDTO {
         MateriaNotaDTO materiaNotaDTO = new MateriaNotaDTO();
         materiaNotaDTO.setId(materiaNota.getId());
         materiaNotaDTO.setAluno(materiaNota.getAluno());
+        materiaNotaDTO.setProfessor(materiaNota.getProfessor());
         materiaNotaDTO.setCurso(materiaNota.getCurso());
         materiaNotaDTO.setBimestre(BimestreDTO.of(materiaNota.getBimestre()));
         materiaNotaDTO.setMateria(materiaNota.getMateria());
