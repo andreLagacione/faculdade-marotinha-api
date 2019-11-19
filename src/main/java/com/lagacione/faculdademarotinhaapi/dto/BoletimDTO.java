@@ -1,6 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.dto;
 
 import com.lagacione.faculdademarotinhaapi.domain.Aluno;
+import com.lagacione.faculdademarotinhaapi.domain.Bimestre;
 import com.lagacione.faculdademarotinhaapi.domain.Boletim;
 import com.lagacione.faculdademarotinhaapi.domain.Professor;
 
@@ -20,6 +21,9 @@ public class BoletimDTO {
 
     @NotNull(message = "Informe uma matéria e a nota")
     private List<MateriaNotaDTO> materiaNotas = new ArrayList<>();
+
+    @NotNull(message = "Informe um bimestre")
+    private Bimestre bimestre;
 
     public BoletimDTO() { }
 
@@ -55,6 +59,14 @@ public class BoletimDTO {
         this.materiaNotas = materiaNotas;
     }
 
+    public Bimestre getBimestre() {
+        return bimestre;
+    }
+
+    public void setBimestre(Bimestre bimestre) {
+        this.bimestre = bimestre;
+    }
+
     public static BoletimDTO of(Boletim boletim) {
         BoletimDTO boletimDTO = new BoletimDTO();
         boletimDTO.setId(boletim.getId());
@@ -62,6 +74,7 @@ public class BoletimDTO {
         boletimDTO.setAluno(boletim.getAluno());
         List<MateriaNotaDTO> materiaNotas = boletim.getMateriaNotas().stream().map(MateriaNotaDTO::of).collect(Collectors.toList());
         boletimDTO.setMateriaNotas(materiaNotas);
+        boletimDTO.setBimestre(boletim.getBimestre());
         return boletimDTO;
     }
 }

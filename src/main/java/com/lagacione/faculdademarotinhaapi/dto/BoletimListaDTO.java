@@ -2,15 +2,11 @@ package com.lagacione.faculdademarotinhaapi.dto;
 
 import com.lagacione.faculdademarotinhaapi.domain.Boletim;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class BoletimListaDTO {
     private Integer id;
     private String professor;
     private String aluno;
     private String bimestre;
-    private List<ListaNotaBoletimDTO> notas;
 
     public BoletimListaDTO() {}
 
@@ -46,27 +42,16 @@ public class BoletimListaDTO {
         this.bimestre = bimestre;
     }
 
-    public List<ListaNotaBoletimDTO> getNotas() {
-        return notas;
-    }
-
-    public void setNotas(List<ListaNotaBoletimDTO> notas) {
-        this.notas = notas;
-    }
-
-    public static BoletimListaDTO of(BoletimDTO boletim) {
+    public static BoletimListaDTO of(Boletim boletim) {
         BoletimListaDTO boletimListaDTO = new BoletimListaDTO();
         boletimListaDTO.setId(boletim.getId());
         boletimListaDTO.setProfessor(boletim.getProfessor().getName());
         boletimListaDTO.setAluno(boletim.getAluno().getName());
 
-        List<ListaNotaBoletimDTO> notas = boletim.getMateriaNotas().stream().map(ListaNotaBoletimDTO::of).collect(Collectors.toList());
+        String bimestre = Integer.toString(boletim.getBimestre().getBimestre());
+        String ano = Integer.toString(boletim.getBimestre().getAno());
 
-//        String bimestre = Integer.toString(notas.get(0).getBimestre().getBimestre());
-//        String ano = Integer.toString(notas.get(0).getBimestre().getAno());
-
-        boletimListaDTO.setBimestre("/");
-        boletimListaDTO.setNotas(notas);
+        boletimListaDTO.setBimestre(bimestre + "/" + ano);
         return boletimListaDTO;
     }
 }

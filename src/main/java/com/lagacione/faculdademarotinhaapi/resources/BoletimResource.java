@@ -25,7 +25,7 @@ public class BoletimResource {
     BoletimService boletimService;
 
     @RequestMapping(value="/lista", method= RequestMethod.GET)
-    public ResponseEntity<List<BoletimDTO>> findAll() {
+    public ResponseEntity<List<BoletimListaDTO>> findAll() {
         return ResponseEntity.ok().body(this.boletimService.findAll());
     }
 

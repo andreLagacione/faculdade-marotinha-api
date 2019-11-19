@@ -31,17 +31,16 @@ public class BoletimService {
     @Autowired
     private MateriaNotaService materiaNotaService;
 
-    public List<BoletimDTO> findAll() {
+    public List<BoletimListaDTO> findAll() {
         List<Boletim> boletins = this.boletimRepository.findAll();
-        List<BoletimDTO> boletinsDTO = boletins.stream().map(BoletimDTO::of).collect(Collectors.toList());
-        return boletinsDTO;
+        List<BoletimListaDTO> boletimLista = boletins.stream().map(BoletimListaDTO::of).collect(Collectors.toList());
+        return boletimLista;
     }
 
     public Page<BoletimListaDTO> findPage(Integer page, Integer size, String orderBy, String direction) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.valueOf(direction), orderBy);
         Page<Boletim> boletins = this.boletimRepository.findAll(pageRequest);
-        Page<BoletimDTO> boletinsDTO = boletins.map(BoletimDTO::of);
-        Page<BoletimListaDTO> boletimLista = boletinsDTO.map(BoletimListaDTO::of);
+        Page<BoletimListaDTO> boletimLista = boletins.map(BoletimListaDTO::of);
         return boletimLista;
     }
 

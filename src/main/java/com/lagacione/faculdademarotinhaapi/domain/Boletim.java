@@ -30,6 +30,10 @@ public class Boletim {
     )
     private List<MateriaNota> materiaNotas = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "id_bimestre", referencedColumnName = "id")
+    private Bimestre bimestre;
+
     public Boletim() {}
 
     public Integer getId() {
@@ -64,6 +68,14 @@ public class Boletim {
         this.materiaNotas = materiaNotas;
     }
 
+    public Bimestre getBimestre() {
+        return bimestre;
+    }
+
+    public void setBimestre(Bimestre bimestre) {
+        this.bimestre = bimestre;
+    }
+
     public static Boletim of(BoletimDTO boletimDTO) {
         Boletim boletim = new Boletim();
         boletim.setId(boletimDTO.getId());
@@ -71,6 +83,7 @@ public class Boletim {
         boletim.setAluno(boletimDTO.getAluno());
         List<MateriaNota> materiaNotas = boletimDTO.getMateriaNotas().stream().map(MateriaNota::of).collect(Collectors.toList());
         boletim.setMateriaNotas(materiaNotas);
+        boletim.setBimestre(boletimDTO.getBimestre());
         return boletim;
     }
 }

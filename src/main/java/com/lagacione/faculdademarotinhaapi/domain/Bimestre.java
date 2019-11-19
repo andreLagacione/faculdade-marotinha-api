@@ -24,6 +24,10 @@ public class Bimestre {
     @OneToMany(mappedBy = "bimestre")
     private List<MateriaNota> materiaNotas = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "bimestre")
+    private List<Boletim> boletimLista = new ArrayList<>();
+
     public Bimestre() {}
 
     public Integer getId() {
@@ -56,6 +60,14 @@ public class Bimestre {
 
     public void setMateriaNotas(List<MateriaNota> materiaNotas) {
         this.materiaNotas = materiaNotas;
+    }
+
+    public List<Boletim> getBoletimLista() {
+        return boletimLista;
+    }
+
+    public void setBoletimLista(List<Boletim> boletimLista) {
+        this.boletimLista = boletimLista;
     }
 
     public static Bimestre of(BimestreDTO bimestreDTO) {
