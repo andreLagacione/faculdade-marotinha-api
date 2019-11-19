@@ -118,7 +118,7 @@ public class BoletimService {
         Aluno aluno = materiaNota.getAluno();
 
         if (aluno.getId() != idAlunoBoletim) {
-            Aluno alunoBoletim = this.alunoService.find(idAlunoBoletim);
+            Aluno alunoBoletim = this.alunoService.findOptional(idAlunoBoletim);
             Curso curso = materiaNota.getCurso();
             Bimestre bimestre = materiaNota.getBimestre();
             Materia materia = materiaNota.getMateria();
