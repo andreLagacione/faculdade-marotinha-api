@@ -10,10 +10,10 @@ public class MateriaNotaDTO {
     private Integer id;
 
     @NotNull(message = "Informe o aluno.")
-    private Aluno aluno;
+    private AlunoDTO aluno;
 
     @NotNull(message = "Informe o professor.")
-    private Professor professor;
+    private ProfessorDTO professor;
 
     @NotNull(message = "Informe o curso.")
     private Curso curso;
@@ -22,7 +22,7 @@ public class MateriaNotaDTO {
     private BimestreDTO bimestre;
 
     @NotNull(message = "Informe o materia.")
-    private Materia materia;
+    private MateriaDTO materia;
 
     @NotNull(message = "Informe o nota.")
     @Min(value = 0, message = "A nota deve estar entre 0 e 10.")
@@ -39,19 +39,19 @@ public class MateriaNotaDTO {
         this.id = id;
     }
 
-    public Aluno getAluno() {
+    public AlunoDTO getAluno() {
         return aluno;
     }
 
-    public void setAluno(Aluno aluno) {
+    public void setAluno(AlunoDTO aluno) {
         this.aluno = aluno;
     }
 
-    public Professor getProfessor() {
+    public ProfessorDTO getProfessor() {
         return professor;
     }
 
-    public void setProfessor(Professor professor) {
+    public void setProfessor(ProfessorDTO professor) {
         this.professor = professor;
     }
 
@@ -71,11 +71,11 @@ public class MateriaNotaDTO {
         this.bimestre = bimestre;
     }
 
-    public Materia getMateria() {
+    public MateriaDTO getMateria() {
         return materia;
     }
 
-    public void setMateria(Materia materia) {
+    public void setMateria(MateriaDTO materia) {
         this.materia = materia;
     }
 
@@ -90,11 +90,11 @@ public class MateriaNotaDTO {
     public static MateriaNotaDTO of(MateriaNota materiaNota) {
         MateriaNotaDTO materiaNotaDTO = new MateriaNotaDTO();
         materiaNotaDTO.setId(materiaNota.getId());
-        materiaNotaDTO.setAluno(materiaNota.getAluno());
-        materiaNotaDTO.setProfessor(materiaNota.getProfessor());
+        materiaNotaDTO.setAluno(AlunoDTO.of(materiaNota.getAluno()));
+        materiaNotaDTO.setProfessor(ProfessorDTO.of(materiaNota.getProfessor()));
         materiaNotaDTO.setCurso(materiaNota.getCurso());
         materiaNotaDTO.setBimestre(BimestreDTO.of(materiaNota.getBimestre()));
-        materiaNotaDTO.setMateria(materiaNota.getMateria());
+        materiaNotaDTO.setMateria(MateriaDTO.of(materiaNota.getMateria()));
         materiaNotaDTO.setNota(materiaNota.getNota());
         return materiaNotaDTO;
     }
