@@ -11,10 +11,10 @@ public class ProfessorDTO extends PessoaDTO {
 
     private Integer id;
 
-    @NotNull(message = "Campo obrigatório! Selecione ao menos uma matéria.")
+    @NotNull(message = "Informe pelo menos uma matéria.")
     private List<MateriaDTO> materiasLecionadas = new ArrayList<>();
 
-    @NotNull(message = "Campo obrigatório! Selecione ao menos um curso.")
+    @NotNull(message = "Informe pelo menos um curso.")
     private List<CursoDTO> cursosLecionados = new ArrayList<>();
 
     public ProfessorDTO() {}

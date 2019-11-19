@@ -13,11 +13,11 @@ public class CursoDTO {
 
     private Integer id;
 
-    @NotEmpty(message = "Campo obrigatório!")
+    @NotEmpty(message = "Informe o nome!")
     @Length(min = 3, max = 100, message = "O tamanho deve estar entre 3 e 100 caractéres!")
     private String name;
 
-    @NotNull(message = "Campo obrigatório!")
+    @NotNull(message = "Informe pelo menos uma matéria!")
     private List<MateriaDTO> materias = new ArrayList<>();
 
     public CursoDTO() {}

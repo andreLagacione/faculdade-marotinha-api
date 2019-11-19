@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
 public class MateriaDTO {
     private Integer id;
 
-    @NotEmpty(message = "Campo obrigatório!")
+    @NotEmpty(message = "Informe o nome!")
     @Length(min = 3, max = 100, message = "O tamanho tem que estar entre 3 e 100 caractéres!")
     private String  name;
 

@@ -7,17 +7,17 @@ import javax.validation.constraints.NotNull;
 
 public class PessoaDTO {
 
-    @NotEmpty(message = "Campo obrigatório!")
+    @NotEmpty(message = "Informe o nome!")
     @Length(min = 3, max = 50, message = "O tamanho tem que estar entre 3 e 50 caractéres!")
     private String name;
 
-    @NotNull(message = "Campo obrigatório!")
+    @NotNull(message = "Informe a idade!")
     private Integer age;
 
-    @NotEmpty(message = "Campo obrigatório!")
+    @NotEmpty(message = "Informe o CPF!")
     private String cpf;
 
-    @NotNull(message = "Campo obrigatório!")
+    @NotNull(message = "Informe o telefone!")
     private Long phone;
 
     public PessoaDTO() {}
