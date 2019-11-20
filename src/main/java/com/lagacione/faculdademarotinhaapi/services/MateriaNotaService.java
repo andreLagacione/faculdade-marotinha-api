@@ -1,6 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.services;
 
-import com.lagacione.faculdademarotinhaapi.domain.*;
+import com.lagacione.faculdademarotinhaapi.domain.Curso;
+import com.lagacione.faculdademarotinhaapi.domain.MateriaNota;
 import com.lagacione.faculdademarotinhaapi.dto.AlunoDTO;
 import com.lagacione.faculdademarotinhaapi.dto.BimestreDTO;
 import com.lagacione.faculdademarotinhaapi.dto.MateriaDTO;
@@ -11,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
