@@ -1,10 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.services;
 
 import com.lagacione.faculdademarotinhaapi.domain.Professor;
-import com.lagacione.faculdademarotinhaapi.dto.CursoDTO;
-import com.lagacione.faculdademarotinhaapi.dto.MateriaDTO;
-import com.lagacione.faculdademarotinhaapi.dto.ProfessorDTO;
-import com.lagacione.faculdademarotinhaapi.dto.ProfessorListaDTO;
+import com.lagacione.faculdademarotinhaapi.dto.*;
 import com.lagacione.faculdademarotinhaapi.repositories.ProfessorRepository;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +39,17 @@ public class ProfessorService {
         return professorLista;
     }
 
-    public Professor find(Integer id) throws ObjectNotFoundException {
+    public ProfessorToEditDTO find(Integer id) throws ObjectNotFoundException {
+        Optional<Professor> professor = this.professorRepository.findById(id);
+
+        if (professor == null) {
+            throw new ObjectNotFoundException("Professor não encontrado!");
+        }
+
+        return ProfessorToEditDTO.of(professor.get());
+    }
+
+    public Professor findForUpdate(Integer id) throws ObjectNotFoundException {
         Optional<Professor> professor = this.professorRepository.findById(id);
         return professor.orElseThrow(() -> new ObjectNotFoundException("Professor não encontrado!"));
     }
@@ -53,7 +60,7 @@ public class ProfessorService {
     }
 
     private Professor update(Professor professor) throws ObjectNotFoundException {
-        Professor newProfessor = this.find(professor.getId());
+        Professor newProfessor = this.findForUpdate(professor.getId());
         this.updateData(newProfessor, professor);
         return this.professorRepository.save(newProfessor);
     }

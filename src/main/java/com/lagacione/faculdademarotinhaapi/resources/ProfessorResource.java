@@ -4,6 +4,7 @@ import com.lagacione.faculdademarotinhaapi.domain.Professor;
 import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.dto.ProfessorDTO;
 import com.lagacione.faculdademarotinhaapi.dto.ProfessorListaDTO;
+import com.lagacione.faculdademarotinhaapi.dto.ProfessorToEditDTO;
 import com.lagacione.faculdademarotinhaapi.services.ProfessorService;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class ProfessorResource {
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
-    public ResponseEntity<Professor> find(@PathVariable Integer id) throws ObjectNotFoundException {
+    public ResponseEntity<ProfessorToEditDTO> find(@PathVariable Integer id) throws ObjectNotFoundException {
         return ResponseEntity.ok().body(this.professorService.find(id));
     }
 
