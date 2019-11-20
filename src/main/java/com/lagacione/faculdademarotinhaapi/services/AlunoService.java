@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,8 +32,8 @@ public class AlunoService {
         return alunoListaDTO;
     }
 
-    public Page<AlunoListaDTO> findPage(Integer page, Integer size, String orderBy, String direction) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.valueOf(direction), orderBy);
+    public Page<AlunoListaDTO> findPage(Pageable pageable) {
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
         Page<Aluno> alunos = this.alunoRepository.findAll(pageRequest);
         Page<AlunoListaDTO> alunoListaDTO = alunos.map(AlunoListaDTO::of);
         return alunoListaDTO;

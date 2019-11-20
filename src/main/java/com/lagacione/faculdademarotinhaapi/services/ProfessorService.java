@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,8 +34,8 @@ public class ProfessorService {
         return professoresDTO;
     }
 
-    public Page<ProfessorDTO> findPage(Integer page, Integer size, String orderBy, String direction) {
-        PageRequest pageRequest = PageRequest.of(page, size, Direction.valueOf(direction), orderBy);
+    public Page<ProfessorDTO> findPage(Pageable pageable) {
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
         Page<Professor> professores = this.professorRepository.findAll(pageRequest);
         Page<ProfessorDTO> professoresDTO = professores.map(ProfessorDTO::of);
         return professoresDTO;

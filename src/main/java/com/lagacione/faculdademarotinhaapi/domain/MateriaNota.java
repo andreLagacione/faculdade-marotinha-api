@@ -95,11 +95,11 @@ public class MateriaNota {
     public static MateriaNota of(MateriaNotaDTO materiaNotaDTO) {
         MateriaNota materiaNota = new MateriaNota();
         materiaNota.setId(materiaNotaDTO.getId());
-        materiaNota.setAluno(materiaNotaDTO.getAluno());
-        materiaNota.setProfessor(materiaNotaDTO.getProfessor());
+        materiaNota.setAluno(Aluno.of(materiaNotaDTO.getAluno()));
+        materiaNota.setProfessor(Professor.of(materiaNotaDTO.getProfessor()));
         materiaNota.setCurso(materiaNotaDTO.getCurso());
         materiaNota.setBimestre(Bimestre.of(materiaNotaDTO.getBimestre()));
-        materiaNota.setMateria(materiaNotaDTO.getMateria());
+        materiaNota.setMateria(Materia.of(materiaNotaDTO.getMateria()));
         materiaNota.setNota(materiaNotaDTO.getNota());
         return materiaNota;
     }
