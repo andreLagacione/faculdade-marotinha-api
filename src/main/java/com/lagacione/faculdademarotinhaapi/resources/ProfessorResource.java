@@ -3,6 +3,7 @@ package com.lagacione.faculdademarotinhaapi.resources;
 import com.lagacione.faculdademarotinhaapi.domain.Professor;
 import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.dto.ProfessorDTO;
+import com.lagacione.faculdademarotinhaapi.dto.ProfessorListaDTO;
 import com.lagacione.faculdademarotinhaapi.services.ProfessorService;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,12 @@ public class ProfessorResource {
     private ProfessorService professorService;
 
     @RequestMapping(value="/lista", method= RequestMethod.GET)
-    public ResponseEntity<List<ProfessorDTO>> findAll() {
+    public ResponseEntity<List<ProfessorListaDTO>> findAll() {
         return ResponseEntity.ok().body(this.professorService.findAll());
     }
 
     @RequestMapping(method=RequestMethod.GET)
-    public ResponseEntity<Page<ProfessorDTO>> findPage(Pageable pageable) {
+    public ResponseEntity<Page<ProfessorListaDTO>> findPage(Pageable pageable) {
         return ResponseEntity.ok().body(this.professorService.findPage(pageable));
     }
 

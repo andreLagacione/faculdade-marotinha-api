@@ -79,11 +79,11 @@ public class Boletim {
     public static Boletim of(BoletimDTO boletimDTO) {
         Boletim boletim = new Boletim();
         boletim.setId(boletimDTO.getId());
-        boletim.setProfessor(boletimDTO.getProfessor());
-        boletim.setAluno(boletimDTO.getAluno());
+        boletim.setProfessor(Professor.of(boletimDTO.getProfessor()));
+        boletim.setAluno(Aluno.of(boletimDTO.getAluno()));
         List<MateriaNota> materiaNotas = boletimDTO.getMateriaNotas().stream().map(MateriaNota::of).collect(Collectors.toList());
         boletim.setMateriaNotas(materiaNotas);
-        boletim.setBimestre(boletimDTO.getBimestre());
+        boletim.setBimestre(Bimestre.of(boletimDTO.getBimestre()));
         return boletim;
     }
 }

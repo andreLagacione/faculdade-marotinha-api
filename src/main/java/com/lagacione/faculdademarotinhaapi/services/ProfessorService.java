@@ -4,6 +4,7 @@ import com.lagacione.faculdademarotinhaapi.domain.Professor;
 import com.lagacione.faculdademarotinhaapi.dto.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.dto.MateriaDTO;
 import com.lagacione.faculdademarotinhaapi.dto.ProfessorDTO;
+import com.lagacione.faculdademarotinhaapi.dto.ProfessorListaDTO;
 import com.lagacione.faculdademarotinhaapi.repositories.ProfessorRepository;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,17 +29,17 @@ public class ProfessorService {
     @Autowired
     private CursoService cursoService;
 
-    public List<ProfessorDTO> findAll() {
+    public List<ProfessorListaDTO> findAll() {
         List<Professor> professores = this.professorRepository.findAll();
-        List<ProfessorDTO> professoresDTO = professores.stream().map(ProfessorDTO::of).collect(Collectors.toList());
-        return professoresDTO;
+        List<ProfessorListaDTO> professorLista = professores.stream().map(ProfessorListaDTO::of).collect(Collectors.toList());
+        return professorLista;
     }
 
-    public Page<ProfessorDTO> findPage(Pageable pageable) {
+    public Page<ProfessorListaDTO> findPage(Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
         Page<Professor> professores = this.professorRepository.findAll(pageRequest);
-        Page<ProfessorDTO> professoresDTO = professores.map(ProfessorDTO::of);
-        return professoresDTO;
+        Page<ProfessorListaDTO> professorLista = professores.map(ProfessorListaDTO::of);
+        return professorLista;
     }
 
     public Professor find(Integer id) throws ObjectNotFoundException {
