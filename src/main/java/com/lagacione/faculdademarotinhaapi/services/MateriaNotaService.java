@@ -90,6 +90,7 @@ public class MateriaNotaService {
         this.validarBimestre(materiaNotaDTO);
         this.validarMateria(materiaNotaDTO);
         this.validarNota(materiaNotaDTO);
+        this.verificarSeNotaJaExisteParaAlunoBimestre(materiaNotaDTO);
 
         MateriaNota materiaNota = MateriaNota.of(materiaNotaDTO);
 
@@ -145,6 +146,31 @@ public class MateriaNotaService {
 
         if (nota < 0 && nota > 10) {
             throw new Exception("A nota deve estar entre 0 e 10. Por favor informe uma nota válida!");
+        }
+    }
+
+    private void verificarSeNotaJaExisteParaAlunoBimestre(MateriaNotaDTO materiaNotaDTO) throws Exception {
+        Integer idAluno = materiaNotaDTO.getAluno().getId();
+        Integer idBimestre = materiaNotaDTO.getBimestre().getId();
+        Integer idCurso = materiaNotaDTO.getCurso().getId();
+        Integer idMateria = materiaNotaDTO.getMateria().getId();
+
+        List<MateriaNota> notas = this.materiaNotaRepository.getNotasByAluno(idAluno);
+
+        for (MateriaNota nota : notas) {
+            Integer notaIdAluno = nota.getAluno().getId();
+            Integer notaIdBimestre = nota.getBimestre().getId();
+            Integer notaIdCurso = nota.getCurso().getId();
+            Integer notaIdMateria = nota.getMateria().getId();
+
+            if (
+                    notaIdAluno == idAluno &&
+                    notaIdBimestre == idBimestre &&
+                    notaIdCurso == idCurso &&
+                    notaIdMateria == idMateria
+            ) {
+                throw new Exception("Já existe uma nota cadastrada para este aluno, nesta mesma matéria, neste mesmo curso e para o mesmo bimestre.");
+            }
         }
     }
 }
