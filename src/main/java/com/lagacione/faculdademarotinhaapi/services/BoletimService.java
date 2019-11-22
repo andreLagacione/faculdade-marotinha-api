@@ -146,4 +146,11 @@ public class BoletimService {
             throw new Exception(mensagem);
         }
     }
+
+    public BoletimDTO gerarBoletin() {
+        BoletimDTO boletim = new BoletimDTO();
+
+
+        return boletim;
+    }
 }
