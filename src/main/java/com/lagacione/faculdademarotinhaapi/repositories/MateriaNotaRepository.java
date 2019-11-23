@@ -15,4 +15,12 @@ public interface MateriaNotaRepository extends JpaRepository<MateriaNota, Intege
     @Transactional(readOnly = true)
     @Query("SELECT nota FROM MateriaNota as nota WHERE nota.aluno.id = :idAluno")
     public List<MateriaNota> getNotasByAluno(@Param("idAluno") Integer idAluno);
+
+    @Transactional(readOnly = true)
+    @Query("SELECT nota FROM MateriaNota as nota WHERE nota.aluno.id = :idAluno AND nota.curso.id = :idCurso AND nota.bimestre.ano = :ano")
+    public List<MateriaNota> getNotaByAlunoAndCurso(
+            @Param("idAluno") Integer idAluno,
+            @Param("idCurso") Integer idCurso,
+            @Param("ano") Integer ano
+    );
 }

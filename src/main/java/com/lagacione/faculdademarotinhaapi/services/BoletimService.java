@@ -32,6 +32,9 @@ public class BoletimService {
     @Autowired
     private MateriaNotaService materiaNotaService;
 
+    @Autowired
+    private CursoService cursoService;
+
     public List<BoletimListaDTO> findAll() {
         List<Boletim> boletins = this.boletimRepository.findAll();
         List<BoletimListaDTO> boletimLista = boletins.stream().map(BoletimListaDTO::of).collect(Collectors.toList());
@@ -147,8 +150,10 @@ public class BoletimService {
         }
     }
 
-    public BoletimDTO gerarBoletin() {
-        BoletimDTO boletim = new BoletimDTO();
+    public BoletimDTO gerarBoletin(Integer idAluno, Integer idCurso, Integer ano) {
+        List<MateriaNota> notas = this.materiaNotaService.getNotaByAlunoAndCurso(idAluno, idCurso, ano);
+        Aluno aluno = this.alunoService.findOptional(idAluno);
+        Curso curso = this.cursoService.findForUpdate(idCurso);
 
 
         return boletim;

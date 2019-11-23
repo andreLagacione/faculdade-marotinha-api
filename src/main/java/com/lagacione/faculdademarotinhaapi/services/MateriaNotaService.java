@@ -173,4 +173,8 @@ public class MateriaNotaService {
             }
         }
     }
+
+    public List<MateriaNota> getNotaByAlunoAndCurso(Integer idAluno, Integer idCurso, Integer ano) {
+        return this.materiaNotaRepository.getNotaByAlunoAndCurso(idAluno, idCurso, ano);
+    }
 }
