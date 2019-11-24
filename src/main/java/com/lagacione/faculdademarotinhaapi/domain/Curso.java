@@ -37,7 +37,7 @@ public class Curso {
 
     @JsonIgnore
     @OneToMany(mappedBy = "curso")
-    private List<MateriaNota> materiaNotas = new ArrayList<>();
+    private List<Boletim> boletins = new ArrayList<>();
 
     public Curso() {}
 
@@ -69,30 +69,6 @@ public class Curso {
 
     public void setMaterias(List<Materia> materias) {
         this.materias = materias;
-    }
-
-    public List<Professor> getProfessores() {
-        return professores;
-    }
-
-    public void setProfessores(List<Professor> professores) {
-        this.professores = professores;
-    }
-
-    public List<Aluno> getAlunos() {
-        return alunos;
-    }
-
-    public void setAlunos(List<Aluno> alunos) {
-        this.alunos = alunos;
-    }
-
-    public List<MateriaNota> getMateriaNotas() {
-        return materiaNotas;
-    }
-
-    public void setMateriaNotas(List<MateriaNota> materiaNotas) {
-        this.materiaNotas = materiaNotas;
     }
 
     public static Curso of(CursoDTO cursoDTO) {

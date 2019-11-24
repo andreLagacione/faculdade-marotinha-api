@@ -25,7 +25,7 @@ public class Aluno extends Pessoa {
 
     @JsonIgnore
     @OneToMany(mappedBy = "aluno")
-    private List<MateriaNota> materiaNotas = new ArrayList<>();
+    private List<Boletim> boletins = new ArrayList<>();
 
     public Aluno() {}
 
@@ -43,14 +43,6 @@ public class Aluno extends Pessoa {
 
     public void setCursos(List<Curso> cursos) {
         this.cursos = cursos;
-    }
-
-    public List<MateriaNota> getMateriaNotas() {
-        return materiaNotas;
-    }
-
-    public void setMateriaNotas(List<MateriaNota> materiaNotas) {
-        this.materiaNotas = materiaNotas;
     }
 
     public static Aluno of(AlunoDTO alunoDTO) {
