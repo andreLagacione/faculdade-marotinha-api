@@ -15,6 +15,7 @@ public class MateriaNotaBimestreDTO {
     private Double notaBimestre2;
     private Double notaBimestre3;
     private Double notaBimestre4;
+    private Integer idBoletim;
 
     public MateriaNotaBimestreDTO() {}
 
@@ -66,6 +67,14 @@ public class MateriaNotaBimestreDTO {
         this.notaBimestre4 = notaBimestre4;
     }
 
+    public Integer getIdBoletim() {
+        return idBoletim;
+    }
+
+    public void setIdBoletim(Integer idBoletim) {
+        this.idBoletim = idBoletim;
+    }
+
     public static MateriaNotaBimestreDTO of(MateriaNotaBimestre materiaNotaBimestre) {
         MateriaNotaBimestreDTO materiaNotaBimestreDTO = new MateriaNotaBimestreDTO();
         materiaNotaBimestreDTO.setId(materiaNotaBimestre.getId());
@@ -74,6 +83,7 @@ public class MateriaNotaBimestreDTO {
         materiaNotaBimestreDTO.setNotaBimestre2(materiaNotaBimestre.getNotaBimestre2());
         materiaNotaBimestreDTO.setNotaBimestre3(materiaNotaBimestre.getNotaBimestre3());
         materiaNotaBimestreDTO.setNotaBimestre4(materiaNotaBimestre.getNotaBimestre4());
+        materiaNotaBimestreDTO.setIdBoletim(materiaNotaBimestre.getIdBoletim());
         return materiaNotaBimestreDTO;
     }
 }

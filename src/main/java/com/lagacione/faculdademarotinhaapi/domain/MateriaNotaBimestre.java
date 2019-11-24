@@ -27,6 +27,9 @@ public class MateriaNotaBimestre {
     @Column(name = "nota_bimestre_4")
     private Double notaBimestre4;
 
+    @Column(name = "boletim_id")
+    private Integer idBoletim;
+
     public MateriaNotaBimestre() {}
 
     public Integer getId() {
@@ -77,6 +80,14 @@ public class MateriaNotaBimestre {
         this.notaBimestre4 = notaBimestre4;
     }
 
+    public Integer getIdBoletim() {
+        return idBoletim;
+    }
+
+    public void setIdBoletim(Integer idBoletim) {
+        this.idBoletim = idBoletim;
+    }
+
     public static MateriaNotaBimestre of(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
         MateriaNotaBimestre materiaNotaBimestre = new MateriaNotaBimestre();
         materiaNotaBimestre.setId(materiaNotaBimestreDTO.getId());
@@ -85,6 +96,7 @@ public class MateriaNotaBimestre {
         materiaNotaBimestre.setNotaBimestre2(materiaNotaBimestreDTO.getNotaBimestre2());
         materiaNotaBimestre.setNotaBimestre3(materiaNotaBimestreDTO.getNotaBimestre3());
         materiaNotaBimestre.setNotaBimestre4(materiaNotaBimestreDTO.getNotaBimestre4());
+        materiaNotaBimestre.setIdBoletim(materiaNotaBimestreDTO.getIdBoletim());
         return materiaNotaBimestre;
     }
 }

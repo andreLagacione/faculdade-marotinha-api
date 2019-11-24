@@ -88,7 +88,7 @@ public class MateriaNotaBimestreResource {
                 HttpStatus.valueOf("OK").value(),
                 "Nota removida com sucesso!"
         );
-        
+
         return ResponseEntity.ok().body(mensagemRetorno);
     }
 }
