@@ -1,7 +1,8 @@
 package com.lagacione.faculdademarotinhaapi.services;
 
-import com.lagacione.faculdademarotinhaapi.domain.*;
-import com.lagacione.faculdademarotinhaapi.dto.*;
+import com.lagacione.faculdademarotinhaapi.domain.Boletim;
+import com.lagacione.faculdademarotinhaapi.dto.BoletimDTO;
+import com.lagacione.faculdademarotinhaapi.dto.BoletimListaDTO;
 import com.lagacione.faculdademarotinhaapi.repositories.BoletimRepository;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

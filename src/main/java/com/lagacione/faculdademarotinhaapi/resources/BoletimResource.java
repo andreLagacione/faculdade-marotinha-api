@@ -1,7 +1,8 @@
 package com.lagacione.faculdademarotinhaapi.resources;
 
-import com.lagacione.faculdademarotinhaapi.domain.Boletim;
-import com.lagacione.faculdademarotinhaapi.dto.*;
+import com.lagacione.faculdademarotinhaapi.dto.BoletimDTO;
+import com.lagacione.faculdademarotinhaapi.dto.BoletimListaDTO;
+import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.services.BoletimService;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class BoletimResource {
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
-    public ResponseEntity<BoletimFormDTO> find(@PathVariable Integer id) throws ObjectNotFoundException {
+    public ResponseEntity<BoletimDTO> find(@PathVariable Integer id) throws ObjectNotFoundException {
         return ResponseEntity.ok().body(this.boletimService.find(id));
     }
 
@@ -59,10 +60,5 @@ public class BoletimResource {
         this.boletimService.delete(id);
         PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Boletim removido com sucesso!");
         return ResponseEntity.ok().body(mensagemRetorno);
-    }
-
-    @RequestMapping(value = "/gerar-boletim", method=RequestMethod.POST)
-    public ResponseEntity<GerarBoletimDTO> gerarBoletim(@Valid @RequestBody ConsultaGerarBoletimDTO consultaGerarBoletimDTO) throws Exception {
-        return ResponseEntity.ok().body(this.boletimService.gerarBoletin(consultaGerarBoletimDTO));
     }
 }

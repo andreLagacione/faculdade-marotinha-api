@@ -2,8 +2,6 @@ package com.lagacione.faculdademarotinhaapi.dto;
 
 import com.lagacione.faculdademarotinhaapi.domain.Aluno;
 
-import java.util.List;
-
 public class AlunoListaDTO extends PessoaDTO {
     private Integer id;
 

@@ -1,6 +1,5 @@
 package com.lagacione.faculdademarotinhaapi.resources;
 
-import com.lagacione.faculdademarotinhaapi.domain.Professor;
 import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.dto.ProfessorDTO;
 import com.lagacione.faculdademarotinhaapi.dto.ProfessorListaDTO;

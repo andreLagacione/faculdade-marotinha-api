@@ -1,6 +1,5 @@
 package com.lagacione.faculdademarotinhaapi.resources;
 
-import com.lagacione.faculdademarotinhaapi.domain.Curso;
 import com.lagacione.faculdademarotinhaapi.dto.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.dto.CursoListaDTO;
 import com.lagacione.faculdademarotinhaapi.dto.CursoToEditDTO;
