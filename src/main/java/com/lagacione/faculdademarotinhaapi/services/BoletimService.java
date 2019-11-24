@@ -3,6 +3,7 @@ package com.lagacione.faculdademarotinhaapi.services;
 import com.lagacione.faculdademarotinhaapi.domain.Boletim;
 import com.lagacione.faculdademarotinhaapi.dto.BoletimDTO;
 import com.lagacione.faculdademarotinhaapi.dto.BoletimListaDTO;
+import com.lagacione.faculdademarotinhaapi.dto.BoletimToEditDTO;
 import com.lagacione.faculdademarotinhaapi.repositories.BoletimRepository;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,17 @@ public class BoletimService {
         return boletimLista;
     }
 
-    public BoletimDTO find(Integer id) throws ObjectNotFoundException {
+    public BoletimToEditDTO find(Integer id) throws ObjectNotFoundException {
+        Optional<Boletim> boletim = this.boletimRepository.findById(id);
+
+        if (boletim == null) {
+            throw new ObjectNotFoundException("Boletim não encontrado!");
+        }
+
+        return BoletimToEditDTO.of(boletim.get());
+    }
+
+    public BoletimDTO findOptional(Integer id) throws ObjectNotFoundException {
         Optional<Boletim> boletim = this.boletimRepository.findById(id);
 
         if (boletim == null) {
@@ -59,7 +70,7 @@ public class BoletimService {
     }
 
     private BoletimDTO update(Boletim boletim) throws ObjectNotFoundException {
-        Boletim newBoletim = Boletim.of(this.find(boletim.getId()));
+        Boletim newBoletim = Boletim.of(this.findOptional(boletim.getId()));
         this.updateData(newBoletim, boletim);
         return BoletimDTO.of(this.boletimRepository.save(newBoletim));
     }
