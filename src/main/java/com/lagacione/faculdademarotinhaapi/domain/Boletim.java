@@ -14,6 +14,9 @@ public class Boletim {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "ano")
+    private Integer ano;
+
     @ManyToOne
     @JoinColumn(name = "id_professor", referencedColumnName = "id")
     private Professor professor;
@@ -22,17 +25,17 @@ public class Boletim {
     @JoinColumn(name = "id_aluno", referencedColumnName = "id")
     private Aluno aluno;
 
-    @OneToMany
-    @JoinTable(
-            name = "boletim_nota",
-            joinColumns = @JoinColumn(name = "id_boletim", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "id_nota", referencedColumnName = "id")
-    )
-    private List<MateriaNota> materiaNotas = new ArrayList<>();
-
     @ManyToOne
-    @JoinColumn(name = "id_bimestre", referencedColumnName = "id")
-    private Bimestre bimestre;
+    @JoinColumn(name = "id_curso", referencedColumnName = "id")
+    private Curso curso;
+
+    @ManyToMany
+    @JoinTable(
+        name = "materias_boletim",
+        joinColumns = @JoinColumn(name = "id_boletim", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "id_nota", referencedColumnName = "id")
+    )
+    private List<MateriaNotaBimestre> notas = new ArrayList<>();
 
     public Boletim() {}
 
@@ -42,6 +45,14 @@ public class Boletim {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getAno() {
+        return ano;
+    }
+
+    public void setAno(Integer ano) {
+        this.ano = ano;
     }
 
     public Professor getProfessor() {
@@ -60,30 +71,33 @@ public class Boletim {
         this.aluno = aluno;
     }
 
-    public List<MateriaNota> getMateriaNotas() {
-        return materiaNotas;
+    public Curso getCurso() {
+        return curso;
     }
 
-    public void setMateriaNotas(List<MateriaNota> materiaNotas) {
-        this.materiaNotas = materiaNotas;
+    public void setCurso(Curso curso) {
+        this.curso = curso;
     }
 
-    public Bimestre getBimestre() {
-        return bimestre;
+    public List<MateriaNotaBimestre> getNotas() {
+        return notas;
     }
 
-    public void setBimestre(Bimestre bimestre) {
-        this.bimestre = bimestre;
+    public void setNotas(List<MateriaNotaBimestre> notas) {
+        this.notas = notas;
     }
 
-    public static Boletim of(BoletimDTO boletimDTO) {
+    public  static Boletim of(BoletimDTO boletimDTO) {
         Boletim boletim = new Boletim();
         boletim.setId(boletimDTO.getId());
-        boletim.setProfessor(Professor.of(boletimDTO.getProfessor()));
+        boletim.setAno(boletimDTO.getAno());
         boletim.setAluno(Aluno.of(boletimDTO.getAluno()));
-        List<MateriaNota> materiaNotas = boletimDTO.getMateriaNotas().stream().map(MateriaNota::of).collect(Collectors.toList());
-        boletim.setMateriaNotas(materiaNotas);
-        boletim.setBimestre(Bimestre.of(boletimDTO.getBimestre()));
+        boletim.setProfessor(Professor.of(boletimDTO.getProfessor()));
+        boletim.setCurso(Curso.of(boletimDTO.getCurso()));
+
+        List<MateriaNotaBimestre> notas = boletimDTO.getNotas().stream().map(MateriaNotaBimestre::of).collect(Collectors.toList());
+
+        boletim.setNotas(notas);
         return boletim;
     }
 }

@@ -10,19 +10,21 @@ import java.util.stream.Collectors;
 public class BoletimDTO {
     private Integer id;
 
+    @NotNull(message = "Informe o ano!")
+    private Integer ano;
+
     @NotNull(message = "Informe o professor!")
     private ProfessorDTO professor;
 
     @NotNull(message = "Informe o aluno!")
     private AlunoDTO aluno;
 
-    @NotNull(message = "Informe uma matéria e a nota")
-    private List<MateriaNotaDTO> materiaNotas = new ArrayList<>();
+    @NotNull(message = "Informe o curso!")
+    private CursoDTO curso;
 
-    @NotNull(message = "Informe um bimestre")
-    private BimestreDTO bimestre;
+    private List<MateriaNotaBimestreDTO> notas = new ArrayList<>();
 
-    public BoletimDTO() { }
+    public BoletimDTO() {}
 
     public Integer getId() {
         return id;
@@ -30,6 +32,14 @@ public class BoletimDTO {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getAno() {
+        return ano;
+    }
+
+    public void setAno(Integer ano) {
+        this.ano = ano;
     }
 
     public ProfessorDTO getProfessor() {
@@ -48,30 +58,33 @@ public class BoletimDTO {
         this.aluno = aluno;
     }
 
-    public List<MateriaNotaDTO> getMateriaNotas() {
-        return materiaNotas;
+    public CursoDTO getCurso() {
+        return curso;
     }
 
-    public void setMateriaNotas(List<MateriaNotaDTO> materiaNotas) {
-        this.materiaNotas = materiaNotas;
+    public void setCurso(CursoDTO curso) {
+        this.curso = curso;
     }
 
-    public BimestreDTO getBimestre() {
-        return bimestre;
+    public List<MateriaNotaBimestreDTO> getNotas() {
+        return notas;
     }
 
-    public void setBimestre(BimestreDTO bimestre) {
-        this.bimestre = bimestre;
+    public void setNotas(List<MateriaNotaBimestreDTO> notas) {
+        this.notas = notas;
     }
 
     public static BoletimDTO of(Boletim boletim) {
         BoletimDTO boletimDTO = new BoletimDTO();
         boletimDTO.setId(boletim.getId());
-        boletimDTO.setProfessor(ProfessorDTO.of(boletim.getProfessor()));
+        boletimDTO.setAno(boletim.getAno());
         boletimDTO.setAluno(AlunoDTO.of(boletim.getAluno()));
-        List<MateriaNotaDTO> materiaNotas = boletim.getMateriaNotas().stream().map(MateriaNotaDTO::of).collect(Collectors.toList());
-        boletimDTO.setMateriaNotas(materiaNotas);
-        boletimDTO.setBimestre(BimestreDTO.of(boletim.getBimestre()));
+        boletimDTO.setProfessor(ProfessorDTO.of(boletim.getProfessor()));
+        boletimDTO.setCurso(CursoDTO.of(boletim.getCurso()));
+
+        List<MateriaNotaBimestreDTO> notas = boletim.getNotas().stream().map(MateriaNotaBimestreDTO::of).collect(Collectors.toList());
+
+        boletimDTO.setNotas(notas);
         return boletimDTO;
     }
 }

@@ -27,9 +27,6 @@ public class BoletimService {
     private AlunoService alunoService;
 
     @Autowired
-    private MateriaNotaService materiaNotaService;
-
-    @Autowired
     private CursoService cursoService;
 
     public List<BoletimListaDTO> findAll() {
@@ -45,30 +42,25 @@ public class BoletimService {
         return boletimLista;
     }
 
-    public BoletimFormDTO find(Integer id) throws ObjectNotFoundException {
+    public BoletimDTO find(Integer id) throws ObjectNotFoundException {
         Optional<Boletim> boletim = this.boletimRepository.findById(id);
 
         if (boletim == null) {
             throw new ObjectNotFoundException("Boletim não encontrado!");
         }
 
-        return BoletimFormDTO.of(boletim.get());
+        return BoletimDTO.of(boletim.get());
     }
 
-    public Boletim findForUpdate(Integer id) throws ObjectNotFoundException {
-        Optional<Boletim> boletim = this.boletimRepository.findById(id);
-        return boletim.orElseThrow(() -> new ObjectNotFoundException("Boletim não encontrado!"));
-    }
-
-    private Boletim insert(Boletim boletim) {
+    private BoletimDTO insert(Boletim boletim) {
         boletim.setId(null);
-        return this.boletimRepository.save(boletim);
+        return BoletimDTO.of(this.boletimRepository.save(boletim));
     }
 
-    private Boletim update(Boletim boletim) throws ObjectNotFoundException {
-        Boletim newBoletim = this.findForUpdate(boletim.getId());
+    private BoletimDTO update(Boletim boletim) throws ObjectNotFoundException {
+        Boletim newBoletim = Boletim.of(this.find(boletim.getId()));
         this.updateData(newBoletim, boletim);
-        return this.boletimRepository.save(newBoletim);
+        return BoletimDTO.of(this.boletimRepository.save(newBoletim));
     }
 
     public void delete(Integer id) throws ObjectNotFoundException {
@@ -83,15 +75,17 @@ public class BoletimService {
 
     private void updateData(Boletim newBoletim, Boletim boletim) {
         newBoletim.setId(boletim.getId());
-        newBoletim.setProfessor(boletim.getProfessor());
+        newBoletim.setAno(boletim.getAno());
         newBoletim.setAluno(boletim.getAluno());
-        newBoletim.setMateriaNotas(boletim.getMateriaNotas());
+        newBoletim.setProfessor(boletim.getProfessor());
+        newBoletim.setCurso(boletim.getCurso());
+        newBoletim.setNotas(boletim.getNotas());
     }
 
-    public Boletim salvarRegistro(BoletimDTO boletimDTO, Boolean adicionar) throws Exception {
+    public BoletimDTO salvarRegistro(BoletimDTO boletimDTO, Boolean adicionar) throws Exception {
         this.validarProfessor(boletimDTO);
         this.validarAluno(boletimDTO);
-        this.validarMateriaNota(boletimDTO);
+        this.validarCurso(boletimDTO);
 
         Boletim boletim = Boletim.of(boletimDTO);
 
@@ -110,64 +104,7 @@ public class BoletimService {
         this.alunoService.find(boletimDTO.getAluno().getId());
     }
 
-    private void validarMateriaNota(BoletimDTO boletimDTO) throws Exception {
-        List<MateriaNotaDTO> materiaNotas = boletimDTO.getMateriaNotas();
-
-        if (materiaNotas == null || materiaNotas.size() == 0) {
-            throw new Exception("Informe uma matéria e a nota");
-        }
-
-        for (MateriaNotaDTO materiaNotaDTO : materiaNotas) {
-            MateriaNota materiaNota = this.materiaNotaService.find(materiaNotaDTO.getId());
-
-            if (materiaNota != null) {
-                this.validarAlunoNota(materiaNota, boletimDTO.getAluno().getId());
-            }
-        }
-    }
-
-    private void validarAlunoNota(MateriaNota materiaNota, Integer idAlunoBoletim) throws Exception {
-        Aluno aluno = materiaNota.getAluno();
-
-        if (aluno.getId() != idAlunoBoletim) {
-            Aluno alunoBoletim = this.alunoService.findOptional(idAlunoBoletim);
-            Curso curso = materiaNota.getCurso();
-            Bimestre bimestre = materiaNota.getBimestre();
-            Materia materia = materiaNota.getMateria();
-            Double nota = materiaNota.getNota();
-
-            String mensagem = "A nota " + nota + " não pode ser atribuída para o aluno(a) ";
-            mensagem += alunoBoletim.getName() + " pois ela já está atribuída para o aluno(a) ";
-            mensagem += aluno.getName() + " na matéria ";
-            mensagem += materia.getName() + " no curso ";
-            mensagem += curso.getName() + " para o bimestre ";
-            mensagem += bimestre.getBimestre() + "/" + bimestre.getAno();
-
-            throw new Exception(mensagem);
-        }
-    }
-
-    public GerarBoletimDTO gerarBoletin(ConsultaGerarBoletimDTO consultaGerarBoletim) {
-        Integer idAluno = consultaGerarBoletim.getAlunoId();
-        Integer idCurso = consultaGerarBoletim.getCursoId();
-        Integer ano = consultaGerarBoletim.getAno();
-
-        List<MateriaNota> notas = this.materiaNotaService.getNotaByAlunoAndCurso(idAluno, idCurso, ano);
-        Aluno aluno = this.alunoService.findOptional(idAluno);
-        Curso curso = this.cursoService.findForUpdate(idCurso);
-
-        if (notas == null || notas.size() < 1) {
-            String mensagem = "Não foram encontradas notas cadastradas para o aluno ";
-            mensagem += aluno.getName() + " no curso " + curso.getName();
-            mensagem += " no ano " + ano;
-
-            throw new ObjectNotFoundException(mensagem);
-        }
-
-        Professor professor = this.professorService.findForUpdate(notas.get(0).getProfessor().getId());
-        List<ListaNotaGerarBoletimDTO> notasBoletim = notas.stream().map(ListaNotaGerarBoletimDTO::of).collect(Collectors.toList());
-        GerarBoletimDTO boletim = new GerarBoletimDTO(ano, aluno.getName(), curso.getName(), professor.getName(), notasBoletim);
-
-        return boletim;
+    private void validarCurso(BoletimDTO boletimDTO) {
+        this.cursoService.find(boletimDTO.getCurso().getId());
     }
 }
