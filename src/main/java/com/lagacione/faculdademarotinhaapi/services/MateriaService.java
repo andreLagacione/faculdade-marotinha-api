@@ -33,20 +33,25 @@ public class MateriaService {
         return materiasDTO;
     }
 
-    public Materia find(Integer id) throws ObjectNotFoundException {
+    public MateriaDTO find(Integer id) throws ObjectNotFoundException {
         Optional<Materia> materia = this.materiaRepository.findById(id);
-        return materia.orElseThrow(() -> new ObjectNotFoundException("Matéria não encontrada!"));
+
+        if (materia == null) {
+            throw new ObjectNotFoundException("Matéria não encontrada!");
+        }
+
+        return MateriaDTO.of(materia.get());
     }
 
-    private Materia insert(Materia materia) {
+    private MateriaDTO insert(Materia materia) {
         materia.setId(null);
-        return this.materiaRepository.save(materia);
+        return MateriaDTO.of(this.materiaRepository.save(materia));
     }
 
-    private Materia update(Materia materia) throws ObjectNotFoundException {
-        Materia newMateria = this.find(materia.getId());
+    private MateriaDTO update(Materia materia) throws ObjectNotFoundException {
+        Materia newMateria = Materia.of(this.find(materia.getId()));
         this.updateData(newMateria, materia);
-        return this.materiaRepository.save(newMateria);
+        return MateriaDTO.of(this.materiaRepository.save(newMateria));
     }
 
     public void delete(Integer id) throws ObjectNotFoundException {
@@ -63,7 +68,7 @@ public class MateriaService {
         newMateria.setName(materia.getName());
     }
 
-    public Materia salvarRegistro(MateriaDTO materiaDTO, Boolean adicionar) throws ObjectNotFoundException {
+    public MateriaDTO salvarRegistro(MateriaDTO materiaDTO, Boolean adicionar) throws ObjectNotFoundException {
         Materia materia = Materia.of(materiaDTO);
 
         if (adicionar) {

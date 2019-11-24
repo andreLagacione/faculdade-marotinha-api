@@ -1,6 +1,5 @@
 package com.lagacione.faculdademarotinhaapi.resources;
 
-import com.lagacione.faculdademarotinhaapi.domain.Materia;
 import com.lagacione.faculdademarotinhaapi.dto.MateriaDTO;
 import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.services.MateriaService;
@@ -35,7 +34,7 @@ public class MateriaResource {
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
-    public ResponseEntity<Materia> find(@PathVariable Integer id) throws ObjectNotFoundException {
+    public ResponseEntity<MateriaDTO> find(@PathVariable Integer id) throws ObjectNotFoundException {
         return ResponseEntity.ok().body(this.materiaService.find(id));
     }
 

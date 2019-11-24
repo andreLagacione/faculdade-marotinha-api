@@ -49,20 +49,25 @@ public class ProfessorService {
         return ProfessorToEditDTO.of(professor.get());
     }
 
-    public Professor findForUpdate(Integer id) throws ObjectNotFoundException {
+    public ProfessorDTO findOptional(Integer id) throws ObjectNotFoundException {
         Optional<Professor> professor = this.professorRepository.findById(id);
-        return professor.orElseThrow(() -> new ObjectNotFoundException("Professor não encontrado!"));
+
+        if (professor == null) {
+            throw new ObjectNotFoundException("Professor não encontrado!");
+        }
+
+        return ProfessorDTO.of(professor.get());
     }
 
-    private Professor insert(Professor professor) {
+    private ProfessorDTO insert(Professor professor) {
         professor.setId(null);
-        return this.professorRepository.save(professor);
+        return ProfessorDTO.of(this.professorRepository.save(professor));
     }
 
-    private Professor update(Professor professor) throws ObjectNotFoundException {
-        Professor newProfessor = this.findForUpdate(professor.getId());
+    private ProfessorDTO update(Professor professor) throws ObjectNotFoundException {
+        Professor newProfessor = Professor.of(this.findOptional(professor.getId()));
         this.updateData(newProfessor, professor);
-        return this.professorRepository.save(newProfessor);
+        return ProfessorDTO.of(this.professorRepository.save(newProfessor));
     }
 
     public void delete(Integer id) throws ObjectNotFoundException {
@@ -85,7 +90,7 @@ public class ProfessorService {
         newProfessor.setCursosLecionados(professor.getCursosLecionados());
     }
 
-    public Professor salvarRegistro(ProfessorDTO professorDTO, Boolean adicionar) throws Exception {
+    public ProfessorDTO salvarRegistro(ProfessorDTO professorDTO, Boolean adicionar) throws Exception {
         this.validarMaterias(professorDTO);
         this.validarCursos(professorDTO);
         Professor professor = Professor.of(professorDTO);

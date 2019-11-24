@@ -49,20 +49,25 @@ public class CursoService {
         return CursoToEditDTO.of(curso.get());
     }
 
-    public Curso findForUpdate(Integer id) throws ObjectNotFoundException {
+    public CursoDTO findOptional(Integer id) throws ObjectNotFoundException {
         Optional<Curso> curso = this.cursoRepository.findById(id);
-        return curso.orElseThrow(() -> new ObjectNotFoundException("Curso não encontrado!"));
+
+        if (curso == null) {
+            throw new ObjectNotFoundException("Curso não encontrado!");
+        }
+
+        return CursoDTO.of(curso.get());
     }
 
-    private Curso insert(Curso curso) {
+    private CursoDTO insert(Curso curso) {
         curso.setId(null);
-        return this.cursoRepository.save(curso);
+        return CursoDTO.of(this.cursoRepository.save(curso));
     }
 
-    private Curso update(Curso curso) throws ObjectNotFoundException {
-        Curso newCurso = this.findForUpdate(curso.getId());
+    private CursoDTO update(Curso curso) throws ObjectNotFoundException {
+        Curso newCurso = Curso.of(this.findOptional(curso.getId()));
         this.updateData(newCurso, curso);
-        return this.cursoRepository.save(newCurso);
+        return CursoDTO.of(this.cursoRepository.save(newCurso));
     }
 
     public void delete(Integer id) throws ObjectNotFoundException {
@@ -80,7 +85,7 @@ public class CursoService {
         newCurso.setMaterias(curso.getMaterias());
     }
 
-    public Curso salvarRegistro(CursoDTO cursoDTO, Boolean adicionar) {
+    public CursoDTO salvarRegistro(CursoDTO cursoDTO, Boolean adicionar) {
         Curso curso = Curso.of(cursoDTO);
         this.validarMaterias(curso);
 
