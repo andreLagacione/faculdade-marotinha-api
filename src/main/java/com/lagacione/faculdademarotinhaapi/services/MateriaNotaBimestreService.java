@@ -82,6 +82,7 @@ public class MateriaNotaBimestreService {
 
     public MateriaNotaBimestreDTO salvarRegistro(MateriaNotaBimestreDTO notaDTO, Boolean adicionar) throws Exception {
         this.validarMateria(notaDTO);
+        this.obterNotasAdicionadas(notaDTO);
 
         MateriaNotaBimestre nota = MateriaNotaBimestre.of(notaDTO);
 
@@ -100,5 +101,21 @@ public class MateriaNotaBimestreService {
         }
 
         this.materiaService.find(materia.getId());
+    }
+
+    private void obterNotasAdicionadas(MateriaNotaBimestreDTO notaDTO) throws Exception {
+        List<MateriaNotaBimestre> notas = this.matreriaNotaBimestreRespository.obterMateriaByIdBoletim(notaDTO.getIdBoletim());
+
+        if (notas != null || notas.size() > 0) {
+            this.validarSeMateriaJaFoiAdicionada(notas, notaDTO.getMateria().getName());
+        }
+    }
+
+    private void validarSeMateriaJaFoiAdicionada(List<MateriaNotaBimestre> notas, String nomeMateria) throws Exception {
+        for (MateriaNotaBimestre nota : notas) {
+            if (nota.getMateria().getName() == nomeMateria) {
+                throw new Exception("A matéria " + nomeMateria + " já está cadastrada para este boletim!");
+            }
+        }
     }
 }
