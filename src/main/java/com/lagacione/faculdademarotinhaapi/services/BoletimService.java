@@ -1,10 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.services;
 
 import com.lagacione.faculdademarotinhaapi.domain.*;
-import com.lagacione.faculdademarotinhaapi.dto.BoletimDTO;
-import com.lagacione.faculdademarotinhaapi.dto.BoletimFormDTO;
-import com.lagacione.faculdademarotinhaapi.dto.BoletimListaDTO;
-import com.lagacione.faculdademarotinhaapi.dto.MateriaNotaDTO;
+import com.lagacione.faculdademarotinhaapi.dto.*;
 import com.lagacione.faculdademarotinhaapi.repositories.BoletimRepository;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,11 +147,26 @@ public class BoletimService {
         }
     }
 
-    public BoletimDTO gerarBoletin(Integer idAluno, Integer idCurso, Integer ano) {
+    public GerarBoletimDTO gerarBoletin(ConsultaGerarBoletimDTO consultaGerarBoletim) {
+        Integer idAluno = consultaGerarBoletim.getAlunoId();
+        Integer idCurso = consultaGerarBoletim.getCursoId();
+        Integer ano = consultaGerarBoletim.getAno();
+
         List<MateriaNota> notas = this.materiaNotaService.getNotaByAlunoAndCurso(idAluno, idCurso, ano);
         Aluno aluno = this.alunoService.findOptional(idAluno);
         Curso curso = this.cursoService.findForUpdate(idCurso);
 
+        if (notas == null || notas.size() < 1) {
+            String mensagem = "Não foram encontradas notas cadastradas para o aluno ";
+            mensagem += aluno.getName() + " no curso " + curso.getName();
+            mensagem += " no ano " + ano;
+
+            throw new ObjectNotFoundException(mensagem);
+        }
+
+        Professor professor = this.professorService.findForUpdate(notas.get(0).getProfessor().getId());
+        List<ListaNotaGerarBoletimDTO> notasBoletim = notas.stream().map(ListaNotaGerarBoletimDTO::of).collect(Collectors.toList());
+        GerarBoletimDTO boletim = new GerarBoletimDTO(ano, aluno.getName(), curso.getName(), professor.getName(), notasBoletim);
 
         return boletim;
     }
