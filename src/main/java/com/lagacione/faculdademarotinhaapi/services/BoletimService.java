@@ -119,4 +119,8 @@ public class BoletimService {
     private void validarCurso(BoletimDTO boletimDTO) {
         this.cursoService.find(boletimDTO.getCurso().getId());
     }
+
+    public void downloadBOletim() {
+        
+    }
 }
