@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Boletim" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a6bf61e2-e2c1-4549-a8db-50e6b8cf9a45">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="8"/>
+	<property name="ireport.y" value="1"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -24,11 +24,11 @@
 		</box>
 	</style>
 	<subDataset name="Table Dataset 1" uuid="221b77e0-ee20-4437-8fc9-9dc0bbf84bce"/>
-	<field name="professor" class="java.lang.String">
+	<field name="nomeProfessor" class="java.lang.String">
 		<fieldDescription><![CDATA[Nome do professor]]></fieldDescription>
 	</field>
-	<field name="aluno" class="java.lang.String"/>
-	<field name="materia" class="java.lang.String">
+	<field name="nomeAluno" class="java.lang.String"/>
+	<field name="nomeMateria" class="java.lang.String">
 		<fieldDescription><![CDATA[Nome da matéria]]></fieldDescription>
 	</field>
 	<field name="ano" class="java.lang.String">
@@ -38,7 +38,7 @@
 	<field name="nota" class="java.lang.Double">
 		<fieldDescription><![CDATA[Nota]]></fieldDescription>
 	</field>
-	<field name="curso" class="java.lang.String">
+	<field name="nomeCurso" class="java.lang.String">
 		<fieldDescription><![CDATA[Nome do curso]]></fieldDescription>
 	</field>
 	<background>
@@ -51,13 +51,14 @@
 			</line>
 			<textField>
 				<reportElement x="330" y="24" width="139" height="37" uuid="1dd5c182-5b53-4a0c-ab6a-29656a371bd4"/>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="18"/>
 				</textElement>
 				<textFieldExpression><![CDATA[Boletim Escolar:]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="469" y="41" width="100" height="20" uuid="e45c6e96-2eef-4e7b-b5b0-fc978cbbae32"/>
+				<reportElement x="469" y="24" width="100" height="37" uuid="e45c6e96-2eef-4e7b-b5b0-fc978cbbae32"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{ano}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -66,18 +67,14 @@
 		<band height="137" splitType="Stretch">
 			<textField>
 				<reportElement x="15" y="0" width="100" height="20" uuid="26b1509e-3e72-4949-ba02-d42a22c6ce7d"/>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[Professor:]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="115" y="0" width="100" height="20" uuid="db041fe8-c660-469b-be1e-4f2628d85204"/>
-				<textFieldExpression><![CDATA[$F{professor.getName()}]]></textFieldExpression>
-			</textField>
-			<textField>
 				<reportElement x="15" y="51" width="100" height="20" uuid="177de114-8395-4de5-956c-eb515ac6ce4f"/>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[Aluno:]]></textFieldExpression>
@@ -85,23 +82,30 @@
 			<line>
 				<reportElement x="15" y="35" width="787" height="2" uuid="b00e295e-6fce-4101-926b-25447016c90e"/>
 			</line>
-			<textField>
-				<reportElement x="115" y="51" width="100" height="20" uuid="a9ebd9ab-5fbc-429e-8639-463db005c233"/>
-				<textFieldExpression><![CDATA[$F{aluno.getName()}]]></textFieldExpression>
-			</textField>
 			<line>
 				<reportElement x="0" y="86" width="802" height="1" uuid="9b1bb19c-4dcf-4b7f-8899-5e2a55b60345"/>
 			</line>
 			<textField>
 				<reportElement x="15" y="102" width="100" height="20" uuid="041e09a3-00e7-4eb7-9602-57b97e819e51"/>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[Curso:]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="115" y="102" width="100" height="20" uuid="9f29eb97-7f5a-43dd-bdc0-bd8e05d66fb5"/>
-				<textFieldExpression><![CDATA[$F{curso}]]></textFieldExpression>
+				<reportElement x="115" y="0" width="100" height="20" uuid="f142ab25-120c-410e-9ed8-7b03397fa60d"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nomeProfessor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="115" y="51" width="100" height="20" uuid="2ffbd047-100f-45c1-8cfb-12da52fa12f4"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nomeAluno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="115" y="102" width="100" height="20" uuid="5db796b2-d0e5-45a9-bbab-c511366634f3"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nomeCurso}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -124,14 +128,16 @@
 						<jr:tableHeader style="table_TH" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="30" uuid="cff723d4-cca7-43c2-b0c3-0f2cb2dddbc9"/>
+								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[Matérias]]></textFieldExpression>
 							</textField>
 						</jr:tableHeader>
 						<jr:tableFooter style="table_TH" height="30"/>
 						<jr:columnHeader style="table_CH" height="30">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="30" uuid="bab9e558-3dd0-4a67-832a-b5f8c10e7ab5"/>
-								<textFieldExpression><![CDATA[$F{materia.getName()}]]></textFieldExpression>
+								<reportElement x="0" y="0" width="90" height="30" uuid="98d1a518-f409-4a02-83b0-d88c225b25ff"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{nomeMateria}]]></textFieldExpression>
 							</textField>
 						</jr:columnHeader>
 						<jr:columnFooter style="table_CH" height="30"/>
@@ -141,6 +147,7 @@
 						<jr:tableHeader style="table_TH" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="30" uuid="2b19723e-7895-4c02-997d-0df5864d2636"/>
+								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[1° Bimestre]]></textFieldExpression>
 							</textField>
 						</jr:tableHeader>
@@ -148,6 +155,7 @@
 						<jr:columnHeader style="table_CH" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="30" uuid="42ed1dc2-607e-4956-a1a2-04d49710839f"/>
+								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{nota}]]></textFieldExpression>
 							</textField>
 						</jr:columnHeader>
@@ -158,6 +166,7 @@
 						<jr:tableHeader style="table_TH" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="30" uuid="52cfc8c3-2a7e-4835-8b15-40a60ed794d0"/>
+								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[2° Bimestre]]></textFieldExpression>
 							</textField>
 						</jr:tableHeader>
@@ -165,6 +174,7 @@
 						<jr:columnHeader style="table_CH" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="30" uuid="cd656aac-f7e1-40fe-bff8-9ea9255d74b3"/>
+								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{nota}]]></textFieldExpression>
 							</textField>
 						</jr:columnHeader>
@@ -175,6 +185,7 @@
 						<jr:tableHeader style="table_TH" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="30" uuid="d1ef2ca3-77ae-4e7d-a0f6-4fc4b8b0bdc3"/>
+								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[3° Bimestre]]></textFieldExpression>
 							</textField>
 						</jr:tableHeader>
@@ -182,6 +193,7 @@
 						<jr:columnHeader style="table_CH" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="30" uuid="af6f08fb-b0a3-4d17-aec5-6aa08ed62913"/>
+								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{nota}]]></textFieldExpression>
 							</textField>
 						</jr:columnHeader>
@@ -192,6 +204,7 @@
 						<jr:tableHeader style="table_TH" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="30" uuid="edd53cc1-e89e-4384-92e2-8a2856bb9af7"/>
+								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[4° Bimestre]]></textFieldExpression>
 							</textField>
 						</jr:tableHeader>
@@ -199,6 +212,7 @@
 						<jr:columnHeader style="table_CH" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="30" uuid="7c46165b-5852-4ce1-aa00-6c1369d961d9"/>
+								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[$F{nota}]]></textFieldExpression>
 							</textField>
 						</jr:columnHeader>
@@ -209,6 +223,7 @@
 						<jr:tableHeader style="table_TH" height="30">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="30" uuid="7a182b69-0883-40d5-be1e-1a0539d20b81"/>
+								<textElement verticalAlignment="Middle"/>
 								<textFieldExpression><![CDATA[Média Final]]></textFieldExpression>
 							</textField>
 						</jr:tableHeader>
