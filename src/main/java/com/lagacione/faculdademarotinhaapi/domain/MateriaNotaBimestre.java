@@ -91,7 +91,7 @@ public class MateriaNotaBimestre {
     public static MateriaNotaBimestre of(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
         MateriaNotaBimestre materiaNotaBimestre = new MateriaNotaBimestre();
         materiaNotaBimestre.setId(materiaNotaBimestreDTO.getId());
-        materiaNotaBimestre.setMateria(materiaNotaBimestreDTO.getMateria());
+        materiaNotaBimestre.setMateria(Materia.of(materiaNotaBimestreDTO.getMateria()));
         materiaNotaBimestre.setNotaBimestre1(materiaNotaBimestreDTO.getNotaBimestre1());
         materiaNotaBimestre.setNotaBimestre2(materiaNotaBimestreDTO.getNotaBimestre2());
         materiaNotaBimestre.setNotaBimestre3(materiaNotaBimestreDTO.getNotaBimestre3());
