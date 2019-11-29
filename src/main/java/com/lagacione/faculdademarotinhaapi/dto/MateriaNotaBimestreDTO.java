@@ -1,6 +1,5 @@
 package com.lagacione.faculdademarotinhaapi.dto;
 
-import com.lagacione.faculdademarotinhaapi.domain.Materia;
 import com.lagacione.faculdademarotinhaapi.domain.MateriaNotaBimestre;
 
 import javax.validation.constraints.NotNull;
@@ -9,7 +8,7 @@ public class MateriaNotaBimestreDTO {
     private Integer id;
 
     @NotNull(message = "Informe a matéria")
-    private Materia materia;
+    private MateriaDTO materiaDTO;
 
     private Double notaBimestre1;
     private Double notaBimestre2;
@@ -27,12 +26,12 @@ public class MateriaNotaBimestreDTO {
         this.id = id;
     }
 
-    public Materia getMateria() {
-        return materia;
+    public MateriaDTO getMateria() {
+        return materiaDTO;
     }
 
-    public void setMateria(Materia materia) {
-        this.materia = materia;
+    public void setMateria(MateriaDTO materiaDTO) {
+        this.materiaDTO = materiaDTO;
     }
 
     public Double getNotaBimestre1() {
@@ -78,7 +77,7 @@ public class MateriaNotaBimestreDTO {
     public static MateriaNotaBimestreDTO of(MateriaNotaBimestre materiaNotaBimestre) {
         MateriaNotaBimestreDTO materiaNotaBimestreDTO = new MateriaNotaBimestreDTO();
         materiaNotaBimestreDTO.setId(materiaNotaBimestre.getId());
-        materiaNotaBimestreDTO.setMateria(materiaNotaBimestre.getMateria());
+        materiaNotaBimestreDTO.setMateria(MateriaDTO.of(materiaNotaBimestre.getMateria()));
         materiaNotaBimestreDTO.setNotaBimestre1(materiaNotaBimestre.getNotaBimestre1());
         materiaNotaBimestreDTO.setNotaBimestre2(materiaNotaBimestre.getNotaBimestre2());
         materiaNotaBimestreDTO.setNotaBimestre3(materiaNotaBimestre.getNotaBimestre3());
