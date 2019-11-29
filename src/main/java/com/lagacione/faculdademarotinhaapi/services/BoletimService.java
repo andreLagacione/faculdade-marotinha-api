@@ -4,6 +4,7 @@ import com.lagacione.faculdademarotinhaapi.domain.Boletim;
 import com.lagacione.faculdademarotinhaapi.dto.BoletimDTO;
 import com.lagacione.faculdademarotinhaapi.dto.BoletimListaDTO;
 import com.lagacione.faculdademarotinhaapi.dto.BoletimToEditDTO;
+import com.lagacione.faculdademarotinhaapi.dto.MateriaNotaBimestreDTO;
 import com.lagacione.faculdademarotinhaapi.repositories.BoletimRepository;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,6 +32,9 @@ public class BoletimService {
 
     @Autowired
     private CursoService cursoService;
+
+    @Autowired
+    private MateriaNotaBimestreService materiaNotaBimestreService;
 
     public List<BoletimListaDTO> findAll() {
         List<Boletim> boletins = this.boletimRepository.findAll();
@@ -57,7 +62,7 @@ public class BoletimService {
     public BoletimDTO findOptional(Integer id) throws ObjectNotFoundException {
         Optional<Boletim> boletim = this.boletimRepository.findById(id);
 
-        if (boletim == null) {
+        if (!boletim.isPresent()) {
             throw new ObjectNotFoundException("Boletim não encontrado!");
         }
 
@@ -80,6 +85,7 @@ public class BoletimService {
 
         try {
             this.boletimRepository.deleteById(id);
+            this.materiaNotaBimestreService.removerNotasBoletim(id);
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException("Não é possível remover este boletim!");
         }
@@ -119,6 +125,44 @@ public class BoletimService {
     private void validarCurso(BoletimDTO boletimDTO) {
         this.cursoService.find(boletimDTO.getCurso().getId());
     }
+
+    public void adicionarNotaBoletim(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
+        BoletimDTO boletimDTO = this.findOptional(materiaNotaBimestreDTO.getIdBoletim());
+        List<MateriaNotaBimestreDTO> notas = boletimDTO.getNotas();
+        notas.add(materiaNotaBimestreDTO);
+        boletimDTO.setNotas(notas);
+        this.update(Boletim.of(boletimDTO));
+    }
+
+    public void alterarNotaBoletim(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
+        BoletimDTO boletimDTO = this.findOptional(materiaNotaBimestreDTO.getIdBoletim());
+        List<MateriaNotaBimestreDTO> notas = findAndRemoveNota(boletimDTO.getNotas(), materiaNotaBimestreDTO.getId());
+        notas.add(materiaNotaBimestreDTO);
+        boletimDTO.setNotas(notas);
+        this.update(Boletim.of(boletimDTO));
+    }
+
+    public void removerNotaBoletim(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
+        BoletimDTO boletimDTO = this.findOptional(materiaNotaBimestreDTO.getIdBoletim());
+        List<MateriaNotaBimestreDTO> notas = findAndRemoveNota(boletimDTO.getNotas(), materiaNotaBimestreDTO.getId());
+        boletimDTO.setNotas(notas);
+        this.update(Boletim.of(boletimDTO));
+    }
+
+    private List<MateriaNotaBimestreDTO> findAndRemoveNota(List<MateriaNotaBimestreDTO> notas, Integer idNotaRemove) {
+        for (MateriaNotaBimestreDTO nota : notas) {
+            if (nota.getId() == idNotaRemove) {
+                notas.remove(nota);
+                break;
+            }
+        }
+
+        return notas;
+    }
+
+
+
+
 
     public void downloadBOletim() {
 

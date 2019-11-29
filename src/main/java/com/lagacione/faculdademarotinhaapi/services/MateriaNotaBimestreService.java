@@ -2,6 +2,7 @@ package com.lagacione.faculdademarotinhaapi.services;
 
 import com.lagacione.faculdademarotinhaapi.domain.Materia;
 import com.lagacione.faculdademarotinhaapi.domain.MateriaNotaBimestre;
+import com.lagacione.faculdademarotinhaapi.dto.MateriaDTO;
 import com.lagacione.faculdademarotinhaapi.dto.MateriaNotaBimestreDTO;
 import com.lagacione.faculdademarotinhaapi.dto.MateriaNotaBimestreListDTO;
 import com.lagacione.faculdademarotinhaapi.repositories.MatreriaNotaBimestreRespository;
@@ -25,6 +26,9 @@ public class MateriaNotaBimestreService {
     @Autowired
     private MateriaService materiaService;
 
+    @Autowired
+    private BoletimService boletimService;
+
     public List<MateriaNotaBimestreListDTO> findAll() {
         List<MateriaNotaBimestre> notas = this.matreriaNotaBimestreRespository.findAll();
         List<MateriaNotaBimestreListDTO> notasDTO = notas.stream().map(MateriaNotaBimestreListDTO::of).collect(Collectors.toList());
@@ -41,7 +45,7 @@ public class MateriaNotaBimestreService {
     public MateriaNotaBimestreDTO find(Integer id) throws ObjectNotFoundException {
         Optional<MateriaNotaBimestre> nota = this.matreriaNotaBimestreRespository.findById(id);
 
-        if (nota != null) {
+        if (nota.isPresent()) {
             MateriaNotaBimestreDTO notaDTO = new MateriaNotaBimestreDTO();
             notaDTO = notaDTO.of(nota.get());
             return notaDTO;
@@ -52,20 +56,26 @@ public class MateriaNotaBimestreService {
 
     private MateriaNotaBimestreDTO insert(MateriaNotaBimestre nota) {
         nota.setId(null);
-        return MateriaNotaBimestreDTO.of(this.matreriaNotaBimestreRespository.save(nota));
+        MateriaNotaBimestreDTO notaDTO = MateriaNotaBimestreDTO.of(this.matreriaNotaBimestreRespository.save(nota));
+        this.boletimService.adicionarNotaBoletim(notaDTO);
+        return notaDTO;
     }
 
     private MateriaNotaBimestreDTO update(MateriaNotaBimestre nota) throws ObjectNotFoundException {
         MateriaNotaBimestre newNota = MateriaNotaBimestre.of(this.find(nota.getId()));
         this.updateData(newNota, nota);
-        return MateriaNotaBimestreDTO.of(this.matreriaNotaBimestreRespository.save(newNota));
+        MateriaNotaBimestreDTO notaDTO = MateriaNotaBimestreDTO.of(this.matreriaNotaBimestreRespository.save(nota));
+        this.boletimService.alterarNotaBoletim(notaDTO);
+        return notaDTO;
     }
 
     public void delete(Integer id) throws ObjectNotFoundException {
         this.find(id);
 
         try {
+            MateriaNotaBimestreDTO nota = this.find(id);
             this.matreriaNotaBimestreRespository.deleteById(id);
+            this.boletimService.removerNotaBoletim(nota);
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException("Não é possível remover esta nota!");
         }
@@ -81,6 +91,7 @@ public class MateriaNotaBimestreService {
     }
 
     public MateriaNotaBimestreDTO salvarRegistro(MateriaNotaBimestreDTO notaDTO, Boolean adicionar) throws Exception {
+        this.validarBoletim(notaDTO.getIdBoletim());
         this.validarMateria(notaDTO);
         this.obterNotasAdicionadas(notaDTO);
 
@@ -94,7 +105,7 @@ public class MateriaNotaBimestreService {
     }
 
     private void validarMateria(MateriaNotaBimestreDTO notaDTO) {
-        Materia materia = notaDTO.getMateria();
+        Materia materia = Materia.of(notaDTO.getMateria());
 
         if (materia == null) {
             throw new ObjectNotFoundException("Informe a matéria!");
@@ -105,9 +116,10 @@ public class MateriaNotaBimestreService {
 
     private void obterNotasAdicionadas(MateriaNotaBimestreDTO notaDTO) throws Exception {
         List<MateriaNotaBimestre> notas = this.matreriaNotaBimestreRespository.obterMateriaByIdBoletim(notaDTO.getIdBoletim());
+        MateriaDTO materia = this.materiaService.find(notaDTO.getMateria().getId());
 
         if (notas != null || notas.size() > 0) {
-            this.validarSeMateriaJaFoiAdicionada(notas, notaDTO.getMateria().getName());
+            this.validarSeMateriaJaFoiAdicionada(notas, materia.getName());
         }
     }
 
@@ -117,5 +129,17 @@ public class MateriaNotaBimestreService {
                 throw new Exception("A matéria " + nomeMateria + " já está cadastrada para este boletim!");
             }
         }
+    }
+
+    public void removerNotasBoletim(Integer idBoletim) {
+        List<MateriaNotaBimestre> notas = this.matreriaNotaBimestreRespository.obterMateriaByIdBoletim(idBoletim);
+
+        for (MateriaNotaBimestre nota : notas) {
+            this.delete(nota.getId());
+        }
+    }
+
+    private void validarBoletim(Integer idBoletim) {
+        this.boletimService.findOptional(idBoletim);
     }
 }
