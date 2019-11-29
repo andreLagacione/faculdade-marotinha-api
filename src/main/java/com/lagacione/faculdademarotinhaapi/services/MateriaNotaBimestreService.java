@@ -95,6 +95,7 @@ public class MateriaNotaBimestreService {
         this.validarMateria(notaDTO);
         this.obterNotasAdicionadas(notaDTO);
 
+        notaDTO = this.calcularMediaFinal(notaDTO);
         MateriaNotaBimestre nota = MateriaNotaBimestre.of(notaDTO);
 
         if (adicionar) {
@@ -141,5 +142,19 @@ public class MateriaNotaBimestreService {
 
     private void validarBoletim(Integer idBoletim) {
         this.boletimService.findOptional(idBoletim);
+    }
+
+    private MateriaNotaBimestreDTO calcularMediaFinal(MateriaNotaBimestreDTO notaDTO) {
+        Double notaBimestre1 = notaDTO.getNotaBimestre1();
+        Double notaBimestre2 = notaDTO.getNotaBimestre2();
+        Double notaBimestre3 = notaDTO.getNotaBimestre3();
+        Double notaBimestre4 = notaDTO.getNotaBimestre4();
+
+        if (notaBimestre1 != null && notaBimestre2 != null && notaBimestre3 != null && notaBimestre4 != null) {
+            Double media = (notaBimestre1 + notaBimestre2 + notaBimestre3 + notaBimestre4) / 4;
+            notaDTO.setMediaFinal(String.format("%.2f", media));
+        }
+
+        return notaDTO;
     }
 }

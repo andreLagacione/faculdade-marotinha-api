@@ -30,6 +30,9 @@ public class MateriaNotaBimestre {
     @Column(name = "boletim_id")
     private Integer idBoletim;
 
+    @Column(name = "media_final")
+    private String mediaFinal = "N/A";
+
     public MateriaNotaBimestre() {}
 
     public Integer getId() {
@@ -88,6 +91,14 @@ public class MateriaNotaBimestre {
         this.idBoletim = idBoletim;
     }
 
+    public String getMediaFinal() {
+        return mediaFinal;
+    }
+
+    public void setMediaFinal(String mediaFinal) {
+        this.mediaFinal = mediaFinal;
+    }
+
     public static MateriaNotaBimestre of(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
         MateriaNotaBimestre materiaNotaBimestre = new MateriaNotaBimestre();
         materiaNotaBimestre.setId(materiaNotaBimestreDTO.getId());
@@ -97,6 +108,7 @@ public class MateriaNotaBimestre {
         materiaNotaBimestre.setNotaBimestre3(materiaNotaBimestreDTO.getNotaBimestre3());
         materiaNotaBimestre.setNotaBimestre4(materiaNotaBimestreDTO.getNotaBimestre4());
         materiaNotaBimestre.setIdBoletim(materiaNotaBimestreDTO.getIdBoletim());
+        materiaNotaBimestre.setMediaFinal(materiaNotaBimestreDTO.getMediaFinal());
         return materiaNotaBimestre;
     }
 }
