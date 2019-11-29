@@ -42,7 +42,7 @@ public class CursoService {
     public CursoToEditDTO find(Integer id) throws ObjectNotFoundException {
         Optional<Curso> curso = this.cursoRepository.findById(id);
 
-        if (curso == null) {
+        if (!curso.isPresent()) {
             throw new ObjectNotFoundException("Curso não encontrado!");
         }
 

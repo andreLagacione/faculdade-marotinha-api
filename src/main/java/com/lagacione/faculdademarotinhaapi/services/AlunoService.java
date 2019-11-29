@@ -59,7 +59,7 @@ public class AlunoService {
     public AlunoDTO findOptional(Integer id) throws ObjectNotFoundException {
         Optional<Aluno> aluno = this.alunoRepository.findById(id);
 
-        if (aluno == null) {
+        if (!aluno.isPresent()) {
             throw new ObjectNotFoundException("Aluno não encontrado!");
         }
 

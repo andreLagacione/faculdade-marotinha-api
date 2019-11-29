@@ -42,7 +42,7 @@ public class ProfessorService {
     public ProfessorToEditDTO find(Integer id) throws ObjectNotFoundException {
         Optional<Professor> professor = this.professorRepository.findById(id);
 
-        if (professor == null) {
+        if (!professor.isPresent()) {
             throw new ObjectNotFoundException("Professor não encontrado!");
         }
 

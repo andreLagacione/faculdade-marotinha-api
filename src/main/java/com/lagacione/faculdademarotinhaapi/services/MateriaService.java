@@ -36,7 +36,7 @@ public class MateriaService {
     public MateriaDTO find(Integer id) throws ObjectNotFoundException {
         Optional<Materia> materia = this.materiaRepository.findById(id);
 
-        if (materia == null) {
+        if (!materia.isPresent()) {
             throw new ObjectNotFoundException("Matéria não encontrada!");
         }
 
