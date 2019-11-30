@@ -62,4 +62,11 @@ public class BoletimResource {
         PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Boletim removido com sucesso!");
         return ResponseEntity.ok().body(mensagemRetorno);
     }
+
+    @RequestMapping(value="/imprimir/{id}", method= RequestMethod.GET)
+    public ResponseEntity<PadraoMensagemRetornoDTO> imprimir(@PathVariable Integer id) throws Exception {
+        this.boletimService.downloadBoletim(id);
+        PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Boletim gerado com sucesso!");
+        return ResponseEntity.ok().body(mensagemRetorno);
+    }
 }

@@ -1,10 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.services;
 
 import com.lagacione.faculdademarotinhaapi.domain.Boletim;
-import com.lagacione.faculdademarotinhaapi.dto.BoletimDTO;
-import com.lagacione.faculdademarotinhaapi.dto.BoletimListaDTO;
-import com.lagacione.faculdademarotinhaapi.dto.BoletimToEditDTO;
-import com.lagacione.faculdademarotinhaapi.dto.MateriaNotaBimestreDTO;
+import com.lagacione.faculdademarotinhaapi.dto.*;
 import com.lagacione.faculdademarotinhaapi.repositories.BoletimRepository;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -160,11 +157,17 @@ public class BoletimService {
         return notas;
     }
 
+    public void downloadBoletim(Integer id) throws Exception {
+        try {
+            BoletimPDFDTO boletimPDF = BoletimPDFDTO.of(this.findOptional(id));
+            List<BoletimPDFDTO> listaBoletim = new ArrayList<>();
+            listaBoletim.add(boletimPDF);
 
-
-
-
-    public void downloadBOletim() {
+            GerarPDFBoletim boletim = new GerarPDFBoletim();
+            boletim.imprimir(listaBoletim);
+        } catch (Exception e) {
+            throw new Exception("Erro ao gerar boletim: " + e.getMessage());
+        }
 
     }
 }
