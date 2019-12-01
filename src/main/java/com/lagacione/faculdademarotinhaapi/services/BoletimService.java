@@ -160,11 +160,8 @@ public class BoletimService {
     public void downloadBoletim(Integer id) throws Exception {
         try {
             BoletimPDFDTO boletimPDF = BoletimPDFDTO.of(this.findOptional(id));
-            List<BoletimPDFDTO> listaBoletim = new ArrayList<>();
-            listaBoletim.add(boletimPDF);
-
             GerarPDFBoletim boletim = new GerarPDFBoletim();
-            boletim.imprimir(listaBoletim);
+            boletim.imprimir(boletimPDF);
         } catch (Exception e) {
             throw new Exception("Erro ao gerar boletim: " + e.getMessage());
         }

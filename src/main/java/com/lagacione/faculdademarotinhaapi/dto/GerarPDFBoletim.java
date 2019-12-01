@@ -3,7 +3,10 @@ package com.lagacione.faculdademarotinhaapi.dto;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GerarPDFBoletim {
 
@@ -16,11 +19,25 @@ public class GerarPDFBoletim {
         this.pathToReportPackage = "C:/Jobs/estudando/faculdade-marotinha-api/src/main/java/com/lagacione/faculdademarotinhaapi/jasper/";
     }
 
-    public void imprimir(List<BoletimPDFDTO> boletimPDF) throws JRException {
-        String nomeAluno = boletimPDF.get(0).getAluno();
-        JasperReport report = JasperCompileManager.compileReport(this.getPathToReportPackage() + "Boletim.jrxml");
-        JasperPrint print = JasperFillManager.fillReport(report, null, new JRBeanCollectionDataSource(boletimPDF));
-        JasperExportManager.exportReportToPdfFile(print, "C:/Jobs/estudando/faculdade-marotinha-api/boletins/Boletim " + nomeAluno + ".pdf");
+    public void imprimir(BoletimPDFDTO boletimPDF) throws JRException {
+        String nomeAluno = boletimPDF.getAluno();
+
+        List<BoletimPDFDTO> dadosBoletim = new ArrayList<>();
+        dadosBoletim.add(boletimPDF);
+
+        JasperReport boletim = JasperCompileManager.compileReport(this.getPathToReportPackage() + "Boletim.jrxml");
+        JasperPrint printBoletim = JasperFillManager.fillReport(boletim, null, new JRBeanCollectionDataSource(dadosBoletim));
+
+        List<MateriaNotaBimestreDTO> listaNotas = boletimPDF.getNotas();
+        JasperReport notas = JasperCompileManager.compileReport(this.getPathToReportPackage() + "Boletim_notas.jrxml");
+        JasperPrint printNotas = JasperFillManager.fillReport(notas, null, new JRBeanCollectionDataSource(listaNotas));
+
+//        JRDataSource listaNotas = new JRBeanCollectionDataSource(boletimPDF.getNotas());
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("listaNotas", listaNotas);
+
+
+        JasperExportManager.exportReportToPdfFile(printBoletim, "C:/temp/faculdade-marotinha/boletins/Boletim " + nomeAluno + ".pdf");
     }
 
     public String getPath() {
