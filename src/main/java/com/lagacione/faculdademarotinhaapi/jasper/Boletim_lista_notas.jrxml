@@ -1,27 +1,90 @@
-<?xml version="1.0" encoding="UTF8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Boletim_lista_notas" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7adfd63b-174a-46a0-af07-b060e52d320b">
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Boletim_lista_notas" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7adfd63b-174a-46a0-af07-b060e52d320b">
+	<property name="ireport.zoom" value="3.7974983358324272"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="nomeMateria" class="java.lang.String"/>
+	<field name="notaBimestre1" class="java.lang.String"/>
+	<field name="notaBimestre2" class="java.lang.String"/>
+	<field name="notaBimestre3" class="java.lang.String"/>
+	<field name="notaBimestre4" class="java.lang.String"/>
+	<field name="mediaFinal" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch"/>
+		<band height="39" splitType="Stretch">
+			<textField>
+				<reportElement x="12" y="10" width="344" height="20" uuid="4403be15-cd98-473d-859f-9e49bdd1fc42"/>
+				<textFieldExpression><![CDATA[$F{nomeMateria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="388" y="10" width="60" height="20" uuid="ecda5e2e-9b7e-4ea3-ac93-3c4290323353"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{notaBimestre1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="463" y="10" width="60" height="20" uuid="c199be34-dd0e-4626-9d0c-a5ff1de662d0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{notaBimestre2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="540" y="10" width="60" height="20" uuid="5614c755-c2bb-47e9-8417-2f55900ff73c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{notaBimestre3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="618" y="10" width="60" height="20" uuid="dab2499c-74bf-4bd0-afee-3963c435fbcf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{notaBimestre4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="702" y="10" width="60" height="20" uuid="975f6329-adea-44bc-9b02-a8a909969595"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{mediaFinal}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="38" width="772" height="1" uuid="5f8bc2b2-677c-4a7c-a1bb-a4b928d4f5cb"/>
+			</line>
+			<line>
+				<reportElement x="380" y="0" width="1" height="39" uuid="a1835fa2-de7c-4fb1-a4e2-46a8e0d79344"/>
+			</line>
+			<line>
+				<reportElement x="455" y="0" width="1" height="39" uuid="16f7097e-8b36-41a3-9209-5afd58dfe7be"/>
+			</line>
+			<line>
+				<reportElement x="531" y="0" width="1" height="39" uuid="39424fa1-1a09-4f94-bd85-911bc0cbb883"/>
+			</line>
+			<line>
+				<reportElement x="608" y="0" width="1" height="39" uuid="1c79a2ec-b3a0-4e8a-82a8-e9248147160c"/>
+			</line>
+			<line>
+				<reportElement x="688" y="0" width="1" height="39" uuid="c2aa21ea-d815-4fc6-8ae7-45da8d5d80da"/>
+			</line>
+			<line>
+				<reportElement x="772" y="0" width="1" height="39" uuid="a5aaa7f4-169e-451f-b94b-db5a41babcac"/>
+			</line>
+			<line>
+				<reportElement x="0" y="-1" width="1" height="40" uuid="30159d75-2ee3-4a5b-aa39-643939533766"/>
+			</line>
+		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</summary>
 </jasperReport>
