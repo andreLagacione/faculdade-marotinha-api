@@ -1,9 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.resources;
 
-import com.lagacione.faculdademarotinhaapi.dto.BoletimDTO;
-import com.lagacione.faculdademarotinhaapi.dto.BoletimListaDTO;
-import com.lagacione.faculdademarotinhaapi.dto.BoletimToEditDTO;
-import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
+import com.lagacione.faculdademarotinhaapi.dto.*;
 import com.lagacione.faculdademarotinhaapi.services.BoletimService;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,9 +61,9 @@ public class BoletimResource {
     }
 
     @RequestMapping(value="/imprimir/{id}", method= RequestMethod.GET)
-    public ResponseEntity<PadraoMensagemRetornoDTO> imprimir(@PathVariable Integer id) throws Exception {
-        this.boletimService.downloadBoletim(id);
-        PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Boletim gerado com sucesso!");
+    public ResponseEntity<RetornoGerarBoletimDTO> imprimir(@PathVariable Integer id) throws Exception {
+        String idBoletim = this.boletimService.downloadBoletim(id);
+        RetornoGerarBoletimDTO mensagemRetorno = new RetornoGerarBoletimDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Boletim gerado com sucesso!", idBoletim);
         return ResponseEntity.ok().body(mensagemRetorno);
     }
 }
