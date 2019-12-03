@@ -2,7 +2,6 @@ package com.lagacione.faculdademarotinhaapi.dto;
 
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import org.apache.coyote.Response;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
