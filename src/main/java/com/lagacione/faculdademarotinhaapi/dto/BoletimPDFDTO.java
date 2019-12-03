@@ -2,13 +2,14 @@ package com.lagacione.faculdademarotinhaapi.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BoletimPDFDTO {
     private Integer ano;
     private String professor;
     private String aluno;
     private String curso;
-    private List<MateriaNotaBimestreDTO> notas = new ArrayList<>();
+    private List<MateriaNotaBimestrePDFDTO> notas = new ArrayList<>();
 
     public BoletimPDFDTO() {}
 
@@ -44,11 +45,11 @@ public class BoletimPDFDTO {
         this.curso = curso;
     }
 
-    public List<MateriaNotaBimestreDTO> getNotas() {
+    public List<MateriaNotaBimestrePDFDTO> getNotas() {
         return notas;
     }
 
-    public void setNotas(List<MateriaNotaBimestreDTO> notas) {
+    public void setNotas(List<MateriaNotaBimestrePDFDTO> notas) {
         this.notas = notas;
     }
 
@@ -58,7 +59,8 @@ public class BoletimPDFDTO {
         boletimPDFDTO.setProfessor(boletimDTO.getProfessor().getName());
         boletimPDFDTO.setAluno(boletimDTO.getAluno().getName());
         boletimPDFDTO.setCurso(boletimDTO.getCurso().getName());
-        boletimPDFDTO.setNotas(boletimDTO.getNotas());
+        List<MateriaNotaBimestrePDFDTO> notas = boletimDTO.getNotas().stream().map(MateriaNotaBimestrePDFDTO::of).collect(Collectors.toList());
+        boletimPDFDTO.setNotas(notas);
         return boletimPDFDTO;
     }
 }
