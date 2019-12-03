@@ -1,7 +1,5 @@
 package com.lagacione.faculdademarotinhaapi.dto;
 
-import com.lagacione.faculdademarotinhaapi.domain.MateriaNotaBimestre;
-
 public class MateriaNotaBimestrePDFDTO {
 
     private Integer id;
