@@ -11,6 +11,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -157,11 +162,11 @@ public class BoletimService {
         return notas;
     }
 
-    public String downloadBoletim(Integer id) throws Exception {
+    public void gerarBoletim(Integer id, HttpServletResponse response) throws Exception {
         try {
             BoletimPDFDTO boletimPDF = BoletimPDFDTO.of(this.findOptional(id));
             GerarPDFBoletim boletim = new GerarPDFBoletim();
-            return boletim.gerarBoletim(boletimPDF);
+            boletim.gerarBoletim(boletimPDF, response);
         } catch (Exception e) {
             throw new Exception("Erro ao gerar boletim: " + e.getMessage());
         }

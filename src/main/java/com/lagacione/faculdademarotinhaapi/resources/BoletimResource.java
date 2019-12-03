@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -60,10 +61,8 @@ public class BoletimResource {
         return ResponseEntity.ok().body(mensagemRetorno);
     }
 
-    @RequestMapping(value="/imprimir/{id}", method= RequestMethod.GET)
-    public ResponseEntity<RetornoGerarBoletimDTO> imprimir(@PathVariable Integer id) throws Exception {
-        String idBoletim = this.boletimService.downloadBoletim(id);
-        RetornoGerarBoletimDTO mensagemRetorno = new RetornoGerarBoletimDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Boletim gerado com sucesso!", idBoletim);
-        return ResponseEntity.ok().body(mensagemRetorno);
+    @RequestMapping(value="/gerar/{id}", method= RequestMethod.GET)
+    public void gerar(@PathVariable Integer id, HttpServletResponse response) throws Exception {
+        this.boletimService.gerarBoletim(id, response);
     }
 }

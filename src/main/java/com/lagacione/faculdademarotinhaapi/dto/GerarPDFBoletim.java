@@ -2,7 +2,11 @@ package com.lagacione.faculdademarotinhaapi.dto;
 
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.apache.coyote.Response;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,13 +19,10 @@ public class GerarPDFBoletim {
 
     public GerarPDFBoletim() {
         this.path = this.getClass().getClassLoader().getResource("").getPath();
-//        this.pathToReportPackage = this.path + "com/lagacione/faculdademarotinhaapi/jasper/";
-        this.pathToReportPackage = "C:/Jobs/estudando/faculdade-marotinha-api/src/main/java/com/lagacione/faculdademarotinhaapi/jasper/";
+        this.pathToReportPackage = this.path + "com/lagacione/faculdademarotinhaapi/jasper/";
     }
 
-    public String gerarBoletim(BoletimPDFDTO boletimPDF) throws JRException {
-        String nomeAluno = boletimPDF.getAluno();
-
+    public void gerarBoletim(BoletimPDFDTO boletimPDF, HttpServletResponse response) throws JRException, IOException {
         List<BoletimPDFDTO> dadosBoletim = new ArrayList<>();
         dadosBoletim.add(boletimPDF);
 
@@ -31,9 +32,11 @@ public class GerarPDFBoletim {
 
         JasperReport jasperReport = JasperCompileManager.compileReport(this.getPathToReportPackage() + "Boletim.jrxml");
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap<>(), new JRBeanCollectionDataSource(dadosBoletim));
-        JasperExportManager.exportReportToPdfFile(jasperPrint, "C:/temp/faculdade-marotinha/boletins/" + idBoletim + ".pdf");
 
-        return idBoletim;
+        response.setContentType("application/x-download");
+        response.addHeader("Content-disposition", "attachment; filename=" + idBoletim + ".pdf");
+        OutputStream out = response.getOutputStream();
+        JasperExportManager.exportReportToPdfStream(jasperPrint,out);
     }
 
     public String getPath() {
