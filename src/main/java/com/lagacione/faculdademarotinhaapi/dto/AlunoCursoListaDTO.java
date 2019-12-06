@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class AlunoCursoListaDTO extends PessoaDTO {
     private Integer id;
-    private List<CursoNomeListaDTO> cursoNomeListaDTOList = new ArrayList<>();
+    private List<CursoNomeListaDTO> cursos = new ArrayList<>();
 
     public AlunoCursoListaDTO() {}
 
@@ -20,12 +20,12 @@ public class AlunoCursoListaDTO extends PessoaDTO {
         this.id = id;
     }
 
-    public List<CursoNomeListaDTO> getCursoNomeListaDTOList() {
-        return cursoNomeListaDTOList;
+    public List<CursoNomeListaDTO> getCursos() {
+        return cursos;
     }
 
-    public void setCursoNomeListaDTOList(List<CursoNomeListaDTO> cursoNomeListaDTOList) {
-        this.cursoNomeListaDTOList = cursoNomeListaDTOList;
+    public void setCursos(List<CursoNomeListaDTO> cursoNomeListaDTOList) {
+        this.cursos = cursoNomeListaDTOList;
     }
 
     public static AlunoCursoListaDTO of (Aluno aluno) {
@@ -36,7 +36,7 @@ public class AlunoCursoListaDTO extends PessoaDTO {
         alunoCursoListaDTO.setAge(aluno.getAge());
         alunoCursoListaDTO.setPhone(aluno.getPhone());
         List<CursoNomeListaDTO> cursos = aluno.getCursos().stream().map(CursoNomeListaDTO::of).collect(Collectors.toList());
-        alunoCursoListaDTO.setCursoNomeListaDTOList(cursos);
+        alunoCursoListaDTO.setCursos(cursos);
         return alunoCursoListaDTO;
     }
 }
