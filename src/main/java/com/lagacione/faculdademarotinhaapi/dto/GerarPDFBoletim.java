@@ -1,5 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.dto;
 
+import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimPDFDTO;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 

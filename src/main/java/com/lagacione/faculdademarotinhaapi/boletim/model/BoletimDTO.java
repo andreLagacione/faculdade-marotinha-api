@@ -1,7 +1,10 @@
-package com.lagacione.faculdademarotinhaapi.dto;
+package com.lagacione.faculdademarotinhaapi.boletim.model;
 
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
-import com.lagacione.faculdademarotinhaapi.domain.Boletim;
+import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim;
+import com.lagacione.faculdademarotinhaapi.dto.CursoDTO;
+import com.lagacione.faculdademarotinhaapi.dto.MateriaNotaBimestreDTO;
+import com.lagacione.faculdademarotinhaapi.dto.ProfessorDTO;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;

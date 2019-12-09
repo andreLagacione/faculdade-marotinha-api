@@ -1,5 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.services;
 
+import com.lagacione.faculdademarotinhaapi.boletim.service.BoletimService;
 import com.lagacione.faculdademarotinhaapi.domain.Materia;
 import com.lagacione.faculdademarotinhaapi.domain.MateriaNotaBimestre;
 import com.lagacione.faculdademarotinhaapi.dto.MateriaDTO;

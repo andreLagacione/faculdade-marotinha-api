@@ -1,7 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.aluno.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.lagacione.faculdademarotinhaapi.domain.Boletim;
+import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim;
 import com.lagacione.faculdademarotinhaapi.domain.Curso;
 import com.lagacione.faculdademarotinhaapi.domain.Pessoa;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;

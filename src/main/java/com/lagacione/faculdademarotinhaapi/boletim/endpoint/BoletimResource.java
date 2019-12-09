@@ -1,10 +1,10 @@
-package com.lagacione.faculdademarotinhaapi.resources;
+package com.lagacione.faculdademarotinhaapi.boletim.endpoint;
 
-import com.lagacione.faculdademarotinhaapi.dto.BoletimDTO;
-import com.lagacione.faculdademarotinhaapi.dto.BoletimListaDTO;
-import com.lagacione.faculdademarotinhaapi.dto.BoletimToEditDTO;
+import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimDTO;
+import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimListaDTO;
+import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimToEditDTO;
 import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
-import com.lagacione.faculdademarotinhaapi.services.BoletimService;
+import com.lagacione.faculdademarotinhaapi.boletim.service.BoletimService;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

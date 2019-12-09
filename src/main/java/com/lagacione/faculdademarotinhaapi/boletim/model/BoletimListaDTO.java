@@ -1,6 +1,6 @@
-package com.lagacione.faculdademarotinhaapi.dto;
+package com.lagacione.faculdademarotinhaapi.boletim.model;
 
-import com.lagacione.faculdademarotinhaapi.domain.Boletim;
+import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim;
 
 public class BoletimListaDTO {
     private Integer id;
