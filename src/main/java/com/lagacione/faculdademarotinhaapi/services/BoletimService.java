@@ -1,5 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.services;
 
+import com.lagacione.faculdademarotinhaapi.aluno.service.AlunoService;
 import com.lagacione.faculdademarotinhaapi.domain.Boletim;
 import com.lagacione.faculdademarotinhaapi.dto.*;
 import com.lagacione.faculdademarotinhaapi.repositories.BoletimRepository;
