@@ -1,6 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.dto;
 
 import com.lagacione.faculdademarotinhaapi.domain.MateriaNotaBimestre;
+import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
 
 import javax.validation.constraints.NotNull;
 

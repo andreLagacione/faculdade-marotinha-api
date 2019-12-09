@@ -1,8 +1,8 @@
-package com.lagacione.faculdademarotinhaapi.services;
+package com.lagacione.faculdademarotinhaapi.materia.service;
 
-import com.lagacione.faculdademarotinhaapi.domain.Materia;
-import com.lagacione.faculdademarotinhaapi.dto.MateriaDTO;
-import com.lagacione.faculdademarotinhaapi.repositories.MateriaRepository;
+import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
+import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
+import com.lagacione.faculdademarotinhaapi.materia.repository.MateriaRepository;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;

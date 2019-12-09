@@ -4,6 +4,8 @@ import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import com.lagacione.faculdademarotinhaapi.domain.Professor;
 import com.lagacione.faculdademarotinhaapi.dto.*;
+import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
+import com.lagacione.faculdademarotinhaapi.materia.service.MateriaService;
 import com.lagacione.faculdademarotinhaapi.repositories.ProfessorRepository;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

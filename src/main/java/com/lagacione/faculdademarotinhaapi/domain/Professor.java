@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.dto.ProfessorDTO;
+import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
 
 import javax.persistence.*;
 import java.util.ArrayList;

@@ -1,8 +1,8 @@
-package com.lagacione.faculdademarotinhaapi.resources;
+package com.lagacione.faculdademarotinhaapi.materia.endpoint;
 
-import com.lagacione.faculdademarotinhaapi.dto.MateriaDTO;
+import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
 import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
-import com.lagacione.faculdademarotinhaapi.services.MateriaService;
+import com.lagacione.faculdademarotinhaapi.materia.service.MateriaService;
 import javassist.tools.rmi.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
