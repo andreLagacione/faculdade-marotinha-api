@@ -11,7 +11,7 @@ import com.lagacione.faculdademarotinhaapi.boletim.repository.BoletimRepository;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreDTO;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.service.MateriaNotaBimestreService;
-import com.lagacione.faculdademarotinhaapi.services.ProfessorService;
+import com.lagacione.faculdademarotinhaapi.professor.service.ProfessorService;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;

@@ -1,7 +1,7 @@
-package com.lagacione.faculdademarotinhaapi.dto;
+package com.lagacione.faculdademarotinhaapi.professor.model;
 
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
-import com.lagacione.faculdademarotinhaapi.domain.Professor;
+import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
 import com.lagacione.faculdademarotinhaapi.pessoa.model.PessoaDTO;
 

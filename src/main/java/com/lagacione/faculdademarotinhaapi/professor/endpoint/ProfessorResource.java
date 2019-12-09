@@ -1,10 +1,10 @@
-package com.lagacione.faculdademarotinhaapi.resources;
+package com.lagacione.faculdademarotinhaapi.professor.endpoint;
 
 import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
-import com.lagacione.faculdademarotinhaapi.dto.ProfessorDTO;
-import com.lagacione.faculdademarotinhaapi.dto.ProfessorListaDTO;
-import com.lagacione.faculdademarotinhaapi.dto.ProfessorToEditDTO;
-import com.lagacione.faculdademarotinhaapi.services.ProfessorService;
+import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorDTO;
+import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorListaDTO;
+import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorToEditDTO;
+import com.lagacione.faculdademarotinhaapi.professor.service.ProfessorService;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
