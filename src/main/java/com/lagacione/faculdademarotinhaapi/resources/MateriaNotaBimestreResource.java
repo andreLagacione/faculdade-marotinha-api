@@ -1,9 +1,9 @@
 package com.lagacione.faculdademarotinhaapi.resources;
 
-import com.lagacione.faculdademarotinhaapi.dto.MateriaNotaBimestreDTO;
-import com.lagacione.faculdademarotinhaapi.dto.MateriaNotaBimestreListDTO;
+import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreDTO;
+import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreListDTO;
 import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
-import com.lagacione.faculdademarotinhaapi.services.MateriaNotaBimestreService;
+import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.service.MateriaNotaBimestreService;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

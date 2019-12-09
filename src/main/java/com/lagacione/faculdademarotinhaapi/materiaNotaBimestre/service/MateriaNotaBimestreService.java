@@ -1,13 +1,13 @@
-package com.lagacione.faculdademarotinhaapi.services;
+package com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.service;
 
 import com.lagacione.faculdademarotinhaapi.boletim.service.BoletimService;
 import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
-import com.lagacione.faculdademarotinhaapi.domain.MateriaNotaBimestre;
+import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.entity.MateriaNotaBimestre;
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
-import com.lagacione.faculdademarotinhaapi.dto.MateriaNotaBimestreDTO;
-import com.lagacione.faculdademarotinhaapi.dto.MateriaNotaBimestreListDTO;
+import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreDTO;
+import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreListDTO;
 import com.lagacione.faculdademarotinhaapi.materia.service.MateriaService;
-import com.lagacione.faculdademarotinhaapi.repositories.MatreriaNotaBimestreRespository;
+import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.repository.MatreriaNotaBimestreRespository;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;

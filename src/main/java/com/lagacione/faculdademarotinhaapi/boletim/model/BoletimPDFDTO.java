@@ -1,6 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.boletim.model;
 
-import com.lagacione.faculdademarotinhaapi.dto.MateriaNotaBimestrePDFDTO;
+import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestrePDFDTO;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,7 +2,7 @@ package com.lagacione.faculdademarotinhaapi.boletim.entity;
 
 import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
-import com.lagacione.faculdademarotinhaapi.domain.MateriaNotaBimestre;
+import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.entity.MateriaNotaBimestre;
 import com.lagacione.faculdademarotinhaapi.domain.Professor;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimDTO;
 

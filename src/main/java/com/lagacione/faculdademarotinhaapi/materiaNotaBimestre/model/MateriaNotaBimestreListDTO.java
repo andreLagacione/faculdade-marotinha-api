@@ -1,6 +1,6 @@
-package com.lagacione.faculdademarotinhaapi.dto;
+package com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model;
 
-import com.lagacione.faculdademarotinhaapi.domain.MateriaNotaBimestre;
+import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.entity.MateriaNotaBimestre;
 
 public class MateriaNotaBimestreListDTO {
     private Integer id;
