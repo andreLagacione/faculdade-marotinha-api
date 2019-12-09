@@ -1,6 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.dto.MateriaDTO;
 
 import javax.persistence.*;

@@ -1,7 +1,7 @@
-package com.lagacione.faculdademarotinhaapi.dto;
+package com.lagacione.faculdademarotinhaapi.curso.model;
 
-import com.lagacione.faculdademarotinhaapi.domain.Curso;
-import com.lagacione.faculdademarotinhaapi.domain.Materia;
+import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
+import com.lagacione.faculdademarotinhaapi.dto.MateriaDTO;
 
 import java.util.ArrayList;
 import java.util.List;

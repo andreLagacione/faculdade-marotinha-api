@@ -1,6 +1,7 @@
-package com.lagacione.faculdademarotinhaapi.dto;
+package com.lagacione.faculdademarotinhaapi.curso.model;
 
-import com.lagacione.faculdademarotinhaapi.domain.Curso;
+import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
+import com.lagacione.faculdademarotinhaapi.dto.MateriaDTO;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;

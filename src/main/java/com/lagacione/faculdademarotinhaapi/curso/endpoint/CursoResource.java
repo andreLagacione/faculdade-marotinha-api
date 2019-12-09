@@ -1,10 +1,10 @@
-package com.lagacione.faculdademarotinhaapi.resources;
+package com.lagacione.faculdademarotinhaapi.curso.endpoint;
 
-import com.lagacione.faculdademarotinhaapi.dto.CursoDTO;
-import com.lagacione.faculdademarotinhaapi.dto.CursoListaDTO;
-import com.lagacione.faculdademarotinhaapi.dto.CursoToEditDTO;
+import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
+import com.lagacione.faculdademarotinhaapi.curso.model.CursoListaDTO;
+import com.lagacione.faculdademarotinhaapi.curso.model.CursoToEditDTO;
 import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
-import com.lagacione.faculdademarotinhaapi.services.CursoService;
+import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import javassist.tools.rmi.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -8,7 +8,7 @@ import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimPDFDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimToEditDTO;
 import com.lagacione.faculdademarotinhaapi.dto.*;
 import com.lagacione.faculdademarotinhaapi.boletim.repository.BoletimRepository;
-import com.lagacione.faculdademarotinhaapi.services.CursoService;
+import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import com.lagacione.faculdademarotinhaapi.services.MateriaNotaBimestreService;
 import com.lagacione.faculdademarotinhaapi.services.ProfessorService;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;

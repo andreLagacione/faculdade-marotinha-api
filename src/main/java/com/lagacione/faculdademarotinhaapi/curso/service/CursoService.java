@@ -1,11 +1,12 @@
-package com.lagacione.faculdademarotinhaapi.services;
+package com.lagacione.faculdademarotinhaapi.curso.service;
 
-import com.lagacione.faculdademarotinhaapi.domain.Curso;
+import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.domain.Materia;
-import com.lagacione.faculdademarotinhaapi.dto.CursoDTO;
-import com.lagacione.faculdademarotinhaapi.dto.CursoListaDTO;
-import com.lagacione.faculdademarotinhaapi.dto.CursoToEditDTO;
-import com.lagacione.faculdademarotinhaapi.repositories.CursoRepository;
+import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
+import com.lagacione.faculdademarotinhaapi.curso.model.CursoListaDTO;
+import com.lagacione.faculdademarotinhaapi.curso.model.CursoToEditDTO;
+import com.lagacione.faculdademarotinhaapi.curso.repository.CursoRepository;
+import com.lagacione.faculdademarotinhaapi.services.MateriaService;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;

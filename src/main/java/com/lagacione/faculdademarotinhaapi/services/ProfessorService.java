@@ -1,5 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.services;
 
+import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
+import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import com.lagacione.faculdademarotinhaapi.domain.Professor;
 import com.lagacione.faculdademarotinhaapi.dto.*;
 import com.lagacione.faculdademarotinhaapi.repositories.ProfessorRepository;
