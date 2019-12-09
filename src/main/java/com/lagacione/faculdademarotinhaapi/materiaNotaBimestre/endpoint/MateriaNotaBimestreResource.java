@@ -1,4 +1,4 @@
-package com.lagacione.faculdademarotinhaapi.resources;
+package com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.endpoint;
 
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreDTO;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreListDTO;
