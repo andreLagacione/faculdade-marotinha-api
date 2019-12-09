@@ -1,5 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.dto;
 
+import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
 import com.lagacione.faculdademarotinhaapi.domain.Boletim;
 
 import javax.validation.constraints.NotNull;

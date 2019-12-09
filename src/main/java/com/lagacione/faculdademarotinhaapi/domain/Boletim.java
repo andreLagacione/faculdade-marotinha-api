@@ -1,5 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.domain;
 
+import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
 import com.lagacione.faculdademarotinhaapi.dto.BoletimDTO;
 
 import javax.persistence.*;

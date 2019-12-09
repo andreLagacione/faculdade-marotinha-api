@@ -1,6 +1,6 @@
-package com.lagacione.faculdademarotinhaapi.repositories;
+package com.lagacione.faculdademarotinhaapi.aluno.repository;
 
-import com.lagacione.faculdademarotinhaapi.domain.Aluno;
+import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

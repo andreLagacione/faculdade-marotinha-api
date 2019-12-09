@@ -1,7 +1,10 @@
-package com.lagacione.faculdademarotinhaapi.domain;
+package com.lagacione.faculdademarotinhaapi.aluno.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.lagacione.faculdademarotinhaapi.dto.AlunoDTO;
+import com.lagacione.faculdademarotinhaapi.domain.Boletim;
+import com.lagacione.faculdademarotinhaapi.domain.Curso;
+import com.lagacione.faculdademarotinhaapi.domain.Pessoa;
+import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
 
 import javax.persistence.*;
 import java.util.ArrayList;

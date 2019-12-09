@@ -1,8 +1,8 @@
-package com.lagacione.faculdademarotinhaapi.resources;
+package com.lagacione.faculdademarotinhaapi.aluno.endpoint;
 
-import com.lagacione.faculdademarotinhaapi.dto.AlunoCursoListaDTO;
-import com.lagacione.faculdademarotinhaapi.dto.AlunoDTO;
-import com.lagacione.faculdademarotinhaapi.dto.AlunoListaDTO;
+import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoCursoListaDTO;
+import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
+import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoListaDTO;
 import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.services.AlunoService;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;

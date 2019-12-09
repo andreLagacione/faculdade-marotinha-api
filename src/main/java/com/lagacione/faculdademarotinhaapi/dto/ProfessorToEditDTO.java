@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 
 public class ProfessorToEditDTO extends PessoaDTO {
     private Integer id;
-    private List<Integer> listaMaterias = new ArrayList<>();
-    private List<Integer> listaCursos = new ArrayList<>();
+    private List<MateriaDTO> materias = new ArrayList<>();
+    private List<CursoListaDTO> cursos = new ArrayList<>();
 
     public ProfessorToEditDTO() {}
 
@@ -21,20 +21,20 @@ public class ProfessorToEditDTO extends PessoaDTO {
         this.id=id;
     }
 
-    public List<Integer> getListaMaterias() {
-        return listaMaterias;
+    public List<MateriaDTO> getMaterias() {
+        return materias;
     }
 
-    public void setListaMaterias(List<Integer> listaMaterias) {
-        this.listaMaterias=listaMaterias;
+    public void setMaterias(List<MateriaDTO> listaMaterias) {
+        this.materias=listaMaterias;
     }
 
-    public List<Integer> getListaCursos() {
-        return listaCursos;
+    public List<CursoListaDTO> getCursos() {
+        return cursos;
     }
 
-    public void setListaCursos(List<Integer> listaCursos) {
-        this.listaCursos=listaCursos;
+    public void setCursos(List<CursoListaDTO> listaCursos) {
+        this.cursos=listaCursos;
     }
 
     public static ProfessorToEditDTO of(Professor professor) {
@@ -45,11 +45,11 @@ public class ProfessorToEditDTO extends PessoaDTO {
         professorToEditDTO.setCpf(professor.getCpf());
         professorToEditDTO.setPhone(professor.getPhone());
 
-        List<Integer> materias = professor.getMateriasLecionadas().stream().map(materia -> materia.getId()).collect(Collectors.toList());
-        List<Integer> cursos = professor.getCursosLecionados().stream().map(curso -> curso.getId()).collect(Collectors.toList());
+        List<MateriaDTO> materias = professor.getMateriasLecionadas().stream().map(MateriaDTO::of).collect(Collectors.toList());
+        List<CursoListaDTO> cursos = professor.getCursosLecionados().stream().map(CursoListaDTO::of).collect(Collectors.toList());
 
-        professorToEditDTO.setListaMaterias(materias);
-        professorToEditDTO.setListaCursos(cursos);
+        professorToEditDTO.setMaterias(materias);
+        professorToEditDTO.setCursos(cursos);
         return professorToEditDTO;
     }
 }
