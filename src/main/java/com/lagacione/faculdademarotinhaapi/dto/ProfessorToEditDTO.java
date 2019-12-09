@@ -3,6 +3,7 @@ package com.lagacione.faculdademarotinhaapi.dto;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoListaDTO;
 import com.lagacione.faculdademarotinhaapi.domain.Professor;
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
+import com.lagacione.faculdademarotinhaapi.pessoa.model.PessoaDTO;
 
 import java.util.ArrayList;
 import java.util.List;

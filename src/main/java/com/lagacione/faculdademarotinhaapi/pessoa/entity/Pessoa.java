@@ -1,4 +1,4 @@
-package com.lagacione.faculdademarotinhaapi.domain;
+package com.lagacione.faculdademarotinhaapi.pessoa.entity;
 
 import javax.persistence.MappedSuperclass;
 

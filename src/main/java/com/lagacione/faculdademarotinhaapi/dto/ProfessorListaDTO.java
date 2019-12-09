@@ -1,6 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.dto;
 
 import com.lagacione.faculdademarotinhaapi.domain.Professor;
+import com.lagacione.faculdademarotinhaapi.pessoa.model.PessoaDTO;
 
 public class ProfessorListaDTO extends PessoaDTO {
     private Integer id;

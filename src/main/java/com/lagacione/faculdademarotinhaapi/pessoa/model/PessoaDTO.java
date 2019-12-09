@@ -1,4 +1,4 @@
-package com.lagacione.faculdademarotinhaapi.dto;
+package com.lagacione.faculdademarotinhaapi.pessoa.model;
 
 import org.hibernate.validator.constraints.Length;
 

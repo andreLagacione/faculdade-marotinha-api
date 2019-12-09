@@ -2,7 +2,7 @@ package com.lagacione.faculdademarotinhaapi.aluno.model;
 
 import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoNomeListaDTO;
-import com.lagacione.faculdademarotinhaapi.dto.PessoaDTO;
+import com.lagacione.faculdademarotinhaapi.pessoa.model.PessoaDTO;
 
 import java.util.ArrayList;
 import java.util.List;
