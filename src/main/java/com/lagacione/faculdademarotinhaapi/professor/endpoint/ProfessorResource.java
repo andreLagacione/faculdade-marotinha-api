@@ -1,6 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.professor.endpoint;
 
-import com.lagacione.faculdademarotinhaapi.commons.PadraoMensagemRetornoDTO;
+import com.lagacione.faculdademarotinhaapi.commons.models.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorDTO;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorListaDTO;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorToEditDTO;

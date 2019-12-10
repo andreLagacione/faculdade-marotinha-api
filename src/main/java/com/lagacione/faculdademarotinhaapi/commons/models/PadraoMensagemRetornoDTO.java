@@ -1,4 +1,4 @@
-package com.lagacione.faculdademarotinhaapi.commons;
+package com.lagacione.faculdademarotinhaapi.commons.models;
 
 import org.springframework.http.HttpStatus;
 

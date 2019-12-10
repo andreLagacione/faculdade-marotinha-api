@@ -1,7 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.materia.endpoint;
 
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
-import com.lagacione.faculdademarotinhaapi.commons.PadraoMensagemRetornoDTO;
+import com.lagacione.faculdademarotinhaapi.commons.models.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.materia.service.MateriaService;
 import javassist.tools.rmi.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

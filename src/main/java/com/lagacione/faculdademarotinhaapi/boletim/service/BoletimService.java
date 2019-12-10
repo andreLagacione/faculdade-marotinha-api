@@ -6,7 +6,7 @@ import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimListaDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimPDFDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimToEditDTO;
-import com.lagacione.faculdademarotinhaapi.commons.GerarPDFBoletim;
+import com.lagacione.faculdademarotinhaapi.commons.models.GerarPDFBoletimDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.repository.BoletimRepository;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreDTO;
@@ -169,7 +169,7 @@ public class BoletimService {
     public void gerarBoletim(Integer id, HttpServletResponse response) throws Exception {
         try {
             BoletimPDFDTO boletimPDF = BoletimPDFDTO.of(this.findOptional(id));
-            GerarPDFBoletim boletim = new GerarPDFBoletim();
+            GerarPDFBoletimDTO boletim = new GerarPDFBoletimDTO();
             boletim.gerarBoletim(boletimPDF, response);
         } catch (Exception e) {
             throw new Exception("Erro ao gerar boletim: " + e.getMessage());

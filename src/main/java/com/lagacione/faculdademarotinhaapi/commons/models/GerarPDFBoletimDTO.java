@@ -1,4 +1,4 @@
-package com.lagacione.faculdademarotinhaapi.commons;
+package com.lagacione.faculdademarotinhaapi.commons.models;
 
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimPDFDTO;
 import net.sf.jasperreports.engine.*;
@@ -12,12 +12,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class GerarPDFBoletim {
+public class GerarPDFBoletimDTO {
 
     private String path;
     private String pathToReportPackage;
 
-    public GerarPDFBoletim() {
+    public GerarPDFBoletimDTO() {
         this.path = this.getClass().getClassLoader().getResource("").getPath();
         this.pathToReportPackage = this.path + "com/lagacione/faculdademarotinhaapi/jasper/";
     }

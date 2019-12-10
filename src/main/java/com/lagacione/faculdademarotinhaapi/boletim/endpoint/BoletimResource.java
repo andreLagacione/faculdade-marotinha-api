@@ -3,7 +3,7 @@ package com.lagacione.faculdademarotinhaapi.boletim.endpoint;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimListaDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimToEditDTO;
-import com.lagacione.faculdademarotinhaapi.commons.PadraoMensagemRetornoDTO;
+import com.lagacione.faculdademarotinhaapi.commons.models.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.service.BoletimService;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
