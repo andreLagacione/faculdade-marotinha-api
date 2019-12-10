@@ -1,4 +1,4 @@
-package com.lagacione.faculdademarotinhaapi.dto;
+package com.lagacione.faculdademarotinhaapi.commons;
 
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimPDFDTO;
 import net.sf.jasperreports.engine.*;

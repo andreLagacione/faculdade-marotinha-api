@@ -6,7 +6,7 @@ import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimListaDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimPDFDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimToEditDTO;
-import com.lagacione.faculdademarotinhaapi.dto.*;
+import com.lagacione.faculdademarotinhaapi.commons.GerarPDFBoletim;
 import com.lagacione.faculdademarotinhaapi.boletim.repository.BoletimRepository;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreDTO;
