@@ -12,7 +12,6 @@ import java.util.List;
 @Repository
 public interface MatreriaNotaBimestreRespository extends JpaRepository<MateriaNotaBimestre, Integer> {
 
-    @Transactional(readOnly = true)
     @Query("SELECT nota FROM MateriaNotaBimestre as nota WHERE nota.idBoletim = :idBoletim")
     public List<MateriaNotaBimestre> obterMateriaByIdBoletim(@Param("idBoletim") Integer idBoletim);
 }
