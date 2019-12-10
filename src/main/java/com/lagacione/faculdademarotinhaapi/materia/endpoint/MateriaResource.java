@@ -17,7 +17,6 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping(value="/materia")
 public class MateriaResource {
     private MateriaService materiaService;

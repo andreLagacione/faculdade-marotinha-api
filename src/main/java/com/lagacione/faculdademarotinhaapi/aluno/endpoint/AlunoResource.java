@@ -20,7 +20,6 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping(value="/aluno")
 public class AlunoResource {
     private AlunoService alunoService;

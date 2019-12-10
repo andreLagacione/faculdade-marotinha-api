@@ -18,7 +18,6 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping(value="/nota")
 public class MateriaNotaBimestreResource {
     private MateriaNotaBimestreService materiaNotaBimestreService;
