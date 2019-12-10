@@ -3,6 +3,7 @@ package com.lagacione.faculdademarotinhaapi.aluno.endpoint;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoCursoListaDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoListaDTO;
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.commons.models.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.service.AlunoService;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
@@ -45,7 +46,7 @@ public class AlunoResource {
     }
 
     @RequestMapping(method=RequestMethod.POST)
-    public ResponseEntity<PadraoMensagemRetornoDTO> insert(@Valid @RequestBody AlunoDTO alunoDTO) throws Exception {
+    public ResponseEntity<PadraoMensagemRetornoDTO> insert(@Valid @RequestBody AlunoDTO alunoDTO) throws ActionNotAllowedException {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(this.alunoService.salvarRegistro(alunoDTO, true).getId()).toUri();
         PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.CREATED, HttpStatus.valueOf("CREATED").value(), "Aluno adicionado com sucesso!");
         return ResponseEntity.created(uri).body(mensagemRetorno);
@@ -54,7 +55,7 @@ public class AlunoResource {
     @RequestMapping(method=RequestMethod.PUT)
     public ResponseEntity<PadraoMensagemRetornoDTO> update(
             @Valid @RequestBody AlunoDTO alunoDTO
-    ) throws Exception {
+    ) throws ActionNotAllowedException {
         this.alunoService.salvarRegistro(alunoDTO, false);
         PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Aluno editado com sucesso!");
         return ResponseEntity.ok(mensagemRetorno);

@@ -1,5 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.curso.endpoint;
 
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoListaDTO;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoToEditDTO;
@@ -45,7 +46,7 @@ public class CursoResource {
     }
 
     @RequestMapping(method=RequestMethod.POST)
-    public ResponseEntity<PadraoMensagemRetornoDTO> insert(@Valid @RequestBody CursoDTO cursoDTO) {
+    public ResponseEntity<PadraoMensagemRetornoDTO> insert(@Valid @RequestBody CursoDTO cursoDTO) throws ActionNotAllowedException {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(this.cursoService.salvarRegistro(cursoDTO, true).getId()).toUri();
         PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.CREATED, HttpStatus.valueOf("CREATED").value(), "Curso adicionado com sucesso!");
         return ResponseEntity.created(uri).body(mensagemRetorno);
@@ -54,7 +55,7 @@ public class CursoResource {
     @RequestMapping(method=RequestMethod.PUT)
     public ResponseEntity<PadraoMensagemRetornoDTO> update(
             @Valid @RequestBody CursoDTO cursoDTO
-    ) throws ObjectNotFoundException {
+    ) throws ActionNotAllowedException {
         this.cursoService.salvarRegistro(cursoDTO, false);
         PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Curso editado com sucesso!");
         return ResponseEntity.ok(mensagemRetorno);

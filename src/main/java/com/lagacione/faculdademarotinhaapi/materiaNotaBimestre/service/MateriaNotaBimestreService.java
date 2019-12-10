@@ -123,7 +123,7 @@ public class MateriaNotaBimestreService {
         List<MateriaNotaBimestre> notas = this.matreriaNotaBimestreRespository.obterMateriaByIdBoletim(notaDTO.getIdBoletim());
         MateriaDTO materia = this.materiaService.find(notaDTO.getMateria().getId());
 
-        if (notas != null || notas.size() > 0) {
+        if (notas.size() > 0) {
             this.validarSeMateriaJaFoiAdicionada(notas, materia.getName());
         }
     }

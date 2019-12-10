@@ -7,9 +7,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Repository
 public interface AlunoRepository extends JpaRepository<Aluno, Integer> {
-    @Transactional(readOnly = true)
-    @Query("SELECT COUNT(*) FROM Aluno a WHERE a.cpf = :cpf")
-    public Integer pesquisarCpf(@Param("cpf") String cpf);
+
+    @Query("SELECT a FROM Aluno a WHERE a.cpf = :cpf")
+    public Optional<Aluno> pesquisarCpf(@Param("cpf") String cpf);
 }

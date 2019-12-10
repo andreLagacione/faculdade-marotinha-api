@@ -1,5 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.professor.service;
 
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
@@ -98,7 +99,7 @@ public class ProfessorService {
         newProfessor.setCursosLecionados(professor.getCursosLecionados());
     }
 
-    public ProfessorDTO salvarRegistro(ProfessorDTO professorDTO, Boolean adicionar) throws Exception {
+    public ProfessorDTO salvarRegistro(ProfessorDTO professorDTO, Boolean adicionar) throws ActionNotAllowedException {
         this.validarMaterias(professorDTO);
         this.validarCursos(professorDTO);
         Professor professor = Professor.of(professorDTO);
@@ -111,10 +112,10 @@ public class ProfessorService {
         return this.update(professor);
     }
 
-    private void validarMaterias(ProfessorDTO professorDTO) {
+    private void validarMaterias(ProfessorDTO professorDTO) throws ObjectNotFoundException {
         List<MateriaDTO> materiasDTO = professorDTO.getMateriasLecionadas();
 
-        if (materiasDTO == null || materiasDTO.size() == 0) {
+        if (materiasDTO.size() == 0) {
             throw new ObjectNotFoundException("Informe pelo menos uma matéria!");
         }
 
@@ -123,10 +124,10 @@ public class ProfessorService {
         }
     }
 
-    private void validarCursos(ProfessorDTO professorDTO) {
+    private void validarCursos(ProfessorDTO professorDTO) throws ObjectNotFoundException {
         List<CursoDTO> cursosDTO = professorDTO.getCursosLecionados();
 
-        if (cursosDTO == null || cursosDTO.size() == 0) {
+        if (cursosDTO.size() == 0) {
             throw new ObjectNotFoundException("Informe pelo menos um curso!");
         }
 
@@ -135,11 +136,11 @@ public class ProfessorService {
         }
     }
 
-    private void validarCpf(ProfessorDTO professorDTO) throws Exception {
-        Integer validar = this.professorRepository.pesquisarCpf(professorDTO.getCpf());
+    private void validarCpf(ProfessorDTO professorDTO) throws ActionNotAllowedException {
+        Optional<Professor> professor = this.professorRepository.pesquisarCpf(professorDTO.getCpf());
 
-        if (validar > 0) {
-            throw new Exception("Já existe um professor cadastrado com esse CPF. Por favor informe outro CPF!");
+        if (professor.isPresent()) {
+            throw new ActionNotAllowedException("Já existe um professor cadastrado com esse CPF. Por favor informe outro CPF!");
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.professor.endpoint;
 
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.commons.models.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorDTO;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorListaDTO;
@@ -44,7 +45,7 @@ public class ProfessorResource {
     }
 
     @RequestMapping(method=RequestMethod.POST)
-    public ResponseEntity<PadraoMensagemRetornoDTO> insert(@Valid @RequestBody ProfessorDTO professorDTO) throws Exception {
+    public ResponseEntity<PadraoMensagemRetornoDTO> insert(@Valid @RequestBody ProfessorDTO professorDTO) throws ActionNotAllowedException {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(this.professorService.salvarRegistro(professorDTO, true).getId()).toUri();
         PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.CREATED, HttpStatus.valueOf("CREATED").value(), "Professor adicionado com sucesso!");
         return ResponseEntity.created(uri).body(mensagemRetorno);
@@ -53,7 +54,7 @@ public class ProfessorResource {
     @RequestMapping(method=RequestMethod.PUT)
     public ResponseEntity<PadraoMensagemRetornoDTO> update(
             @Valid @RequestBody ProfessorDTO professorDTO
-    ) throws Exception {
+    ) throws ActionNotAllowedException {
         this.professorService.salvarRegistro(professorDTO, false);
         PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Professor editado com sucesso!");
         return ResponseEntity.ok(mensagemRetorno);

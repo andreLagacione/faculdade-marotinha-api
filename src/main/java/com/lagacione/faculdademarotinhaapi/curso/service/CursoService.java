@@ -1,5 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.curso.service;
 
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
@@ -89,7 +90,7 @@ public class CursoService {
         newCurso.setMaterias(curso.getMaterias());
     }
 
-    public CursoDTO salvarRegistro(CursoDTO cursoDTO, Boolean adicionar) {
+    public CursoDTO salvarRegistro(CursoDTO cursoDTO, Boolean adicionar) throws ActionNotAllowedException {
         Curso curso = Curso.of(cursoDTO);
         this.validarMaterias(curso);
 
@@ -100,11 +101,11 @@ public class CursoService {
         return this.update(curso);
     }
 
-    private void validarMaterias(Curso curso) {
+    private void validarMaterias(Curso curso) throws ActionNotAllowedException {
         List<Materia> materiasCurso = curso.getMaterias();
 
-        if (materiasCurso == null || materiasCurso.size() == 0) {
-            throw new ObjectNotFoundException("Informe pelo menos uma matéria.");
+        if (materiasCurso.size() == 0) {
+            throw new ActionNotAllowedException("Informe pelo menos uma matéria.");
         }
 
         for (Materia materia : materiasCurso) {

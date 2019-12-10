@@ -4,6 +4,7 @@ import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoCursoListaDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoListaDTO;
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.repository.AlunoRepository;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
@@ -95,7 +96,7 @@ public class AlunoService {
         newAluno.setCursos(aluno.getCursos());
     }
 
-    public AlunoDTO salvarRegistro(AlunoDTO alunoDTO, Boolean adicionar) throws Exception {
+    public AlunoDTO salvarRegistro(AlunoDTO alunoDTO, Boolean adicionar) throws ActionNotAllowedException {
         this.validarCurso(alunoDTO);
 
         Aluno aluno = Aluno.of(alunoDTO);
@@ -120,11 +121,11 @@ public class AlunoService {
         }
     }
 
-    private void validarCpf(AlunoDTO alunoDTO) throws Exception {
-        Integer validar = this.alunoRepository.pesquisarCpf(alunoDTO.getCpf());
+    private void validarCpf(AlunoDTO alunoDTO) throws ActionNotAllowedException {
+        Optional<Aluno> aluno = this.alunoRepository.pesquisarCpf(alunoDTO.getCpf());
 
-        if (validar > 0) {
-            throw new Exception("Já existe um aluno cadastrado com esse CPF. Por favor informe outro CPF!");
+        if (aluno.isPresent()) {
+            throw new ActionNotAllowedException("Já existe um aluno cadastrado com esse CPF. Por favor informe outro CPF!");
         }
     }
 }
