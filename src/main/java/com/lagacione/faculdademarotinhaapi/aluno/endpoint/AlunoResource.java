@@ -3,7 +3,7 @@ package com.lagacione.faculdademarotinhaapi.aluno.endpoint;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoCursoListaDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoListaDTO;
-import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
+import com.lagacione.faculdademarotinhaapi.commons.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.service.AlunoService;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +35,8 @@ public class AlunoResource {
     }
 
     @RequestMapping(method=RequestMethod.GET)
-    public ResponseEntity<Page<AlunoListaDTO>> findPage(@PageableDefault(page = 0, size = 25) Pageable pageable) {
-        return ResponseEntity.ok().body(this.alunoService.findPage(pageable));
+    public Page<AlunoListaDTO> findPage(@PageableDefault(page = 0, size = 25) Pageable pageable) {
+        return this.alunoService.findPage(pageable);
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.GET)

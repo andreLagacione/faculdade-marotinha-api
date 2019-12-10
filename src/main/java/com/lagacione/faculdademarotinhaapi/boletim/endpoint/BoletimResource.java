@@ -3,7 +3,7 @@ package com.lagacione.faculdademarotinhaapi.boletim.endpoint;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimListaDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimToEditDTO;
-import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
+import com.lagacione.faculdademarotinhaapi.commons.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.service.BoletimService;
 import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +35,8 @@ public class BoletimResource {
     }
 
     @RequestMapping(method=RequestMethod.GET)
-    public ResponseEntity<Page<BoletimListaDTO>> findPage(Pageable pageable) {
-        return ResponseEntity.ok().body(this.boletimService.findPage(pageable));
+    public Page<BoletimListaDTO> findPage(Pageable pageable) {
+        return this.boletimService.findPage(pageable);
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.GET)

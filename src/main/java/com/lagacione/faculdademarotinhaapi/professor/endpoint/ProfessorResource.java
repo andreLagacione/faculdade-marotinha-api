@@ -1,6 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.professor.endpoint;
 
-import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
+import com.lagacione.faculdademarotinhaapi.commons.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorDTO;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorListaDTO;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorToEditDTO;
@@ -34,8 +34,8 @@ public class ProfessorResource {
     }
 
     @RequestMapping(method=RequestMethod.GET)
-    public ResponseEntity<Page<ProfessorListaDTO>> findPage(Pageable pageable) {
-        return ResponseEntity.ok().body(this.professorService.findPage(pageable));
+    public Page<ProfessorListaDTO> findPage(Pageable pageable) {
+        return this.professorService.findPage(pageable);
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.GET)

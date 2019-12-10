@@ -3,7 +3,7 @@ package com.lagacione.faculdademarotinhaapi.curso.endpoint;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoListaDTO;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoToEditDTO;
-import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
+import com.lagacione.faculdademarotinhaapi.commons.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import javassist.tools.rmi.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +35,8 @@ public class CursoResource {
     }
 
     @RequestMapping(method=RequestMethod.GET)
-    public ResponseEntity<Page<CursoListaDTO>> findPage(@PageableDefault(page = 0, size = 25) Pageable pageable) {
-        return ResponseEntity.ok().body(this.cursoService.findPage(pageable));
+    public Page<CursoListaDTO> findPage(@PageableDefault(page = 0, size = 25) Pageable pageable) {
+        return this.cursoService.findPage(pageable);
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.GET)

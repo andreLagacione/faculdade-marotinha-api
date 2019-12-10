@@ -1,7 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.materia.endpoint;
 
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
-import com.lagacione.faculdademarotinhaapi.dto.PadraoMensagemRetornoDTO;
+import com.lagacione.faculdademarotinhaapi.commons.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.materia.service.MateriaService;
 import javassist.tools.rmi.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +32,8 @@ public class MateriaResource {
     }
 
     @RequestMapping(method=RequestMethod.GET)
-    public ResponseEntity<Page<MateriaDTO>> findPage(Pageable pageable) {
-        return ResponseEntity.ok().body(this.materiaService.findPage(pageable));
+    public Page<MateriaDTO> findPage(Pageable pageable) {
+        return this.materiaService.findPage(pageable);
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
