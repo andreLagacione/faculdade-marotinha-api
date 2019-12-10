@@ -6,6 +6,7 @@ import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimToEditDTO;
 import com.lagacione.faculdademarotinhaapi.commons.models.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.service.BoletimService;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,8 +31,8 @@ public class BoletimResource {
     }
 
     @RequestMapping(value="/lista", method= RequestMethod.GET)
-    public ResponseEntity<List<BoletimListaDTO>> findAll() {
-        return ResponseEntity.ok().body(this.boletimService.findAll());
+    public List<BoletimListaDTO> findAll() {
+        return this.boletimService.findAll();
     }
 
     @RequestMapping(method=RequestMethod.GET)
@@ -52,19 +53,17 @@ public class BoletimResource {
     }
 
     @RequestMapping(method=RequestMethod.PUT)
-    public ResponseEntity<PadraoMensagemRetornoDTO> update(
+    public PadraoMensagemRetornoDTO update(
             @Valid @RequestBody BoletimDTO boletimDTO
     ) throws Exception {
         this.boletimService.salvarRegistro(boletimDTO, false);
-        PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Boletim editado com sucesso!");
-        return ResponseEntity.ok(mensagemRetorno);
+        return new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Boletim editado com sucesso!");
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-    public ResponseEntity<PadraoMensagemRetornoDTO> delete(@PathVariable Integer id) throws ObjectNotFoundException {
+    public PadraoMensagemRetornoDTO delete(@PathVariable Integer id) throws ObjectNotFoundException {
         this.boletimService.delete(id);
-        PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Boletim removido com sucesso!");
-        return ResponseEntity.ok().body(mensagemRetorno);
+        return new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Boletim removido com sucesso!");
     }
 
     @RequestMapping(value="/gerar/{id}", method= RequestMethod.GET)

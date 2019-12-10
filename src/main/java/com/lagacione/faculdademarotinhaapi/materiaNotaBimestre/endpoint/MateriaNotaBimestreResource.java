@@ -28,8 +28,8 @@ public class MateriaNotaBimestreResource {
     }
 
     @RequestMapping(value="/lista", method= RequestMethod.GET)
-    public ResponseEntity<List<MateriaNotaBimestreListDTO>> findAll() {
-        return ResponseEntity.ok().body(this.materiaNotaBimestreService.findAll());
+    public List<MateriaNotaBimestreListDTO> findAll() {
+        return this.materiaNotaBimestreService.findAll();
     }
 
     @RequestMapping(method=RequestMethod.GET)
@@ -38,8 +38,8 @@ public class MateriaNotaBimestreResource {
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
-    public ResponseEntity<MateriaNotaBimestreDTO> find(@PathVariable Integer id) throws ObjectNotFoundException {
-        return ResponseEntity.ok().body(this.materiaNotaBimestreService.find(id));
+    public MateriaNotaBimestreDTO find(@PathVariable Integer id) throws ObjectNotFoundException {
+        return this.materiaNotaBimestreService.find(id);
     }
 
     @RequestMapping(method=RequestMethod.POST)
@@ -47,51 +47,22 @@ public class MateriaNotaBimestreResource {
             @Valid @RequestBody MateriaNotaBimestreDTO materiaNotaBimestreDTO
     ) throws Exception {
         URI uri;
-        PadraoMensagemRetornoDTO mensagemRetorno;
-
-        uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(
-                        this.materiaNotaBimestreService.salvarRegistro(materiaNotaBimestreDTO, true).getId()
-                ).toUri();
-
-        mensagemRetorno = new PadraoMensagemRetornoDTO(
-                HttpStatus.CREATED,
-                HttpStatus.valueOf("CREATED").value(),
-                "Nota adicionada com sucesso!"
-        );
-
+        uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(this.materiaNotaBimestreService.salvarRegistro(materiaNotaBimestreDTO, true).getId()).toUri();
+        PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.CREATED, HttpStatus.valueOf("CREATED").value(), "Nota adicionada com sucesso!");
         return ResponseEntity.created(uri).body(mensagemRetorno);
     }
 
     @RequestMapping(method=RequestMethod.PUT)
-    public ResponseEntity<PadraoMensagemRetornoDTO> update(
+    public PadraoMensagemRetornoDTO update(
             @Valid @RequestBody MateriaNotaBimestreDTO materiaNotaBimestreDTO
     ) throws Exception {
         this.materiaNotaBimestreService.salvarRegistro(materiaNotaBimestreDTO, false);
-        PadraoMensagemRetornoDTO mensagemRetorno;
-
-        mensagemRetorno = new PadraoMensagemRetornoDTO(
-                HttpStatus.OK,
-                HttpStatus.valueOf("OK").value(),
-                "Nota editada com sucesso!"
-        );
-
-        return ResponseEntity.ok(mensagemRetorno);
+        return new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Nota editada com sucesso!");
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-    public ResponseEntity<PadraoMensagemRetornoDTO> delete(@PathVariable Integer id) throws ObjectNotFoundException {
+    public PadraoMensagemRetornoDTO delete(@PathVariable Integer id) throws ObjectNotFoundException {
         this.materiaNotaBimestreService.delete(id);
-        PadraoMensagemRetornoDTO mensagemRetorno;
-
-        mensagemRetorno = new PadraoMensagemRetornoDTO(
-                HttpStatus.OK,
-                HttpStatus.valueOf("OK").value(),
-                "Nota removida com sucesso!"
-        );
-
-        return ResponseEntity.ok().body(mensagemRetorno);
+        return new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Nota removida com sucesso!");
     }
 }

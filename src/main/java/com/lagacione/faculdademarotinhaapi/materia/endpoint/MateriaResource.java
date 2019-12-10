@@ -27,8 +27,8 @@ public class MateriaResource {
     }
 
     @RequestMapping(value="/lista", method= RequestMethod.GET)
-    public ResponseEntity<List<MateriaDTO>> findAll() {
-        return ResponseEntity.ok().body(this.materiaService.findAll());
+    public List<MateriaDTO> findAll() {
+        return this.materiaService.findAll();
     }
 
     @RequestMapping(method=RequestMethod.GET)
@@ -37,8 +37,8 @@ public class MateriaResource {
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
-    public ResponseEntity<MateriaDTO> find(@PathVariable Integer id) throws ObjectNotFoundException {
-        return ResponseEntity.ok().body(this.materiaService.find(id));
+    public MateriaDTO find(@PathVariable Integer id) throws ObjectNotFoundException {
+        return this.materiaService.find(id);
     }
 
     @RequestMapping(method=RequestMethod.POST)
@@ -49,18 +49,16 @@ public class MateriaResource {
     }
 
     @RequestMapping(method=RequestMethod.PUT)
-    public ResponseEntity<PadraoMensagemRetornoDTO> update(
+    public PadraoMensagemRetornoDTO update(
             @Valid @RequestBody MateriaDTO materiaDTO
     ) throws ObjectNotFoundException {
         this.materiaService.salvarRegistro(materiaDTO, false);
-        PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Matéria editada com sucesso!");
-        return ResponseEntity.ok(mensagemRetorno);
+        return new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Matéria editada com sucesso!");
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-    public ResponseEntity<PadraoMensagemRetornoDTO> delete(@PathVariable Integer id) throws ObjectNotFoundException {
+    public PadraoMensagemRetornoDTO delete(@PathVariable Integer id) throws ObjectNotFoundException {
         this.materiaService.delete(id);
-        PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Matéria removida com sucesso!");
-        return ResponseEntity.ok().body(mensagemRetorno);
+        return new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Matéria removida com sucesso!");
     }
 }

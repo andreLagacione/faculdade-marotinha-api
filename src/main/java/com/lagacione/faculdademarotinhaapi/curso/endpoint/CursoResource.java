@@ -31,8 +31,8 @@ public class CursoResource {
     }
 
     @RequestMapping(value="/lista", method= RequestMethod.GET)
-    public ResponseEntity<List<CursoListaDTO>> findAll() {
-        return ResponseEntity.ok().body(this.cursoService.findAll());
+    public List<CursoListaDTO> findAll() {
+        return this.cursoService.findAll();
     }
 
     @RequestMapping(method=RequestMethod.GET)
@@ -41,8 +41,8 @@ public class CursoResource {
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
-    public ResponseEntity<CursoToEditDTO> find(@PathVariable Integer id) throws ObjectNotFoundException {
-        return ResponseEntity.ok().body(this.cursoService.find(id));
+    public CursoToEditDTO find(@PathVariable Integer id) throws ObjectNotFoundException {
+        return this.cursoService.find(id);
     }
 
     @RequestMapping(method=RequestMethod.POST)
@@ -53,18 +53,16 @@ public class CursoResource {
     }
 
     @RequestMapping(method=RequestMethod.PUT)
-    public ResponseEntity<PadraoMensagemRetornoDTO> update(
+    public PadraoMensagemRetornoDTO update(
             @Valid @RequestBody CursoDTO cursoDTO
     ) throws ActionNotAllowedException {
         this.cursoService.salvarRegistro(cursoDTO, false);
-        PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Curso editado com sucesso!");
-        return ResponseEntity.ok(mensagemRetorno);
+        return new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Curso editado com sucesso!");
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-    public ResponseEntity<PadraoMensagemRetornoDTO> delete(@PathVariable Integer id) throws ObjectNotFoundException {
+    public PadraoMensagemRetornoDTO delete(@PathVariable Integer id) throws ObjectNotFoundException {
         this.cursoService.delete(id);
-        PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Curso removido com sucesso!");
-        return ResponseEntity.ok().body(mensagemRetorno);
+        return new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Curso removido com sucesso!");
     }
 }

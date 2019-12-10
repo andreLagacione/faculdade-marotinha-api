@@ -30,41 +30,39 @@ public class AlunoResource {
         this.alunoService = alunoService;
     }
 
-    @RequestMapping(value="/lista", method= RequestMethod.GET)
-    public ResponseEntity<List<AlunoListaDTO>> findAll() {
-        return ResponseEntity.ok().body(this.alunoService.findAll());
+    @GetMapping(value="/lista")
+    public List<AlunoListaDTO> findAll() {
+        return this.alunoService.findAll();
     }
 
-    @RequestMapping(method=RequestMethod.GET)
+    @GetMapping
     public Page<AlunoListaDTO> findPage(@PageableDefault(page = 0, size = 25) Pageable pageable) {
         return this.alunoService.findPage(pageable);
     }
 
-    @RequestMapping(value="/{id}", method=RequestMethod.GET)
-    public ResponseEntity<AlunoCursoListaDTO> find(@PathVariable Integer id) throws ObjectNotFoundException {
-        return ResponseEntity.ok().body(this.alunoService.find(id));
+    @GetMapping(value="/{id}")
+    public AlunoCursoListaDTO find(@PathVariable Integer id) throws ObjectNotFoundException {
+        return this.alunoService.find(id);
     }
 
-    @RequestMapping(method=RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<PadraoMensagemRetornoDTO> insert(@Valid @RequestBody AlunoDTO alunoDTO) throws ActionNotAllowedException {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(this.alunoService.salvarRegistro(alunoDTO, true).getId()).toUri();
         PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.CREATED, HttpStatus.valueOf("CREATED").value(), "Aluno adicionado com sucesso!");
         return ResponseEntity.created(uri).body(mensagemRetorno);
     }
 
-    @RequestMapping(method=RequestMethod.PUT)
-    public ResponseEntity<PadraoMensagemRetornoDTO> update(
+    @PutMapping
+    public PadraoMensagemRetornoDTO update(
             @Valid @RequestBody AlunoDTO alunoDTO
     ) throws ActionNotAllowedException {
         this.alunoService.salvarRegistro(alunoDTO, false);
-        PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Aluno editado com sucesso!");
-        return ResponseEntity.ok(mensagemRetorno);
+        return new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Aluno editado com sucesso!");
     }
 
-    @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-    public ResponseEntity<PadraoMensagemRetornoDTO> delete(@PathVariable Integer id) throws ObjectNotFoundException {
+    @DeleteMapping(value="/{id}")
+    public PadraoMensagemRetornoDTO delete(@PathVariable Integer id) throws ObjectNotFoundException {
         this.alunoService.delete(id);
-        PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Aluno removido com sucesso!");
-        return ResponseEntity.ok().body(mensagemRetorno);
+        return new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Aluno removido com sucesso!");
     }
 }
