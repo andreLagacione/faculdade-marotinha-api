@@ -7,7 +7,7 @@ import com.lagacione.faculdademarotinhaapi.curso.model.CursoListaDTO;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoToEditDTO;
 import com.lagacione.faculdademarotinhaapi.curso.repository.CursoRepository;
 import com.lagacione.faculdademarotinhaapi.materia.service.MateriaService;
-import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -56,7 +56,7 @@ public class CursoService {
     public CursoDTO findOptional(Integer id) throws ObjectNotFoundException {
         Optional<Curso> curso = this.cursoRepository.findById(id);
 
-        if (curso == null) {
+        if (curso.isPresent()) {
             throw new ObjectNotFoundException("Curso não encontrado!");
         }
 

@@ -9,7 +9,7 @@ import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorDTO;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorListaDTO;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorToEditDTO;
 import com.lagacione.faculdademarotinhaapi.professor.repository.ProfessorRepository;
-import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -60,7 +60,7 @@ public class ProfessorService {
     public ProfessorDTO findOptional(Integer id) throws ObjectNotFoundException {
         Optional<Professor> professor = this.professorRepository.findById(id);
 
-        if (professor == null) {
+        if (!professor.isPresent()) {
             throw new ObjectNotFoundException("Professor não encontrado!");
         }
 

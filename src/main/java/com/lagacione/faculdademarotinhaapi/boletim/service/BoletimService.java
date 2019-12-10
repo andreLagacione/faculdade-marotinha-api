@@ -12,7 +12,7 @@ import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreDTO;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.service.MateriaNotaBimestreService;
 import com.lagacione.faculdademarotinhaapi.professor.service.ProfessorService;
-import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -58,7 +58,7 @@ public class BoletimService {
     public BoletimToEditDTO find(Integer id) throws ObjectNotFoundException {
         Optional<Boletim> boletim = this.boletimRepository.findById(id);
 
-        if (boletim == null) {
+        if (!boletim.isPresent()) {
             throw new ObjectNotFoundException("Boletim não encontrado!");
         }
 

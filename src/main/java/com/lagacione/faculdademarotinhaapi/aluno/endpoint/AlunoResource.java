@@ -5,7 +5,7 @@ import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoListaDTO;
 import com.lagacione.faculdademarotinhaapi.commons.models.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.service.AlunoService;
-import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

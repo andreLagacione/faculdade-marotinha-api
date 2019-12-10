@@ -8,7 +8,7 @@ import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNota
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreListDTO;
 import com.lagacione.faculdademarotinhaapi.materia.service.MateriaService;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.repository.MatreriaNotaBimestreRespository;
-import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -49,13 +49,13 @@ public class MateriaNotaBimestreService {
     public MateriaNotaBimestreDTO find(Integer id) throws ObjectNotFoundException {
         Optional<MateriaNotaBimestre> nota = this.matreriaNotaBimestreRespository.findById(id);
 
-        if (nota.isPresent()) {
-            MateriaNotaBimestreDTO notaDTO = new MateriaNotaBimestreDTO();
-            notaDTO = notaDTO.of(nota.get());
-            return notaDTO;
+        if (!nota.isPresent()) {
+            throw new ObjectNotFoundException("Nota não encontrada!");
         }
 
-        throw new ObjectNotFoundException("Nota não encontrada!");
+        MateriaNotaBimestreDTO notaDTO = new MateriaNotaBimestreDTO();
+        notaDTO = notaDTO.of(nota.get());
+        return notaDTO;
     }
 
     private MateriaNotaBimestreDTO insert(MateriaNotaBimestre nota) {

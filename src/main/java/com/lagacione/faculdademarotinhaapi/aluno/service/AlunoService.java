@@ -7,7 +7,7 @@ import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoListaDTO;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.repository.AlunoRepository;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
-import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -46,13 +46,13 @@ public class AlunoService {
     public AlunoCursoListaDTO find(Integer id) throws ObjectNotFoundException {
         Optional<Aluno> aluno = this.alunoRepository.findById(id);
 
-        if (aluno != null) {
-            AlunoCursoListaDTO alunoCursoListaDTO = new AlunoCursoListaDTO();
-            alunoCursoListaDTO = alunoCursoListaDTO.of(aluno.get());
-            return alunoCursoListaDTO;
+        if (!aluno.isPresent()) {
+            throw new ObjectNotFoundException("Aluno não encontrado!");
         }
 
-        throw new ObjectNotFoundException("Aluno não encontrado!");
+        AlunoCursoListaDTO alunoCursoListaDTO = new AlunoCursoListaDTO();
+        alunoCursoListaDTO = alunoCursoListaDTO.of(aluno.get());
+        return alunoCursoListaDTO;
     }
 
     private AlunoDTO insert(Aluno aluno) {

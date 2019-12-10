@@ -5,7 +5,7 @@ import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimListaDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimToEditDTO;
 import com.lagacione.faculdademarotinhaapi.commons.models.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.service.BoletimService;
-import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

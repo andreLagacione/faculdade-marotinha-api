@@ -5,7 +5,7 @@ import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorDTO;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorListaDTO;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorToEditDTO;
 import com.lagacione.faculdademarotinhaapi.professor.service.ProfessorService;
-import com.lagacione.faculdademarotinhaapi.services.exceptions.ObjectNotFoundException;
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
