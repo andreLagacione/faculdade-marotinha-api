@@ -20,8 +20,12 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping(value="/materia")
 public class MateriaResource {
-    @Autowired
     private MateriaService materiaService;
+
+    @Autowired
+    public void MateriaResource(MateriaService materiaService) {
+        this.materiaService = materiaService;
+    }
 
     @RequestMapping(value="/lista", method= RequestMethod.GET)
     public ResponseEntity<List<MateriaDTO>> findAll() {

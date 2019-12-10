@@ -22,14 +22,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class MateriaNotaBimestreService {
-    @Autowired
     private MatreriaNotaBimestreRespository matreriaNotaBimestreRespository;
-
-    @Autowired
     private MateriaService materiaService;
+    private BoletimService boletimService;
 
     @Autowired
-    private BoletimService boletimService;
+    public void MateriaNotaBimestreService(MatreriaNotaBimestreRespository matreriaNotaBimestreRespository, MateriaService materiaService, BoletimService boletimService) {
+        this.matreriaNotaBimestreRespository = matreriaNotaBimestreRespository;
+        this.materiaService = materiaService;
+        this.boletimService = boletimService;
+    }
 
     public List<MateriaNotaBimestreListDTO> findAll() {
         List<MateriaNotaBimestre> notas = this.matreriaNotaBimestreRespository.findAll();

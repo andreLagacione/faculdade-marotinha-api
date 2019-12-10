@@ -21,11 +21,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class AlunoService {
-    @Autowired
     private AlunoRepository alunoRepository;
+    private CursoService cursoService;
 
     @Autowired
-    private CursoService cursoService;
+    public void AlunoService(AlunoRepository alunoRepository, CursoService cursoService) {
+        this.alunoRepository = alunoRepository;
+        this.cursoService = cursoService;
+    }
 
     public List<AlunoListaDTO> findAll() {
         List<Aluno> alunos = this.alunoRepository.findAll();

@@ -22,8 +22,12 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping(value="/professor")
 public class ProfessorResource {
-    @Autowired
     private ProfessorService professorService;
+
+    @Autowired
+    public void ProfessorResource(ProfessorService professorService) {
+        this.professorService = professorService;
+    }
 
     @RequestMapping(value="/lista", method= RequestMethod.GET)
     public ResponseEntity<List<ProfessorListaDTO>> findAll() {

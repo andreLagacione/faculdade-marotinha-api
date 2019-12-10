@@ -23,8 +23,12 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping(value="/curso")
 public class CursoResource {
-    @Autowired
     private CursoService cursoService;
+
+    @Autowired
+    public void CursoResource(CursoService cursoService) {
+        this.cursoService = cursoService;
+    }
 
     @RequestMapping(value="/lista", method= RequestMethod.GET)
     public ResponseEntity<List<CursoListaDTO>> findAll() {

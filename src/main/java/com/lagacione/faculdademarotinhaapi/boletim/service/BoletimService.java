@@ -27,20 +27,20 @@ import java.util.stream.Collectors;
 
 @Service
 public class BoletimService {
-    @Autowired
     private BoletimRepository boletimRepository;
-
-    @Autowired
     private ProfessorService professorService;
-
-    @Autowired
     private AlunoService alunoService;
-
-    @Autowired
     private CursoService cursoService;
+    private MateriaNotaBimestreService materiaNotaBimestreService;
 
     @Autowired
-    private MateriaNotaBimestreService materiaNotaBimestreService;
+    public void BoletimService(BoletimRepository boletimRepository, ProfessorService professorService, AlunoService alunoService, CursoService cursoService, MateriaNotaBimestreService materiaNotaBimestreService) {
+        this.boletimRepository = boletimRepository;
+        this.professorService = professorService;
+        this.alunoService = alunoService;
+        this.cursoService = cursoService;
+        this.materiaNotaBimestreService = materiaNotaBimestreService;
+    }
 
     public List<BoletimListaDTO> findAll() {
         List<Boletim> boletins = this.boletimRepository.findAll();

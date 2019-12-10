@@ -21,8 +21,12 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping(value="/nota")
 public class MateriaNotaBimestreResource {
-    @Autowired
     private MateriaNotaBimestreService materiaNotaBimestreService;
+
+    @Autowired
+    public void MateriaNotaBimestreResource(MateriaNotaBimestreService materiaNotaBimestreService) {
+        this.materiaNotaBimestreService = materiaNotaBimestreService;
+    }
 
     @RequestMapping(value="/lista", method= RequestMethod.GET)
     public ResponseEntity<List<MateriaNotaBimestreListDTO>> findAll() {

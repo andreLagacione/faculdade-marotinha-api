@@ -23,8 +23,12 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping(value="/boletim")
 public class BoletimResource {
+    private BoletimService boletimService;
+
     @Autowired
-    BoletimService boletimService;
+    public void BoletimResource(BoletimService boletimService) {
+        this.boletimService = boletimService;
+    }
 
     @RequestMapping(value="/lista", method= RequestMethod.GET)
     public ResponseEntity<List<BoletimListaDTO>> findAll() {

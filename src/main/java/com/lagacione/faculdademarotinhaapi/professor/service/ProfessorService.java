@@ -23,14 +23,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProfessorService {
-    @Autowired
     private ProfessorRepository professorRepository;
-
-    @Autowired
     private MateriaService materiaService;
+    private CursoService cursoService;
 
     @Autowired
-    private CursoService cursoService;
+    public void ProfessorService(ProfessorRepository professorRepository, MateriaService materiaService, CursoService cursoService) {
+        this.professorRepository = professorRepository;
+        this.materiaService = materiaService;
+        this.cursoService = cursoService;
+    }
 
     public List<ProfessorListaDTO> findAll() {
         List<Professor> professores = this.professorRepository.findAll();

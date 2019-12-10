@@ -17,8 +17,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class MateriaService {
-    @Autowired
     private MateriaRepository materiaRepository;
+
+    @Autowired
+    public void MateriaService(MateriaRepository materiaRepository) {
+        this.materiaRepository = materiaRepository;
+    }
 
     public List<MateriaDTO> findAll() {
         List<Materia> materias = this.materiaRepository.findAll();
