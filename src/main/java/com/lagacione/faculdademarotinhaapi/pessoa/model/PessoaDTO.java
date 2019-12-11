@@ -1,6 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.pessoa.model;
 
-import com.lagacione.faculdademarotinhaapi.commons.validations.CpfCnpj;
+import com.lagacione.faculdademarotinhaapi.commons.validations.cpfCnpj.CpfCnpj;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;

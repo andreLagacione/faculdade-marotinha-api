@@ -1,4 +1,4 @@
-package com.lagacione.faculdademarotinhaapi.commons.validations;
+package com.lagacione.faculdademarotinhaapi.commons.validations.cpfCnpj;
 
 import org.apache.commons.lang3.StringUtils;
 

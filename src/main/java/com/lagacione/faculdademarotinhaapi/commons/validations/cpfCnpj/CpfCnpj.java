@@ -1,4 +1,4 @@
-package com.lagacione.faculdademarotinhaapi.commons.validations;
+package com.lagacione.faculdademarotinhaapi.commons.validations.cpfCnpj;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
