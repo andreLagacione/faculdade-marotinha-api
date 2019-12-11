@@ -1,5 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.pessoa.model;
 
+import com.lagacione.faculdademarotinhaapi.commons.validations.CpfCnpj;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
@@ -15,6 +16,7 @@ public class PessoaDTO {
     private Integer age;
 
     @NotEmpty(message = "Informe o CPF!")
+    @CpfCnpj(message = "O CPF informado não é valido!")
     private String cpf;
 
     @NotNull(message = "Informe o telefone!")
