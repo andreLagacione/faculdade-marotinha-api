@@ -44,24 +44,22 @@ public class CursoService {
         return cursosLista;
     }
 
-    public CursoToEditDTO find(Integer id) throws ObjectNotFoundException {
+    private Curso getCurso(Integer id) throws ObjectNotFoundException {
         Optional<Curso> curso = this.cursoRepository.findById(id);
 
         if (!curso.isPresent()) {
             throw new ObjectNotFoundException("Curso não encontrado!");
         }
 
-        return CursoToEditDTO.of(curso.get());
+        return curso.get();
+    }
+
+    public CursoToEditDTO find(Integer id) {
+        return CursoToEditDTO.of(this.getCurso(id));
     }
 
     public CursoDTO findOptional(Integer id) throws ObjectNotFoundException {
-        Optional<Curso> curso = this.cursoRepository.findById(id);
-
-        if (curso.isPresent()) {
-            throw new ObjectNotFoundException("Curso não encontrado!");
-        }
-
-        return CursoDTO.of(curso.get());
+        return CursoDTO.of(this.getCurso(id));
     }
 
     private CursoDTO insert(Curso curso) {

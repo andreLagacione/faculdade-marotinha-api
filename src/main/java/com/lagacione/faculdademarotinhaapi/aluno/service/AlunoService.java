@@ -44,16 +44,18 @@ public class AlunoService {
         return alunoListaDTO;
     }
 
-    public AlunoCursoListaDTO find(Integer id) throws ObjectNotFoundException {
+    private Aluno findAluno(Integer id) throws ObjectNotFoundException {
         Optional<Aluno> aluno = this.alunoRepository.findById(id);
 
         if (!aluno.isPresent()) {
             throw new ObjectNotFoundException("Aluno não encontrado!");
         }
 
-        AlunoCursoListaDTO alunoCursoListaDTO = new AlunoCursoListaDTO();
-        alunoCursoListaDTO = alunoCursoListaDTO.of(aluno.get());
-        return alunoCursoListaDTO;
+        return aluno.get();
+    }
+
+    public AlunoCursoListaDTO find(Integer id) throws ObjectNotFoundException {
+        return AlunoCursoListaDTO.of(this.findAluno(id));
     }
 
     private AlunoDTO insert(Aluno aluno) {
@@ -61,18 +63,12 @@ public class AlunoService {
         return AlunoDTO.of(this.alunoRepository.save(aluno));
     }
 
-    public AlunoDTO findOptional(Integer id) throws ObjectNotFoundException {
-        Optional<Aluno> aluno = this.alunoRepository.findById(id);
-
-        if (!aluno.isPresent()) {
-            throw new ObjectNotFoundException("Aluno não encontrado!");
-        }
-
-        return AlunoDTO.of(aluno.get());
+    public AlunoDTO findAlunoDTO(Integer id) throws ObjectNotFoundException {
+        return AlunoDTO.of(this.findAluno(id));
     }
 
     private AlunoDTO update(Aluno aluno) throws ObjectNotFoundException {
-        Aluno newAluno = Aluno.of(this.findOptional(aluno.getId()));
+        Aluno newAluno = Aluno.of(this.findAlunoDTO(aluno.getId()));
         this.updateData(newAluno, aluno);
         return AlunoDTO.of(this.alunoRepository.save(newAluno));
     }

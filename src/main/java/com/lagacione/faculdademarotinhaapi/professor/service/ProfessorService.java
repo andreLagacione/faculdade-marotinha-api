@@ -48,24 +48,22 @@ public class ProfessorService {
         return professorLista;
     }
 
-    public ProfessorToEditDTO find(Integer id) throws ObjectNotFoundException {
+    private Professor getProfessor(Integer id) throws ObjectNotFoundException {
         Optional<Professor> professor = this.professorRepository.findById(id);
 
         if (!professor.isPresent()) {
             throw new ObjectNotFoundException("Professor não encontrado!");
         }
 
-        return ProfessorToEditDTO.of(professor.get());
+        return professor.get();
+    }
+
+    public ProfessorToEditDTO find(Integer id) throws ObjectNotFoundException {
+        return ProfessorToEditDTO.of(this.getProfessor(id));
     }
 
     public ProfessorDTO findOptional(Integer id) throws ObjectNotFoundException {
-        Optional<Professor> professor = this.professorRepository.findById(id);
-
-        if (!professor.isPresent()) {
-            throw new ObjectNotFoundException("Professor não encontrado!");
-        }
-
-        return ProfessorDTO.of(professor.get());
+        return ProfessorDTO.of(this.getProfessor(id));
     }
 
     private ProfessorDTO insert(Professor professor) {

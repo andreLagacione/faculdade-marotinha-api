@@ -145,7 +145,7 @@ public class MateriaNotaBimestreService {
     }
 
     private void validarBoletim(Integer idBoletim) {
-        this.boletimService.findOptional(idBoletim);
+        this.boletimService.findBoletimDTO(idBoletim);
     }
 
     private MateriaNotaBimestreDTO calcularMediaFinal(MateriaNotaBimestreDTO notaDTO) {

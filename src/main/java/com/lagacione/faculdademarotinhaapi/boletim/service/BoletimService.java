@@ -55,24 +55,22 @@ public class BoletimService {
         return boletimLista;
     }
 
-    public BoletimToEditDTO find(Integer id) throws ObjectNotFoundException {
+    private Boletim getBoletim(Integer id) throws ObjectNotFoundException {
         Optional<Boletim> boletim = this.boletimRepository.findById(id);
 
         if (!boletim.isPresent()) {
             throw new ObjectNotFoundException("Boletim não encontrado!");
         }
 
-        return BoletimToEditDTO.of(boletim.get());
+        return boletim.get();
     }
 
-    public BoletimDTO findOptional(Integer id) throws ObjectNotFoundException {
-        Optional<Boletim> boletim = this.boletimRepository.findById(id);
+    public BoletimToEditDTO find(Integer id) throws ObjectNotFoundException {
+        return BoletimToEditDTO.of(this.getBoletim(id));
+    }
 
-        if (!boletim.isPresent()) {
-            throw new ObjectNotFoundException("Boletim não encontrado!");
-        }
-
-        return BoletimDTO.of(boletim.get());
+    public BoletimDTO findBoletimDTO(Integer id) throws ObjectNotFoundException {
+        return BoletimDTO.of(this.getBoletim(id));
     }
 
     private BoletimDTO insert(Boletim boletim) {
@@ -81,7 +79,7 @@ public class BoletimService {
     }
 
     private BoletimDTO update(Boletim boletim) throws ObjectNotFoundException {
-        Boletim newBoletim = Boletim.of(this.findOptional(boletim.getId()));
+        Boletim newBoletim = Boletim.of(this.findBoletimDTO(boletim.getId()));
         this.updateData(newBoletim, boletim);
         return BoletimDTO.of(this.boletimRepository.save(newBoletim));
     }
@@ -133,7 +131,7 @@ public class BoletimService {
     }
 
     public void adicionarNotaBoletim(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
-        BoletimDTO boletimDTO = this.findOptional(materiaNotaBimestreDTO.getIdBoletim());
+        BoletimDTO boletimDTO = this.findBoletimDTO(materiaNotaBimestreDTO.getIdBoletim());
         List<MateriaNotaBimestreDTO> notas = boletimDTO.getNotas();
         notas.add(materiaNotaBimestreDTO);
         boletimDTO.setNotas(notas);
@@ -141,7 +139,7 @@ public class BoletimService {
     }
 
     public void alterarNotaBoletim(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
-        BoletimDTO boletimDTO = this.findOptional(materiaNotaBimestreDTO.getIdBoletim());
+        BoletimDTO boletimDTO = this.findBoletimDTO(materiaNotaBimestreDTO.getIdBoletim());
         List<MateriaNotaBimestreDTO> notas = findAndRemoveNota(boletimDTO.getNotas(), materiaNotaBimestreDTO.getId());
         notas.add(materiaNotaBimestreDTO);
         boletimDTO.setNotas(notas);
@@ -149,7 +147,7 @@ public class BoletimService {
     }
 
     public void removerNotaBoletim(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
-        BoletimDTO boletimDTO = this.findOptional(materiaNotaBimestreDTO.getIdBoletim());
+        BoletimDTO boletimDTO = this.findBoletimDTO(materiaNotaBimestreDTO.getIdBoletim());
         List<MateriaNotaBimestreDTO> notas = findAndRemoveNota(boletimDTO.getNotas(), materiaNotaBimestreDTO.getId());
         boletimDTO.setNotas(notas);
         this.update(Boletim.of(boletimDTO));
@@ -168,7 +166,7 @@ public class BoletimService {
 
     public void gerarBoletim(Integer id, HttpServletResponse response) throws Exception {
         try {
-            BoletimPDFDTO boletimPDF = BoletimPDFDTO.of(this.findOptional(id));
+            BoletimPDFDTO boletimPDF = BoletimPDFDTO.of(this.findBoletimDTO(id));
             GerarPDFBoletimDTO boletim = new GerarPDFBoletimDTO();
             boletim.gerarBoletim(boletimPDF, response);
         } catch (Exception e) {
