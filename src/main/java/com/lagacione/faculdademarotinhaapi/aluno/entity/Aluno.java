@@ -48,14 +48,13 @@ public class Aluno extends Pessoa {
         this.cursos = cursos;
     }
 
-    public static Aluno of(AlunoDTO alunoDTO) {
+    public static Aluno of(AlunoDTO alunoDTO, List<Curso> cursos) {
         Aluno aluno = new Aluno();
         aluno.setId(alunoDTO.getId());
         aluno.setName(alunoDTO.getName());
         aluno.setAge(alunoDTO.getAge());
         aluno.setCpf(alunoDTO.getCpf());
         aluno.setPhone(alunoDTO.getPhone());
-        List<Curso> cursos = alunoDTO.getCursos().stream().map(Curso::of).collect(Collectors.toList());
         aluno.setCursos(cursos);
         return aluno;
     }

@@ -44,7 +44,7 @@ public class CursoService {
         return cursosLista;
     }
 
-    private Curso getCurso(Integer id) throws ObjectNotFoundException {
+    public Curso getCurso(Integer id) throws ObjectNotFoundException {
         Optional<Curso> curso = this.cursoRepository.findById(id);
 
         if (!curso.isPresent()) {

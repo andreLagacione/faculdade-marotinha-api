@@ -8,6 +8,7 @@ import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimPDFDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimToEditDTO;
 import com.lagacione.faculdademarotinhaapi.commons.models.GerarPDFBoletimDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.repository.BoletimRepository;
+import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreDTO;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.service.MateriaNotaBimestreService;
@@ -79,7 +80,7 @@ public class BoletimService {
     }
 
     private BoletimDTO update(Boletim boletim) throws ObjectNotFoundException {
-        Boletim newBoletim = Boletim.of(this.findBoletimDTO(boletim.getId()));
+        Boletim newBoletim = Boletim.of(this.findBoletimDTO(boletim.getId()), boletim.getAluno().getCursos());
         this.updateData(newBoletim, boletim);
         return BoletimDTO.of(this.boletimRepository.save(newBoletim));
     }
@@ -105,11 +106,12 @@ public class BoletimService {
     }
 
     public BoletimDTO salvarRegistro(BoletimDTO boletimDTO, Boolean adicionar) throws Exception {
+        List<Curso> cursos = this.alunoService.obterCursosById(boletimDTO.getAluno().getCursos());
         this.validarProfessor(boletimDTO);
         this.validarAluno(boletimDTO);
         this.validarCurso(boletimDTO);
 
-        Boletim boletim = Boletim.of(boletimDTO);
+        Boletim boletim = Boletim.of(boletimDTO, cursos);
 
         if (adicionar) {
             return this.insert(boletim);
@@ -132,25 +134,28 @@ public class BoletimService {
 
     public void adicionarNotaBoletim(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
         BoletimDTO boletimDTO = this.findBoletimDTO(materiaNotaBimestreDTO.getIdBoletim());
+        List<Curso> cursos = this.alunoService.obterCursosById(boletimDTO.getAluno().getCursos());
         List<MateriaNotaBimestreDTO> notas = boletimDTO.getNotas();
         notas.add(materiaNotaBimestreDTO);
         boletimDTO.setNotas(notas);
-        this.update(Boletim.of(boletimDTO));
+        this.update(Boletim.of(boletimDTO, cursos));
     }
 
     public void alterarNotaBoletim(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
         BoletimDTO boletimDTO = this.findBoletimDTO(materiaNotaBimestreDTO.getIdBoletim());
-        List<MateriaNotaBimestreDTO> notas = findAndRemoveNota(boletimDTO.getNotas(), materiaNotaBimestreDTO.getId());
+        List<Curso> cursos = this.alunoService.obterCursosById(boletimDTO.getAluno().getCursos());
+        List<MateriaNotaBimestreDTO> notas = this.findAndRemoveNota(boletimDTO.getNotas(), materiaNotaBimestreDTO.getId());
         notas.add(materiaNotaBimestreDTO);
         boletimDTO.setNotas(notas);
-        this.update(Boletim.of(boletimDTO));
+        this.update(Boletim.of(boletimDTO, cursos));
     }
 
     public void removerNotaBoletim(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
         BoletimDTO boletimDTO = this.findBoletimDTO(materiaNotaBimestreDTO.getIdBoletim());
-        List<MateriaNotaBimestreDTO> notas = findAndRemoveNota(boletimDTO.getNotas(), materiaNotaBimestreDTO.getId());
+        List<Curso> cursos = this.alunoService.obterCursosById(boletimDTO.getAluno().getCursos());
+        List<MateriaNotaBimestreDTO> notas = this.findAndRemoveNota(boletimDTO.getNotas(), materiaNotaBimestreDTO.getId());
         boletimDTO.setNotas(notas);
-        this.update(Boletim.of(boletimDTO));
+        this.update(Boletim.of(boletimDTO, cursos));
     }
 
     private List<MateriaNotaBimestreDTO> findAndRemoveNota(List<MateriaNotaBimestreDTO> notas, Integer idNotaRemove) {

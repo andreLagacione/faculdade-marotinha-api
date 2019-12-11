@@ -5,6 +5,7 @@ import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoCursoListaDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoListaDTO;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
+import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.repository.AlunoRepository;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -68,7 +70,7 @@ public class AlunoService {
     }
 
     private AlunoDTO update(Aluno aluno) throws ObjectNotFoundException {
-        Aluno newAluno = Aluno.of(this.findAlunoDTO(aluno.getId()));
+        Aluno newAluno = Aluno.of(this.findAlunoDTO(aluno.getId()), aluno.getCursos());
         this.updateData(newAluno, aluno);
         return AlunoDTO.of(this.alunoRepository.save(newAluno));
     }
@@ -94,8 +96,9 @@ public class AlunoService {
 
     public AlunoDTO salvarRegistro(AlunoDTO alunoDTO, Boolean adicionar) throws ActionNotAllowedException {
         this.validarCurso(alunoDTO);
+        List<Curso> cursos = this.obterCursosById(alunoDTO.getCursos());
 
-        Aluno aluno = Aluno.of(alunoDTO);
+        Aluno aluno = Aluno.of(alunoDTO, cursos);
 
         if (adicionar) {
             this.validarCpf(alunoDTO);
@@ -106,14 +109,14 @@ public class AlunoService {
     }
 
     private void validarCurso(AlunoDTO alunoDTO) throws ObjectNotFoundException {
-        List<CursoDTO> cursos = alunoDTO.getCursos();
+        List<Integer> cursos = alunoDTO.getCursos();
 
         if (cursos == null || cursos.size() == 0) {
             throw new ObjectNotFoundException("Por favor informe ao menos um curso!");
         }
 
-        for (CursoDTO cursoDTO : cursos) {
-            this.cursoService.find(cursoDTO.getId());
+        for (Integer idCurso : cursos) {
+            this.cursoService.find(idCurso);
         }
     }
 
@@ -123,5 +126,15 @@ public class AlunoService {
         if (aluno.isPresent()) {
             throw new ActionNotAllowedException("Já existe um aluno cadastrado com esse CPF. Por favor informe outro CPF!");
         }
+    }
+
+    public List<Curso> obterCursosById(List<Integer> cursosId) {
+        List<Curso> cursos = new ArrayList<>();
+
+        for (Integer idCurso : cursosId) {
+            cursos.add(this.cursoService.getCurso(idCurso));
+        }
+
+        return cursos;
     }
 }

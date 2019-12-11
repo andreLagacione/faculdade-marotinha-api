@@ -14,7 +14,7 @@ public class AlunoDTO extends PessoaDTO {
     private Integer id;
 
     @NotNull(message = "Informe um curso")
-    private List<CursoDTO> cursos = new ArrayList<>();
+    private List<Integer> cursos = new ArrayList<>();
 
     public AlunoDTO() {}
 
@@ -26,11 +26,11 @@ public class AlunoDTO extends PessoaDTO {
         this.id = id;
     }
 
-    public List<CursoDTO> getCursos() {
+    public List<Integer> getCursos() {
         return cursos;
     }
 
-    public void setCursos(List<CursoDTO> cursos) {
+    public void setCursos(List<Integer> cursos) {
         this.cursos = cursos;
     }
 
@@ -41,7 +41,7 @@ public class AlunoDTO extends PessoaDTO {
         alunoDTO.setAge(aluno.getAge());
         alunoDTO.setCpf(aluno.getCpf());
         alunoDTO.setPhone(aluno.getPhone());
-        List<CursoDTO> cursosDTO = aluno.getCursos().stream().map(CursoDTO::of).collect(Collectors.toList());
+        List<Integer> cursosDTO = aluno.getCursos().stream().map(curso -> curso.getId()).collect(Collectors.toList());
         alunoDTO.setCursos(cursosDTO);
         return alunoDTO;
     }
