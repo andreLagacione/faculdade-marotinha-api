@@ -26,7 +26,7 @@ public class BoletimDTO {
     @NotNull(message = "Informe o curso!")
     private CursoDTO curso;
 
-    private List<MateriaNotaBimestreDTO> notas = new ArrayList<>();
+    private List<Integer> notas = new ArrayList<>();
 
     public BoletimDTO() {}
 
@@ -70,11 +70,11 @@ public class BoletimDTO {
         this.curso = curso;
     }
 
-    public List<MateriaNotaBimestreDTO> getNotas() {
+    public List<Integer> getNotas() {
         return notas;
     }
 
-    public void setNotas(List<MateriaNotaBimestreDTO> notas) {
+    public void setNotas(List<Integer> notas) {
         this.notas = notas;
     }
 
@@ -85,9 +85,7 @@ public class BoletimDTO {
         boletimDTO.setAluno(AlunoDTO.of(boletim.getAluno()));
         boletimDTO.setProfessor(ProfessorDTO.of(boletim.getProfessor()));
         boletimDTO.setCurso(CursoDTO.of(boletim.getCurso()));
-
-        List<MateriaNotaBimestreDTO> notas = boletim.getNotas().stream().map(MateriaNotaBimestreDTO::of).collect(Collectors.toList());
-
+        List<Integer> notas = boletim.getNotas().stream().map(nota -> nota.getId()).collect(Collectors.toList());
         boletimDTO.setNotas(notas);
         return boletimDTO;
     }

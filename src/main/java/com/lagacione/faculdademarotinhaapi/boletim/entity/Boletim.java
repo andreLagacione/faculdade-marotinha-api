@@ -91,16 +91,13 @@ public class Boletim {
         this.notas = notas;
     }
 
-    public  static Boletim of(BoletimDTO boletimDTO, List<Curso> cursos) {
+    public  static Boletim of(BoletimDTO boletimDTO, List<Curso> cursos, List<MateriaNotaBimestre> notas) {
         Boletim boletim = new Boletim();
         boletim.setId(boletimDTO.getId());
         boletim.setAno(boletimDTO.getAno());
         boletim.setAluno(Aluno.of(boletimDTO.getAluno(), cursos));
         boletim.setProfessor(Professor.of(boletimDTO.getProfessor()));
         boletim.setCurso(Curso.of(boletimDTO.getCurso()));
-
-        List<MateriaNotaBimestre> notas = boletimDTO.getNotas().stream().map(MateriaNotaBimestre::of).collect(Collectors.toList());
-
         boletim.setNotas(notas);
         return boletim;
     }

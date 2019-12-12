@@ -10,7 +10,9 @@ import com.lagacione.faculdademarotinhaapi.commons.models.GerarPDFBoletimDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.repository.BoletimRepository;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
+import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.entity.MateriaNotaBimestre;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreDTO;
+import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestrePDFDTO;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.service.MateriaNotaBimestreService;
 import com.lagacione.faculdademarotinhaapi.professor.service.ProfessorService;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
@@ -22,6 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -80,7 +83,7 @@ public class BoletimService {
     }
 
     private BoletimDTO update(Boletim boletim) throws ObjectNotFoundException {
-        Boletim newBoletim = Boletim.of(this.findBoletimDTO(boletim.getId()), boletim.getAluno().getCursos());
+        Boletim newBoletim = Boletim.of(this.findBoletimDTO(boletim.getId()), boletim.getAluno().getCursos(), boletim.getNotas());
         this.updateData(newBoletim, boletim);
         return BoletimDTO.of(this.boletimRepository.save(newBoletim));
     }
@@ -111,7 +114,7 @@ public class BoletimService {
         this.validarAluno(boletimDTO);
         this.validarCurso(boletimDTO);
 
-        Boletim boletim = Boletim.of(boletimDTO, cursos);
+        Boletim boletim = Boletim.of(boletimDTO, cursos, this.obterNotasById(boletimDTO.getNotas()));
 
         if (adicionar) {
             return this.insert(boletim);
@@ -135,48 +138,73 @@ public class BoletimService {
     public void adicionarNotaBoletim(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
         BoletimDTO boletimDTO = this.findBoletimDTO(materiaNotaBimestreDTO.getIdBoletim());
         List<Curso> cursos = this.alunoService.obterCursosById(boletimDTO.getAluno().getCursos());
-        List<MateriaNotaBimestreDTO> notas = boletimDTO.getNotas();
-        notas.add(materiaNotaBimestreDTO);
+        List<Integer> notas = boletimDTO.getNotas();
+        notas.add(materiaNotaBimestreDTO.getId());
         boletimDTO.setNotas(notas);
-        this.update(Boletim.of(boletimDTO, cursos));
+        this.update(Boletim.of(boletimDTO, cursos, this.obterNotasById(notas)));
     }
 
     public void alterarNotaBoletim(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
         BoletimDTO boletimDTO = this.findBoletimDTO(materiaNotaBimestreDTO.getIdBoletim());
         List<Curso> cursos = this.alunoService.obterCursosById(boletimDTO.getAluno().getCursos());
-        List<MateriaNotaBimestreDTO> notas = this.findAndRemoveNota(boletimDTO.getNotas(), materiaNotaBimestreDTO.getId());
-        notas.add(materiaNotaBimestreDTO);
+        List<Integer> notas = this.findAndRemoveNota(boletimDTO.getNotas(), materiaNotaBimestreDTO.getId());
+        notas.add(materiaNotaBimestreDTO.getId());
         boletimDTO.setNotas(notas);
-        this.update(Boletim.of(boletimDTO, cursos));
+        this.update(Boletim.of(boletimDTO, cursos, this.obterNotasById(notas)));
     }
 
     public void removerNotaBoletim(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
         BoletimDTO boletimDTO = this.findBoletimDTO(materiaNotaBimestreDTO.getIdBoletim());
         List<Curso> cursos = this.alunoService.obterCursosById(boletimDTO.getAluno().getCursos());
-        List<MateriaNotaBimestreDTO> notas = this.findAndRemoveNota(boletimDTO.getNotas(), materiaNotaBimestreDTO.getId());
+        List<Integer> notas = this.findAndRemoveNota(boletimDTO.getNotas(), materiaNotaBimestreDTO.getId());
         boletimDTO.setNotas(notas);
-        this.update(Boletim.of(boletimDTO, cursos));
+        this.update(Boletim.of(boletimDTO, cursos, this.obterNotasById(notas)));
     }
 
-    private List<MateriaNotaBimestreDTO> findAndRemoveNota(List<MateriaNotaBimestreDTO> notas, Integer idNotaRemove) {
-        for (MateriaNotaBimestreDTO nota : notas) {
-            if (nota.getId() == idNotaRemove) {
-                notas.remove(nota);
+    private List<Integer> findAndRemoveNota(List<Integer> notasId, Integer idNotaRemove) {
+        for (Integer nota : notasId) {
+            if (nota == idNotaRemove) {
+                notasId.remove(nota);
                 break;
             }
         }
 
-        return notas;
+        return notasId;
     }
 
     public void gerarBoletim(Integer id, HttpServletResponse response) throws Exception {
         try {
-            BoletimPDFDTO boletimPDF = BoletimPDFDTO.of(this.findBoletimDTO(id));
+            BoletimDTO boletimDTO = this.findBoletimDTO(id);
+            List<MateriaNotaBimestrePDFDTO> notas = this.obterNotasByIdForPDF(boletimDTO.getNotas());
+
+            BoletimPDFDTO boletimPDF = BoletimPDFDTO.of(boletimDTO, notas);
             GerarPDFBoletimDTO boletim = new GerarPDFBoletimDTO();
             boletim.gerarBoletim(boletimPDF, response);
         } catch (Exception e) {
             throw new Exception("Erro ao gerar boletim: " + e.getMessage());
         }
 
+    }
+
+    private List<MateriaNotaBimestrePDFDTO> obterNotasByIdForPDF(List<Integer> notasId) {
+        List<MateriaNotaBimestrePDFDTO> notas = new ArrayList<>();
+
+        for (Integer id : notasId) {
+            MateriaNotaBimestreDTO nota = this.materiaNotaBimestreService.find(id);
+            notas.add(MateriaNotaBimestrePDFDTO.of(nota));
+        }
+
+        return notas;
+    }
+
+    private List<MateriaNotaBimestre> obterNotasById(List<Integer> notasId) {
+        List<MateriaNotaBimestre> notas = new ArrayList<>();
+
+        for (Integer id : notasId) {
+            MateriaNotaBimestreDTO nota = this.materiaNotaBimestreService.find(id);
+            notas.add(MateriaNotaBimestre.of(nota));
+        }
+
+        return notas;
     }
 }
