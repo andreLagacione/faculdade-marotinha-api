@@ -19,7 +19,7 @@ public class CursoDTO {
     private String name;
 
     @NotNull(message = "Informe pelo menos uma matéria!")
-    private List<MateriaDTO> materias = new ArrayList<>();
+    private List<Integer> materias = new ArrayList<>();
 
     public CursoDTO() {}
 
@@ -39,19 +39,19 @@ public class CursoDTO {
         this.name = name;
     }
 
-    public List<MateriaDTO> getMaterias() {
+    public List<Integer> getMaterias() {
         return materias;
     }
 
-    public void setMaterias(List<MateriaDTO> materias) {
+    public void setMaterias(List<Integer> materias) {
         this.materias = materias;
     }
 
     public static CursoDTO of(Curso curso) {
         CursoDTO cursoDTO = new CursoDTO();
         cursoDTO.setId(curso.getId());
-        List<MateriaDTO> materiasDTO = curso.getMaterias().stream().map(MateriaDTO::of).collect(Collectors.toList());
-        cursoDTO.setMaterias(materiasDTO);
+        List<Integer> materias = curso.getMaterias().stream().map(materia -> materia.getId()).collect(Collectors.toList());
+        cursoDTO.setMaterias(materias);
         cursoDTO.setName(curso.getName());
         return cursoDTO;
     }

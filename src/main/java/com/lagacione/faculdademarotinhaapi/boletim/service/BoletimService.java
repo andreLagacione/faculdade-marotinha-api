@@ -83,7 +83,7 @@ public class BoletimService {
     }
 
     private BoletimDTO update(Boletim boletim) throws ObjectNotFoundException {
-        Boletim newBoletim = Boletim.of(this.findBoletimDTO(boletim.getId()), boletim.getAluno().getCursos(), boletim.getNotas());
+        Boletim newBoletim = Boletim.of(this.findBoletimDTO(boletim.getId()), boletim.getAluno().getCursos(), boletim.getNotas(), boletim.getCurso());
         this.updateData(newBoletim, boletim);
         return BoletimDTO.of(this.boletimRepository.save(newBoletim));
     }
@@ -114,7 +114,12 @@ public class BoletimService {
         this.validarAluno(boletimDTO);
         this.validarCurso(boletimDTO);
 
-        Boletim boletim = Boletim.of(boletimDTO, cursos, this.obterNotasById(boletimDTO.getNotas()));
+        Boletim boletim = Boletim.of(
+                boletimDTO,
+                cursos,
+                this.obterNotasById(boletimDTO.getNotas()),
+                Curso.of(boletimDTO.getCurso(), this.cursoService.getMateriasById(boletimDTO.getCurso().getMaterias()))
+        );
 
         if (adicionar) {
             return this.insert(boletim);
@@ -141,7 +146,14 @@ public class BoletimService {
         List<Integer> notas = boletimDTO.getNotas();
         notas.add(materiaNotaBimestreDTO.getId());
         boletimDTO.setNotas(notas);
-        this.update(Boletim.of(boletimDTO, cursos, this.obterNotasById(notas)));
+        this.update(
+                Boletim.of(
+                        boletimDTO,
+                        cursos,
+                        this.obterNotasById(notas),
+                        Curso.of(boletimDTO.getCurso(), this.cursoService.getMateriasById(boletimDTO.getCurso().getMaterias()))
+                )
+        );
     }
 
     public void alterarNotaBoletim(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
@@ -150,7 +162,14 @@ public class BoletimService {
         List<Integer> notas = this.findAndRemoveNota(boletimDTO.getNotas(), materiaNotaBimestreDTO.getId());
         notas.add(materiaNotaBimestreDTO.getId());
         boletimDTO.setNotas(notas);
-        this.update(Boletim.of(boletimDTO, cursos, this.obterNotasById(notas)));
+        this.update(
+                Boletim.of(
+                        boletimDTO,
+                        cursos,
+                        this.obterNotasById(notas),
+                        Curso.of(boletimDTO.getCurso(), this.cursoService.getMateriasById(boletimDTO.getCurso().getMaterias()))
+                )
+        );
     }
 
     public void removerNotaBoletim(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
@@ -158,7 +177,14 @@ public class BoletimService {
         List<Curso> cursos = this.alunoService.obterCursosById(boletimDTO.getAluno().getCursos());
         List<Integer> notas = this.findAndRemoveNota(boletimDTO.getNotas(), materiaNotaBimestreDTO.getId());
         boletimDTO.setNotas(notas);
-        this.update(Boletim.of(boletimDTO, cursos, this.obterNotasById(notas)));
+        this.update(
+                Boletim.of(
+                        boletimDTO,
+                        cursos,
+                        this.obterNotasById(notas),
+                        Curso.of(boletimDTO.getCurso(), this.cursoService.getMateriasById(boletimDTO.getCurso().getMaterias()))
+                )
+        );
     }
 
     private List<Integer> findAndRemoveNota(List<Integer> notasId, Integer idNotaRemove) {

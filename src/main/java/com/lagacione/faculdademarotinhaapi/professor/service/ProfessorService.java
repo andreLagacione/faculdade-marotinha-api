@@ -1,6 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.professor.service;
 
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
+import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -72,7 +74,7 @@ public class ProfessorService {
     }
 
     private ProfessorDTO update(Professor professor) throws ObjectNotFoundException {
-        Professor newProfessor = Professor.of(this.findOptional(professor.getId()));
+        Professor newProfessor = Professor.of(this.findOptional(professor.getId()), professor.getCursosLecionados());
         this.updateData(newProfessor, professor);
         return ProfessorDTO.of(this.professorRepository.save(newProfessor));
     }
@@ -100,7 +102,7 @@ public class ProfessorService {
     public ProfessorDTO salvarRegistro(ProfessorDTO professorDTO, Boolean adicionar) throws ActionNotAllowedException {
         this.validarMaterias(professorDTO);
         this.validarCursos(professorDTO);
-        Professor professor = Professor.of(professorDTO);
+        Professor professor = Professor.of(professorDTO, this.mapearCursos(professorDTO.getCursosLecionados()));
 
         if (adicionar) {
             this.validarCpf(professorDTO);
@@ -140,5 +142,15 @@ public class ProfessorService {
         if (professor.isPresent()) {
             throw new ActionNotAllowedException("Já existe um professor cadastrado com esse CPF. Por favor informe outro CPF!");
         }
+    }
+
+    private List<Curso> mapearCursos(List<CursoDTO> cursosDTO) {
+        List<Curso> cursos = new ArrayList<>();
+
+        for (CursoDTO cursoDTO : cursosDTO) {
+            cursos.add(Curso.of(cursoDTO, this.cursoService.getMateriasById(cursoDTO.getMaterias())));
+        }
+
+        return cursos;
     }
 }

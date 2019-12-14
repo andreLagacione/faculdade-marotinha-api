@@ -2,6 +2,7 @@ package com.lagacione.faculdademarotinhaapi.boletim.entity;
 
 import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
+import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.entity.MateriaNotaBimestre;
 import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimDTO;
@@ -91,13 +92,13 @@ public class Boletim {
         this.notas = notas;
     }
 
-    public  static Boletim of(BoletimDTO boletimDTO, List<Curso> cursos, List<MateriaNotaBimestre> notas) {
+    public  static Boletim of(BoletimDTO boletimDTO, List<Curso> cursos, List<MateriaNotaBimestre> notas, Curso curso) {
         Boletim boletim = new Boletim();
         boletim.setId(boletimDTO.getId());
         boletim.setAno(boletimDTO.getAno());
         boletim.setAluno(Aluno.of(boletimDTO.getAluno(), cursos));
-        boletim.setProfessor(Professor.of(boletimDTO.getProfessor()));
-        boletim.setCurso(Curso.of(boletimDTO.getCurso()));
+        boletim.setProfessor(Professor.of(boletimDTO.getProfessor(), boletim.getProfessor().getCursosLecionados()));
+        boletim.setCurso(curso);
         boletim.setNotas(notas);
         return boletim;
     }

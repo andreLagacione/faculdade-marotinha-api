@@ -7,6 +7,7 @@ import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoListaDTO;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoToEditDTO;
 import com.lagacione.faculdademarotinhaapi.curso.repository.CursoRepository;
+import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
 import com.lagacione.faculdademarotinhaapi.materia.service.MateriaService;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -68,7 +70,7 @@ public class CursoService {
     }
 
     private CursoDTO update(Curso curso) throws ObjectNotFoundException {
-        Curso newCurso = Curso.of(this.findOptional(curso.getId()));
+        Curso newCurso = Curso.of(this.findOptional(curso.getId()), curso.getMaterias());
         this.updateData(newCurso, curso);
         return CursoDTO.of(this.cursoRepository.save(newCurso));
     }
@@ -89,7 +91,7 @@ public class CursoService {
     }
 
     public CursoDTO salvarRegistro(CursoDTO cursoDTO, Boolean adicionar) throws ActionNotAllowedException {
-        Curso curso = Curso.of(cursoDTO);
+        Curso curso = Curso.of(cursoDTO, this.getMateriasById(cursoDTO.getMaterias()));
         this.validarMaterias(curso);
 
         if (adicionar) {
@@ -109,5 +111,16 @@ public class CursoService {
         for (Materia materia : materiasCurso) {
             this.materiaService.find(materia.getId());
         }
+    }
+
+    public List<Materia> getMateriasById(List<Integer> idMaterias) {
+        List<Materia> materias = new ArrayList<>();
+
+        for (Integer id : idMaterias) {
+            MateriaDTO materiaDTO = this.materiaService.find(id);
+            materias.add(Materia.of(materiaDTO));
+        }
+
+        return materias;
     }
 }

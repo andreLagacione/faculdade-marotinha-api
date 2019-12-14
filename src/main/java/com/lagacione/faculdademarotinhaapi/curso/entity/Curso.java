@@ -75,10 +75,9 @@ public class Curso {
         this.materias = materias;
     }
 
-    public static Curso of(CursoDTO cursoDTO) {
+    public static Curso of(CursoDTO cursoDTO, List<Materia> materias) {
         Curso curso = new Curso();
         curso.setId(cursoDTO.getId());
-        List<Materia> materias = cursoDTO.getMaterias().stream().map(Materia::of).collect(Collectors.toList());
         curso.setMaterias(materias);
         curso.setName(cursoDTO.getName());
         return curso;
