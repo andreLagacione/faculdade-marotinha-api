@@ -3,12 +3,14 @@ package com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.entity.MateriaNotaBimestre;
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 public class MateriaNotaBimestreDTO {
     private Integer id;
 
     @NotNull(message = "Informe a matéria")
+    @Valid
     private MateriaDTO materiaDTO;
 
     private Double notaBimestre1;
