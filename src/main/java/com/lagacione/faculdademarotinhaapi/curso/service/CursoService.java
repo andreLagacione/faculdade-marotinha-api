@@ -113,6 +113,21 @@ public class CursoService {
         }
     }
 
+    public Curso cursoOfCursoDTO(CursoDTO cursoDTO) {
+        Curso curso = new Curso();
+        curso.setId(cursoDTO.getId());
+
+
+
+        curso.setMaterias(materias);
+        curso.setName(cursoDTO.getName());
+        return curso;
+    }
+
+
+
+
+
     public List<Materia> getMateriasById(List<Integer> idMaterias) {
         List<Materia> materias = new ArrayList<>();
 

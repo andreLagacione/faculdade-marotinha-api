@@ -33,16 +33,4 @@ public class AlunoDTO extends PessoaDTO {
     public void setCursos(List<Integer> cursos) {
         this.cursos = cursos;
     }
-
-    public static AlunoDTO of(Aluno aluno) {
-        AlunoDTO alunoDTO = new AlunoDTO();
-        alunoDTO.setId(aluno.getId());
-        alunoDTO.setName(aluno.getName());
-        alunoDTO.setAge(aluno.getAge());
-        alunoDTO.setCpf(aluno.getCpf());
-        alunoDTO.setPhone(aluno.getPhone());
-        List<Integer> cursosDTO = aluno.getCursos().stream().map(curso -> curso.getId()).collect(Collectors.toList());
-        alunoDTO.setCursos(cursosDTO);
-        return alunoDTO;
-    }
 }

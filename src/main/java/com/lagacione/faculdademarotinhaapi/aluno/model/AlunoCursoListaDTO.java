@@ -29,16 +29,4 @@ public class AlunoCursoListaDTO extends PessoaDTO {
     public void setCursos(List<CursoNomeListaDTO> cursoNomeListaDTOList) {
         this.cursos = cursoNomeListaDTOList;
     }
-
-    public static AlunoCursoListaDTO of (Aluno aluno) {
-        AlunoCursoListaDTO alunoCursoListaDTO = new AlunoCursoListaDTO();
-        alunoCursoListaDTO.setId(aluno.getId());
-        alunoCursoListaDTO.setName(aluno.getName());
-        alunoCursoListaDTO.setCpf(aluno.getCpf());
-        alunoCursoListaDTO.setAge(aluno.getAge());
-        alunoCursoListaDTO.setPhone(aluno.getPhone());
-        List<CursoNomeListaDTO> cursos = aluno.getCursos().stream().map(CursoNomeListaDTO::of).collect(Collectors.toList());
-        alunoCursoListaDTO.setCursos(cursos);
-        return alunoCursoListaDTO;
-    }
 }

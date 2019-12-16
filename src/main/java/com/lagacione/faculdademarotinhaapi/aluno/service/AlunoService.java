@@ -8,6 +8,7 @@ import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedEx
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.repository.AlunoRepository;
+import com.lagacione.faculdademarotinhaapi.curso.model.CursoNomeListaDTO;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,7 @@ public class AlunoService {
     }
 
     public AlunoCursoListaDTO find(Integer id) throws ObjectNotFoundException {
-        return AlunoCursoListaDTO.of(this.findAluno(id));
+        return this.alunoCursoListaDTOofAluno(this.findAluno(id));
     }
 
     private AlunoDTO insert(Aluno aluno) {
@@ -70,7 +71,7 @@ public class AlunoService {
     }
 
     private AlunoDTO update(Aluno aluno) throws ObjectNotFoundException {
-        Aluno newAluno = Aluno.of(this.findAlunoDTO(aluno.getId()), aluno.getCursos());
+        Aluno newAluno = this.alunoOfAlunoDTO(this.findAlunoDTO(aluno.getId()));
         this.updateData(newAluno, aluno);
         return AlunoDTO.of(this.alunoRepository.save(newAluno));
     }
@@ -96,9 +97,9 @@ public class AlunoService {
 
     public AlunoDTO salvarRegistro(AlunoDTO alunoDTO, Boolean adicionar) throws ActionNotAllowedException {
         this.validarCurso(alunoDTO);
-        List<Curso> cursos = this.obterCursosById(alunoDTO.getCursos());
+        List<Curso> cursos = alunoDTO.getCursos().stream().map(id -> this.cursoService.getCurso(id)).collect(Collectors.toList());
 
-        Aluno aluno = Aluno.of(alunoDTO, cursos);
+        Aluno aluno = this.alunoOfAlunoDTO(alunoDTO);
 
         if (adicionar) {
             this.validarCpf(alunoDTO);
@@ -128,13 +129,50 @@ public class AlunoService {
         }
     }
 
-    public List<Curso> obterCursosById(List<Integer> cursosId) {
-        List<Curso> cursos = new ArrayList<>();
+    public Aluno alunoOfAlunoDTO(AlunoDTO alunoDTO) {
+        Aluno aluno = new Aluno();
+        aluno.setId(alunoDTO.getId());
+        aluno.setName(alunoDTO.getName());
+        aluno.setAge(alunoDTO.getAge());
+        aluno.setCpf(alunoDTO.getCpf());
+        aluno.setPhone(alunoDTO.getPhone());
 
-        for (Integer idCurso : cursosId) {
-            cursos.add(this.cursoService.getCurso(idCurso));
-        }
+        List<CursoDTO> cursosDTO = alunoDTO.getCursos().stream().map(id -> this.cursoService.findOptional(id)).collect(Collectors.toList());
+        List<Curso> cursos = cursosDTO.stream().map(curso -> this.cursoService.cursoOfCursoDTO(curso)).collect(Collectors.toList());
 
-        return cursos;
+        aluno.setCursos(cursos);
+        return aluno;
+    }
+
+    public AlunoCursoListaDTO alunoCursoListaDTOofAluno(Aluno aluno) {
+        AlunoCursoListaDTO alunoCursoListaDTO = new AlunoCursoListaDTO();
+        alunoCursoListaDTO.setId(aluno.getId());
+        alunoCursoListaDTO.setName(aluno.getName());
+        alunoCursoListaDTO.setCpf(aluno.getCpf());
+        alunoCursoListaDTO.setAge(aluno.getAge());
+        alunoCursoListaDTO.setPhone(aluno.getPhone());
+
+
+        List<CursoNomeListaDTO> cursos = aluno.getCursos().stream().map(CursoNomeListaDTO::of).collect(Collectors.toList());
+
+
+        alunoCursoListaDTO.setCursos(cursos);
+        return alunoCursoListaDTO;
+    }
+
+    public AlunoDTO alunoDTOofAluno(Aluno aluno) {
+        AlunoDTO alunoDTO = new AlunoDTO();
+        alunoDTO.setId(aluno.getId());
+        alunoDTO.setName(aluno.getName());
+        alunoDTO.setAge(aluno.getAge());
+        alunoDTO.setCpf(aluno.getCpf());
+        alunoDTO.setPhone(aluno.getPhone());
+
+
+        List<Integer> cursosDTO = aluno.getCursos().stream().map(curso -> curso.getId()).collect(Collectors.toList());
+
+
+        alunoDTO.setCursos(cursosDTO);
+        return alunoDTO;
     }
 }

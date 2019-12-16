@@ -47,15 +47,4 @@ public class Aluno extends Pessoa {
     public void setCursos(List<Curso> cursos) {
         this.cursos = cursos;
     }
-
-    public static Aluno of(AlunoDTO alunoDTO, List<Curso> cursos) {
-        Aluno aluno = new Aluno();
-        aluno.setId(alunoDTO.getId());
-        aluno.setName(alunoDTO.getName());
-        aluno.setAge(alunoDTO.getAge());
-        aluno.setCpf(alunoDTO.getCpf());
-        aluno.setPhone(alunoDTO.getPhone());
-        aluno.setCursos(cursos);
-        return aluno;
-    }
 }
