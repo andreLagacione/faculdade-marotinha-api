@@ -109,7 +109,7 @@ public class MateriaNotaBimestreService {
     }
 
     private void validarMateria(MateriaNotaBimestreDTO notaDTO) {
-        Materia materia = Materia.of(notaDTO.getMateria());
+        Materia materia = this.materiaService.materiaOfMateriaDTO(notaDTO.getMateria());
 
         if (materia == null) {
             throw new ObjectNotFoundException("Informe a matéria!");
@@ -164,7 +164,7 @@ public class MateriaNotaBimestreService {
     public MateriaNotaBimestre materiaNotaBimestreOfDTO(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
         MateriaNotaBimestre materiaNotaBimestre = new MateriaNotaBimestre();
         materiaNotaBimestre.setId(materiaNotaBimestreDTO.getId());
-        materiaNotaBimestre.setMateria(Materia.of(materiaNotaBimestreDTO.getMateria()));
+        materiaNotaBimestre.setMateria(this.materiaService.materiaOfMateriaDTO(materiaNotaBimestreDTO.getMateria()));
         materiaNotaBimestre.setNotaBimestre1(materiaNotaBimestreDTO.getNotaBimestre1());
         materiaNotaBimestre.setNotaBimestre2(materiaNotaBimestreDTO.getNotaBimestre2());
         materiaNotaBimestre.setNotaBimestre3(materiaNotaBimestreDTO.getNotaBimestre3());
@@ -177,7 +177,7 @@ public class MateriaNotaBimestreService {
     public MateriaNotaBimestreDTO materiaNotaBimestreDTOofEntity(MateriaNotaBimestre materiaNotaBimestre) {
         MateriaNotaBimestreDTO materiaNotaBimestreDTO = new MateriaNotaBimestreDTO();
         materiaNotaBimestreDTO.setId(materiaNotaBimestre.getId());
-        materiaNotaBimestreDTO.setMateria(MateriaDTO.of(materiaNotaBimestre.getMateria()));
+        materiaNotaBimestreDTO.setMateria(this.materiaService.materiaDTOofMateria(materiaNotaBimestre.getMateria()));
         materiaNotaBimestreDTO.setNotaBimestre1(materiaNotaBimestre.getNotaBimestre1());
         materiaNotaBimestreDTO.setNotaBimestre2(materiaNotaBimestre.getNotaBimestre2());
         materiaNotaBimestreDTO.setNotaBimestre3(materiaNotaBimestre.getNotaBimestre3());

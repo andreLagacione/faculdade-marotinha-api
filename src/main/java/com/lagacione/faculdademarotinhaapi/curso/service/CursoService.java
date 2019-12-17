@@ -117,7 +117,7 @@ public class CursoService {
         Curso curso = new Curso();
         curso.setId(cursoDTO.getId());
         List<MateriaDTO> materiasDTO = cursoDTO.getMaterias().stream().map(id -> this.materiaService.find(id)).collect(Collectors.toList());
-        List<Materia> materias = materiasDTO.stream().map(materia -> Materia.of(materia)).collect(Collectors.toList());
+        List<Materia> materias = materiasDTO.stream().map(materia -> this.materiaService.materiaOfMateriaDTO(materia)).collect(Collectors.toList());
         curso.setMaterias(materias);
         curso.setName(cursoDTO.getName());
         return curso;
@@ -150,7 +150,7 @@ public class CursoService {
         CursoToEditDTO cursoToEditDTO = new CursoToEditDTO();
         cursoToEditDTO.setId(curso.getId());
         cursoToEditDTO.setNome(curso.getName());
-        List<MateriaDTO> materias = curso.getMaterias().stream().map(MateriaDTO::of).collect(Collectors.toList());
+        List<MateriaDTO> materias = curso.getMaterias().stream().map(materia -> this.materiaService.materiaDTOofMateria(materia)).collect(Collectors.toList());
         cursoToEditDTO.setMaterias(materias);
         return cursoToEditDTO;
     }
