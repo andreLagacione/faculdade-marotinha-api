@@ -2,6 +2,7 @@ package com.lagacione.faculdademarotinhaapi.curso.service;
 
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
+import com.lagacione.faculdademarotinhaapi.curso.model.CursoNomeListaDTO;
 import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoListaDTO;
@@ -35,14 +36,14 @@ public class CursoService {
 
     public List<CursoListaDTO> findAll() {
         List<Curso> cursos = this.cursoRepository.findAll();
-        List<CursoListaDTO> cursosLista = cursos.stream().map(CursoListaDTO::of).collect(Collectors.toList());
+        List<CursoListaDTO> cursosLista = cursos.stream().map(curso -> this.cursoListaDTOofCurso(curso)).collect(Collectors.toList());
         return cursosLista;
     }
 
     public Page<CursoListaDTO> findPage(Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
         Page<Curso> cursos = this.cursoRepository.findAll(pageRequest);
-        Page<CursoListaDTO> cursosLista = cursos.map(CursoListaDTO::of);
+        Page<CursoListaDTO> cursosLista = cursos.map(curso -> this.cursoListaDTOofCurso(curso));
         return cursosLista;
     }
 
@@ -57,22 +58,22 @@ public class CursoService {
     }
 
     public CursoToEditDTO find(Integer id) {
-        return CursoToEditDTO.of(this.getCurso(id));
+        return this.cursoToEditDTOofCurso(this.getCurso(id));
     }
 
     public CursoDTO findOptional(Integer id) throws ObjectNotFoundException {
-        return CursoDTO.of(this.getCurso(id));
+        return this.cursoDTOofCurso(this.getCurso(id));
     }
 
     private CursoDTO insert(Curso curso) {
         curso.setId(null);
-        return CursoDTO.of(this.cursoRepository.save(curso));
+        return this.cursoDTOofCurso(this.cursoRepository.save(curso));
     }
 
     private CursoDTO update(Curso curso) throws ObjectNotFoundException {
-        Curso newCurso = Curso.of(this.findOptional(curso.getId()), curso.getMaterias());
+        Curso newCurso = this.cursoOfCursoDTO(this.findOptional(curso.getId()));
         this.updateData(newCurso, curso);
-        return CursoDTO.of(this.cursoRepository.save(newCurso));
+        return this.cursoDTOofCurso(this.cursoRepository.save(newCurso));
     }
 
     public void delete(Integer id) throws ObjectNotFoundException {
@@ -91,7 +92,7 @@ public class CursoService {
     }
 
     public CursoDTO salvarRegistro(CursoDTO cursoDTO, Boolean adicionar) throws ActionNotAllowedException {
-        Curso curso = Curso.of(cursoDTO, this.getMateriasById(cursoDTO.getMaterias()));
+        Curso curso = this.cursoOfCursoDTO(cursoDTO);
         this.validarMaterias(curso);
 
         if (adicionar) {
@@ -116,26 +117,42 @@ public class CursoService {
     public Curso cursoOfCursoDTO(CursoDTO cursoDTO) {
         Curso curso = new Curso();
         curso.setId(cursoDTO.getId());
-
-
-
+        List<MateriaDTO> materiasDTO = cursoDTO.getMaterias().stream().map(id -> this.materiaService.find(id)).collect(Collectors.toList());
+        List<Materia> materias = materiasDTO.stream().map(materia -> Materia.of(materia)).collect(Collectors.toList());
         curso.setMaterias(materias);
         curso.setName(cursoDTO.getName());
         return curso;
     }
 
+    public CursoDTO cursoDTOofCurso(Curso curso) {
+        CursoDTO cursoDTO = new CursoDTO();
+        cursoDTO.setId(curso.getId());
+        List<Integer> materias = curso.getMaterias().stream().map(materia -> materia.getId()).collect(Collectors.toList());
+        cursoDTO.setMaterias(materias);
+        cursoDTO.setName(curso.getName());
+        return cursoDTO;
+    }
 
+    public CursoListaDTO cursoListaDTOofCurso(Curso curso) {
+        CursoListaDTO cursoListaDTO = new CursoListaDTO();
+        cursoListaDTO.setId(curso.getId());
+        cursoListaDTO.setNome(curso.getName());
+        return cursoListaDTO;
+    }
 
+    public CursoNomeListaDTO cursoNomeListaDTOofCurso(Curso curso) {
+        CursoNomeListaDTO cursoNomeListaDTO = new CursoNomeListaDTO();
+        cursoNomeListaDTO.setId(curso.getId());
+        cursoNomeListaDTO.setNome(curso.getName());
+        return cursoNomeListaDTO;
+    }
 
-
-    public List<Materia> getMateriasById(List<Integer> idMaterias) {
-        List<Materia> materias = new ArrayList<>();
-
-        for (Integer id : idMaterias) {
-            MateriaDTO materiaDTO = this.materiaService.find(id);
-            materias.add(Materia.of(materiaDTO));
-        }
-
-        return materias;
+    public CursoToEditDTO cursoToEditDTOofCurso(Curso curso) {
+        CursoToEditDTO cursoToEditDTO = new CursoToEditDTO();
+        cursoToEditDTO.setId(curso.getId());
+        cursoToEditDTO.setNome(curso.getName());
+        List<MateriaDTO> materias = curso.getMaterias().stream().map(MateriaDTO::of).collect(Collectors.toList());
+        cursoToEditDTO.setMaterias(materias);
+        return cursoToEditDTO;
     }
 }

@@ -24,10 +24,4 @@ public class CursoListaDTO {
         this.nome=nome;
     }
 
-    public static CursoListaDTO of(Curso curso) {
-        CursoListaDTO cursoListaDTO = new CursoListaDTO();
-        cursoListaDTO.setId(curso.getId());
-        cursoListaDTO.setNome(curso.getName());
-        return cursoListaDTO;
-    }
 }

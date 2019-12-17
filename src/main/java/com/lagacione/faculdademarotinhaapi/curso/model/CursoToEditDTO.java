@@ -38,12 +38,4 @@ public class CursoToEditDTO {
         this.materias=idMaterias;
     }
 
-    public static CursoToEditDTO of(Curso curso) {
-        CursoToEditDTO cursoToEditDTO = new CursoToEditDTO();
-        cursoToEditDTO.setId(curso.getId());
-        cursoToEditDTO.setNome(curso.getName());
-        List<MateriaDTO> materias = curso.getMaterias().stream().map(MateriaDTO::of).collect(Collectors.toList());
-        cursoToEditDTO.setMaterias(materias);
-        return cursoToEditDTO;
-    }
 }

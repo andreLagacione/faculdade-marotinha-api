@@ -46,13 +46,4 @@ public class CursoDTO {
     public void setMaterias(List<Integer> materias) {
         this.materias = materias;
     }
-
-    public static CursoDTO of(Curso curso) {
-        CursoDTO cursoDTO = new CursoDTO();
-        cursoDTO.setId(curso.getId());
-        List<Integer> materias = curso.getMaterias().stream().map(materia -> materia.getId()).collect(Collectors.toList());
-        cursoDTO.setMaterias(materias);
-        cursoDTO.setName(curso.getName());
-        return cursoDTO;
-    }
 }
