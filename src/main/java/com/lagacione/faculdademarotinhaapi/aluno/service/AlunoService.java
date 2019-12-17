@@ -150,11 +150,7 @@ public class AlunoService {
         alunoCursoListaDTO.setCpf(aluno.getCpf());
         alunoCursoListaDTO.setAge(aluno.getAge());
         alunoCursoListaDTO.setPhone(aluno.getPhone());
-
-
-        List<CursoNomeListaDTO> cursos = aluno.getCursos().stream().map(CursoNomeListaDTO::of).collect(Collectors.toList());
-
-
+        List<CursoNomeListaDTO> cursos = aluno.getCursos().stream().map(curso -> this.cursoService.cursoNomeListaDTOofCurso(curso)).collect(Collectors.toList());
         alunoCursoListaDTO.setCursos(cursos);
         return alunoCursoListaDTO;
     }
