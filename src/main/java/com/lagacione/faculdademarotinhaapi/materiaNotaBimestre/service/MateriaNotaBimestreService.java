@@ -1,15 +1,15 @@
 package com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.service;
 
 import com.lagacione.faculdademarotinhaapi.boletim.service.BoletimService;
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
-import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.entity.MateriaNotaBimestre;
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
+import com.lagacione.faculdademarotinhaapi.materia.service.MateriaService;
+import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.entity.MateriaNotaBimestre;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreDTO;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreListDTO;
-import com.lagacione.faculdademarotinhaapi.materia.service.MateriaService;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestrePDFDTO;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.repository.MatreriaNotaBimestreRespository;
-import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -36,14 +36,14 @@ public class MateriaNotaBimestreService {
 
     public List<MateriaNotaBimestreListDTO> findAll() {
         List<MateriaNotaBimestre> notas = this.matreriaNotaBimestreRespository.findAll();
-        List<MateriaNotaBimestreListDTO> notasDTO = notas.stream().map(nota -> this.materiaNotaBimestreListDTOofDTO(nota)).collect(Collectors.toList());
+        List<MateriaNotaBimestreListDTO> notasDTO = notas.stream().map(nota -> this.materiaNotaBimestreListDTOofEntity(nota)).collect(Collectors.toList());
         return notasDTO;
     }
 
     public Page<MateriaNotaBimestreListDTO> findPage(Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
         Page<MateriaNotaBimestre> notas = this.matreriaNotaBimestreRespository.findAll(pageRequest);
-        Page<MateriaNotaBimestreListDTO> notasDTO = notas.map(nota -> this.materiaNotaBimestreListDTOofDTO(nota));
+        Page<MateriaNotaBimestreListDTO> notasDTO = notas.map(nota -> this.materiaNotaBimestreListDTOofEntity(nota));
         return notasDTO;
     }
 
@@ -208,7 +208,7 @@ public class MateriaNotaBimestreService {
         return String.format("%.2f", nota);
     }
 
-    public MateriaNotaBimestreListDTO materiaNotaBimestreListDTOofDTO(MateriaNotaBimestre materiaNotaBimestre) {
+    public MateriaNotaBimestreListDTO materiaNotaBimestreListDTOofEntity(MateriaNotaBimestre materiaNotaBimestre) {
         MateriaNotaBimestreListDTO materiaNotaBimestreListDTO = new MateriaNotaBimestreListDTO();
         materiaNotaBimestreListDTO.setId(materiaNotaBimestre.getId());
         materiaNotaBimestreListDTO.setNomeMateria(materiaNotaBimestre.getMateria().getName());
