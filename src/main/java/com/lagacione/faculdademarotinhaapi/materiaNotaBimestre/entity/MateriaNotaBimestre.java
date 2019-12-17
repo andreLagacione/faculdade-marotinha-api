@@ -100,16 +100,4 @@ public class MateriaNotaBimestre {
         this.mediaFinal = mediaFinal;
     }
 
-    public static MateriaNotaBimestre of(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
-        MateriaNotaBimestre materiaNotaBimestre = new MateriaNotaBimestre();
-        materiaNotaBimestre.setId(materiaNotaBimestreDTO.getId());
-        materiaNotaBimestre.setMateria(Materia.of(materiaNotaBimestreDTO.getMateria()));
-        materiaNotaBimestre.setNotaBimestre1(materiaNotaBimestreDTO.getNotaBimestre1());
-        materiaNotaBimestre.setNotaBimestre2(materiaNotaBimestreDTO.getNotaBimestre2());
-        materiaNotaBimestre.setNotaBimestre3(materiaNotaBimestreDTO.getNotaBimestre3());
-        materiaNotaBimestre.setNotaBimestre4(materiaNotaBimestreDTO.getNotaBimestre4());
-        materiaNotaBimestre.setIdBoletim(materiaNotaBimestreDTO.getIdBoletim());
-        materiaNotaBimestre.setMediaFinal(materiaNotaBimestreDTO.getMediaFinal());
-        return materiaNotaBimestre;
-    }
 }

@@ -7,6 +7,7 @@ import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreDTO;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreListDTO;
 import com.lagacione.faculdademarotinhaapi.materia.service.MateriaService;
+import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestrePDFDTO;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.repository.MatreriaNotaBimestreRespository;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,14 +36,14 @@ public class MateriaNotaBimestreService {
 
     public List<MateriaNotaBimestreListDTO> findAll() {
         List<MateriaNotaBimestre> notas = this.matreriaNotaBimestreRespository.findAll();
-        List<MateriaNotaBimestreListDTO> notasDTO = notas.stream().map(MateriaNotaBimestreListDTO::of).collect(Collectors.toList());
+        List<MateriaNotaBimestreListDTO> notasDTO = notas.stream().map(nota -> this.materiaNotaBimestreListDTOofDTO(nota)).collect(Collectors.toList());
         return notasDTO;
     }
 
     public Page<MateriaNotaBimestreListDTO> findPage(Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
         Page<MateriaNotaBimestre> notas = this.matreriaNotaBimestreRespository.findAll(pageRequest);
-        Page<MateriaNotaBimestreListDTO> notasDTO = notas.map(MateriaNotaBimestreListDTO::of);
+        Page<MateriaNotaBimestreListDTO> notasDTO = notas.map(nota -> this.materiaNotaBimestreListDTOofDTO(nota));
         return notasDTO;
     }
 
@@ -53,22 +54,20 @@ public class MateriaNotaBimestreService {
             throw new ObjectNotFoundException("Nota não encontrada!");
         }
 
-        MateriaNotaBimestreDTO notaDTO = new MateriaNotaBimestreDTO();
-        notaDTO = notaDTO.of(nota.get());
-        return notaDTO;
+        return this.materiaNotaBimestreDTOofEntity(nota.get());
     }
 
     private MateriaNotaBimestreDTO insert(MateriaNotaBimestre nota) {
         nota.setId(null);
-        MateriaNotaBimestreDTO notaDTO = MateriaNotaBimestreDTO.of(this.matreriaNotaBimestreRespository.save(nota));
+        MateriaNotaBimestreDTO notaDTO = this.materiaNotaBimestreDTOofEntity(this.matreriaNotaBimestreRespository.save(nota));
         this.boletimService.adicionarNotaBoletim(notaDTO);
         return notaDTO;
     }
 
     private MateriaNotaBimestreDTO update(MateriaNotaBimestre nota) throws ObjectNotFoundException {
-        MateriaNotaBimestre newNota = MateriaNotaBimestre.of(this.find(nota.getId()));
+        MateriaNotaBimestre newNota = this.materiaNotaBimestreOfDTO(this.find(nota.getId()));
         this.updateData(newNota, nota);
-        MateriaNotaBimestreDTO notaDTO = MateriaNotaBimestreDTO.of(this.matreriaNotaBimestreRespository.save(nota));
+        MateriaNotaBimestreDTO notaDTO = this.materiaNotaBimestreDTOofEntity(this.matreriaNotaBimestreRespository.save(nota));
         this.boletimService.alterarNotaBoletim(notaDTO);
         return notaDTO;
     }
@@ -100,7 +99,7 @@ public class MateriaNotaBimestreService {
         this.obterNotasAdicionadas(notaDTO);
 
         notaDTO = this.calcularMediaFinal(notaDTO);
-        MateriaNotaBimestre nota = MateriaNotaBimestre.of(notaDTO);
+        MateriaNotaBimestre nota = this.materiaNotaBimestreOfDTO(notaDTO);
 
         if (adicionar) {
             return this.insert(nota);
@@ -160,5 +159,64 @@ public class MateriaNotaBimestreService {
         }
 
         return notaDTO;
+    }
+
+    public MateriaNotaBimestre materiaNotaBimestreOfDTO(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
+        MateriaNotaBimestre materiaNotaBimestre = new MateriaNotaBimestre();
+        materiaNotaBimestre.setId(materiaNotaBimestreDTO.getId());
+        materiaNotaBimestre.setMateria(Materia.of(materiaNotaBimestreDTO.getMateria()));
+        materiaNotaBimestre.setNotaBimestre1(materiaNotaBimestreDTO.getNotaBimestre1());
+        materiaNotaBimestre.setNotaBimestre2(materiaNotaBimestreDTO.getNotaBimestre2());
+        materiaNotaBimestre.setNotaBimestre3(materiaNotaBimestreDTO.getNotaBimestre3());
+        materiaNotaBimestre.setNotaBimestre4(materiaNotaBimestreDTO.getNotaBimestre4());
+        materiaNotaBimestre.setIdBoletim(materiaNotaBimestreDTO.getIdBoletim());
+        materiaNotaBimestre.setMediaFinal(materiaNotaBimestreDTO.getMediaFinal());
+        return materiaNotaBimestre;
+    }
+
+    public MateriaNotaBimestreDTO materiaNotaBimestreDTOofEntity(MateriaNotaBimestre materiaNotaBimestre) {
+        MateriaNotaBimestreDTO materiaNotaBimestreDTO = new MateriaNotaBimestreDTO();
+        materiaNotaBimestreDTO.setId(materiaNotaBimestre.getId());
+        materiaNotaBimestreDTO.setMateria(MateriaDTO.of(materiaNotaBimestre.getMateria()));
+        materiaNotaBimestreDTO.setNotaBimestre1(materiaNotaBimestre.getNotaBimestre1());
+        materiaNotaBimestreDTO.setNotaBimestre2(materiaNotaBimestre.getNotaBimestre2());
+        materiaNotaBimestreDTO.setNotaBimestre3(materiaNotaBimestre.getNotaBimestre3());
+        materiaNotaBimestreDTO.setNotaBimestre4(materiaNotaBimestre.getNotaBimestre4());
+        materiaNotaBimestreDTO.setIdBoletim(materiaNotaBimestre.getIdBoletim());
+        materiaNotaBimestreDTO.setMediaFinal(materiaNotaBimestre.getMediaFinal());
+        return materiaNotaBimestreDTO;
+    }
+
+    public MateriaNotaBimestrePDFDTO materiaNotaBimestrePDFDTOofDTO(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
+        MateriaNotaBimestrePDFDTO materiaNotaBimestrePDFDTO = new MateriaNotaBimestrePDFDTO();
+        materiaNotaBimestrePDFDTO.setId(materiaNotaBimestreDTO.getId());
+        materiaNotaBimestrePDFDTO.setNomeMateria(materiaNotaBimestreDTO.getMateria().getName());
+        materiaNotaBimestrePDFDTO.setNotaBimestre1(this.convertNota(materiaNotaBimestreDTO.getNotaBimestre1()));
+        materiaNotaBimestrePDFDTO.setNotaBimestre2(this.convertNota(materiaNotaBimestreDTO.getNotaBimestre2()));
+        materiaNotaBimestrePDFDTO.setNotaBimestre3(this.convertNota(materiaNotaBimestreDTO.getNotaBimestre3()));
+        materiaNotaBimestrePDFDTO.setNotaBimestre4(this.convertNota(materiaNotaBimestreDTO.getNotaBimestre4()));
+        materiaNotaBimestrePDFDTO.setIdBoletim(materiaNotaBimestreDTO.getIdBoletim());
+        materiaNotaBimestrePDFDTO.setMediaFinal(materiaNotaBimestreDTO.getMediaFinal());
+        return materiaNotaBimestrePDFDTO;
+    }
+
+    private String convertNota(Double nota) {
+        if (nota == null) {
+            return "N/A";
+        }
+
+        return String.format("%.2f", nota);
+    }
+
+    public MateriaNotaBimestreListDTO materiaNotaBimestreListDTOofDTO(MateriaNotaBimestre materiaNotaBimestre) {
+        MateriaNotaBimestreListDTO materiaNotaBimestreListDTO = new MateriaNotaBimestreListDTO();
+        materiaNotaBimestreListDTO.setId(materiaNotaBimestre.getId());
+        materiaNotaBimestreListDTO.setNomeMateria(materiaNotaBimestre.getMateria().getName());
+        materiaNotaBimestreListDTO.setNotaBimestre1(materiaNotaBimestre.getNotaBimestre1());
+        materiaNotaBimestreListDTO.setNotaBimestre2(materiaNotaBimestre.getNotaBimestre2());
+        materiaNotaBimestreListDTO.setNotaBimestre3(materiaNotaBimestre.getNotaBimestre3());
+        materiaNotaBimestreListDTO.setNotaBimestre4(materiaNotaBimestre.getNotaBimestre4());
+        materiaNotaBimestreListDTO.setMediaFinal(materiaNotaBimestre.getMediaFinal());
+        return materiaNotaBimestreListDTO;
     }
 }

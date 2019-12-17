@@ -77,25 +77,4 @@ public class MateriaNotaBimestrePDFDTO {
         this.mediaFinal = mediaFinal;
     }
 
-    public static MateriaNotaBimestrePDFDTO of(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
-        MateriaNotaBimestrePDFDTO materiaNotaBimestrePDFDTO = new MateriaNotaBimestrePDFDTO();
-        materiaNotaBimestrePDFDTO.setId(materiaNotaBimestreDTO.getId());
-        materiaNotaBimestrePDFDTO.setNomeMateria(materiaNotaBimestreDTO.getMateria().getName());
-        materiaNotaBimestrePDFDTO.setNotaBimestre1(convertNota(materiaNotaBimestreDTO.getNotaBimestre1()));
-        materiaNotaBimestrePDFDTO.setNotaBimestre2(convertNota(materiaNotaBimestreDTO.getNotaBimestre2()));
-        materiaNotaBimestrePDFDTO.setNotaBimestre3(convertNota(materiaNotaBimestreDTO.getNotaBimestre3()));
-        materiaNotaBimestrePDFDTO.setNotaBimestre4(convertNota(materiaNotaBimestreDTO.getNotaBimestre4()));
-        materiaNotaBimestrePDFDTO.setIdBoletim(materiaNotaBimestreDTO.getIdBoletim());
-        materiaNotaBimestrePDFDTO.setMediaFinal(materiaNotaBimestreDTO.getMediaFinal());
-        return materiaNotaBimestrePDFDTO;
-    }
-
-    private static String convertNota(Double nota) {
-        if (nota == null) {
-            return "N/A";
-        }
-
-        return String.format("%.2f", nota);
-    }
-
 }
