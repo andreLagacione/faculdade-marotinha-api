@@ -26,14 +26,14 @@ public class MateriaService {
 
     public List<MateriaDTO> findAll() {
         List<Materia> materias = this.materiaRepository.findAll();
-        List<MateriaDTO> materiasDTO = materias.stream().map(MateriaDTO::of).collect(Collectors.toList());
+        List<MateriaDTO> materiasDTO = materias.stream().map(materia -> this.materiaDTOofMateria(materia)).collect(Collectors.toList());
         return materiasDTO;
     }
 
     public Page<MateriaDTO> findPage(Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
         Page<Materia> materias = this.materiaRepository.findAll(pageRequest);
-        Page<MateriaDTO> materiasDTO = materias.map(MateriaDTO::of);
+        Page<MateriaDTO> materiasDTO = materias.map(materia -> this.materiaDTOofMateria(materia));
         return materiasDTO;
     }
 
@@ -44,18 +44,18 @@ public class MateriaService {
             throw new ObjectNotFoundException("Matéria não encontrada!");
         }
 
-        return MateriaDTO.of(materia.get());
+        return this.materiaDTOofMateria(materia.get());
     }
 
     private MateriaDTO insert(Materia materia) {
         materia.setId(null);
-        return MateriaDTO.of(this.materiaRepository.save(materia));
+        return this.materiaDTOofMateria(this.materiaRepository.save(materia));
     }
 
     private MateriaDTO update(Materia materia) throws ObjectNotFoundException {
-        Materia newMateria = Materia.of(this.find(materia.getId()));
+        Materia newMateria = this.materiaOfMateriaDTO(this.find(materia.getId()));
         this.updateData(newMateria, materia);
-        return MateriaDTO.of(this.materiaRepository.save(newMateria));
+        return this.materiaDTOofMateria(this.materiaRepository.save(newMateria));
     }
 
     public void delete(Integer id) throws ObjectNotFoundException {
@@ -73,12 +73,26 @@ public class MateriaService {
     }
 
     public MateriaDTO salvarRegistro(MateriaDTO materiaDTO, Boolean adicionar) throws ObjectNotFoundException {
-        Materia materia = Materia.of(materiaDTO);
+        Materia materia = this.materiaOfMateriaDTO(materiaDTO);
 
         if (adicionar) {
             return this.insert(materia);
         }
 
         return this.update(materia);
+    }
+
+    public Materia materiaOfMateriaDTO(MateriaDTO materiaDTO) {
+        Materia materia = new Materia();
+        materia.setId(materiaDTO.getId());
+        materia.setName(materiaDTO.getName());
+        return materia;
+    }
+
+    public MateriaDTO materiaDTOofMateria(Materia materia) {
+        MateriaDTO materiaDTO = new MateriaDTO();
+        materiaDTO.setId(materia.getId());
+        materiaDTO.setName(materia.getName());
+        return materiaDTO;
     }
 }

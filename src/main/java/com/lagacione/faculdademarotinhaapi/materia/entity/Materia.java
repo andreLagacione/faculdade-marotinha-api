@@ -50,10 +50,4 @@ public class Materia {
         this.name = name;
     }
 
-    public static Materia of(MateriaDTO materiaDTO) {
-        Materia materia = new Materia();
-        materia.setId(materiaDTO.getId());
-        materia.setName(materiaDTO.getName());
-        return materia;
-    }
 }
