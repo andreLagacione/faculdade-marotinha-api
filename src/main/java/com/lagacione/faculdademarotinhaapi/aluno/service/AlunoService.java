@@ -63,17 +63,17 @@ public class AlunoService {
 
     private AlunoDTO insert(Aluno aluno) {
         aluno.setId(null);
-        return AlunoDTO.of(this.alunoRepository.save(aluno));
+        return this.alunoDTOofAluno(this.alunoRepository.save(aluno));
     }
 
     public AlunoDTO findAlunoDTO(Integer id) throws ObjectNotFoundException {
-        return AlunoDTO.of(this.findAluno(id));
+        return this.alunoDTOofAluno(this.findAluno(id));
     }
 
     private AlunoDTO update(Aluno aluno) throws ObjectNotFoundException {
         Aluno newAluno = this.alunoOfAlunoDTO(this.findAlunoDTO(aluno.getId()));
         this.updateData(newAluno, aluno);
-        return AlunoDTO.of(this.alunoRepository.save(newAluno));
+        return this.alunoDTOofAluno(this.alunoRepository.save(newAluno));
     }
 
     public void delete(Integer id) throws ObjectNotFoundException {
@@ -97,7 +97,6 @@ public class AlunoService {
 
     public AlunoDTO salvarRegistro(AlunoDTO alunoDTO, Boolean adicionar) throws ActionNotAllowedException {
         this.validarCurso(alunoDTO);
-        List<Curso> cursos = alunoDTO.getCursos().stream().map(id -> this.cursoService.getCurso(id)).collect(Collectors.toList());
 
         Aluno aluno = this.alunoOfAlunoDTO(alunoDTO);
 
