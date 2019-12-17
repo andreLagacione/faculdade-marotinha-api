@@ -5,6 +5,7 @@ import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundExce
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
+import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
 import com.lagacione.faculdademarotinhaapi.materia.service.MateriaService;
 import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
@@ -144,13 +145,31 @@ public class ProfessorService {
         }
     }
 
-    private List<Curso> mapearCursos(List<CursoDTO> cursosDTO) {
-        List<Curso> cursos = new ArrayList<>();
+    public Professor professorOfDTO(ProfessorDTO professorDTO) {
+        Professor professor = new Professor();
+        professor.setId(professorDTO.getId());
+        professor.setName(professorDTO.getName());
+        professor.setAge(professorDTO.getAge());
+        professor.setCpf(professorDTO.getCpf());
+        professor.setPhone(professorDTO.getPhone());
+        List<Materia> materias = professorDTO.getMateriasLecionadas().stream().map(materia -> this.materiaService.materiaOfMateriaDTO(materia)).collect(Collectors.toList());
+        professor.setMateriasLecionadas(materias);
+        List<Curso> cursos = professorDTO.getCursosLecionados().stream().map(curso -> this.cursoService.cursoOfCursoDTO(curso)).collect(Collectors.toList());
+        professor.setCursosLecionados(cursos);
+        return professor;
+    }
 
-        for (CursoDTO cursoDTO : cursosDTO) {
-            cursos.add(Curso.of(cursoDTO, this.cursoService.getMateriasById(cursoDTO.getMaterias())));
-        }
-
-        return cursos;
+    public ProfessorDTO professorDTOofEntity(Professor professor) {
+        ProfessorDTO professorDTO = new ProfessorDTO();
+        professorDTO.setId(professor.getId());
+        professorDTO.setName(professor.getName());
+        professorDTO.setAge(professor.getAge());
+        professorDTO.setCpf(professor.getCpf());
+        professorDTO.setPhone(professor.getPhone());
+        List<MateriaDTO> materiasDTO = professor.getMateriasLecionadas().stream().map(MateriaDTO::of).collect(Collectors.toList());
+        List<CursoDTO> cursosDTO = professor.getCursosLecionados().stream().map(CursoDTO::of).collect(Collectors.toList());
+        professorDTO.setMateriasLecionadas(materiasDTO);
+        professorDTO.setCursosLecionados(cursosDTO);
+        return professorDTO;
     }
 }

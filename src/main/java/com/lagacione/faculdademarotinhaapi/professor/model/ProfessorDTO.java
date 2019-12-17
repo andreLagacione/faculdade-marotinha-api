@@ -46,17 +46,4 @@ public class ProfessorDTO extends PessoaDTO {
         this.cursosLecionados = cursosLecionados;
     }
 
-    public static ProfessorDTO of(Professor professor) {
-        ProfessorDTO professorDTO = new ProfessorDTO();
-        professorDTO.setId(professor.getId());
-        professorDTO.setName(professor.getName());
-        professorDTO.setAge(professor.getAge());
-        professorDTO.setCpf(professor.getCpf());
-        professorDTO.setPhone(professor.getPhone());
-        List<MateriaDTO> materiasDTO = professor.getMateriasLecionadas().stream().map(MateriaDTO::of).collect(Collectors.toList());
-        List<CursoDTO> cursosDTO = professor.getCursosLecionados().stream().map(CursoDTO::of).collect(Collectors.toList());
-        professorDTO.setMateriasLecionadas(materiasDTO);
-        professorDTO.setCursosLecionados(cursosDTO);
-        return professorDTO;
-    }
 }

@@ -66,16 +66,4 @@ public class Professor extends Pessoa {
         this.cursosLecionados = cursosLecionados;
     }
 
-    public static Professor of(ProfessorDTO professorDTO, List<Curso> cursos) {
-        Professor professor = new Professor();
-        professor.setId(professorDTO.getId());
-        professor.setName(professorDTO.getName());
-        professor.setAge(professorDTO.getAge());
-        professor.setCpf(professorDTO.getCpf());
-        professor.setPhone(professorDTO.getPhone());
-        List<Materia> materias = professorDTO.getMateriasLecionadas().stream().map(Materia::of).collect(Collectors.toList());
-        professor.setMateriasLecionadas(materias);
-        professor.setCursosLecionados(cursos);
-        return professor;
-    }
 }
