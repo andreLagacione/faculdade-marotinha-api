@@ -1,10 +1,10 @@
 package com.lagacione.faculdademarotinhaapi.curso.endpoint;
 
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
+import com.lagacione.faculdademarotinhaapi.commons.models.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoListaDTO;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoToEditDTO;
-import com.lagacione.faculdademarotinhaapi.commons.models.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import javassist.tools.rmi.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

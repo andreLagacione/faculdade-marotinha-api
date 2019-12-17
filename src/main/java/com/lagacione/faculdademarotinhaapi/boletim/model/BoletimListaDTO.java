@@ -1,7 +1,5 @@
 package com.lagacione.faculdademarotinhaapi.boletim.model;
 
-import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim;
-
 public class BoletimListaDTO {
     private Integer id;
     private Integer ano;

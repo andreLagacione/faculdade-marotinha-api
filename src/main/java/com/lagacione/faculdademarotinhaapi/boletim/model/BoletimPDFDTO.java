@@ -4,7 +4,6 @@ import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNota
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class BoletimPDFDTO {
     private Integer ano;

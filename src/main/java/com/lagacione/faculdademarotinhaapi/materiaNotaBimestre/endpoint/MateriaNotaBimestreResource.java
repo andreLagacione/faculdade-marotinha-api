@@ -1,10 +1,10 @@
 package com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.endpoint;
 
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
+import com.lagacione.faculdademarotinhaapi.commons.models.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreDTO;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreListDTO;
-import com.lagacione.faculdademarotinhaapi.commons.models.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.service.MateriaNotaBimestreService;
-import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

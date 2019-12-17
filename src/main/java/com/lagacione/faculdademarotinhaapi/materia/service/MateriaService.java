@@ -1,9 +1,9 @@
 package com.lagacione.faculdademarotinhaapi.materia.service;
 
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
 import com.lagacione.faculdademarotinhaapi.materia.repository.MateriaRepository;
-import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;

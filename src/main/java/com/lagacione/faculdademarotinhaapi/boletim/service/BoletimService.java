@@ -1,17 +1,14 @@
 package com.lagacione.faculdademarotinhaapi.boletim.service;
 
-import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
-import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.service.AlunoService;
 import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimListaDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimPDFDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimToEditDTO;
-import com.lagacione.faculdademarotinhaapi.commons.models.GerarPDFBoletimDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.repository.BoletimRepository;
-import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
-import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
+import com.lagacione.faculdademarotinhaapi.commons.models.GerarPDFBoletimDTO;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.entity.MateriaNotaBimestre;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreDTO;
@@ -21,7 +18,6 @@ import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.service.MateriaNo
 import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorDTO;
 import com.lagacione.faculdademarotinhaapi.professor.service.ProfessorService;
-import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -30,7 +26,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -233,14 +228,14 @@ public class BoletimService {
         return boletimPDFDTO;
     }
 
-    public static BoletimToEditDTO boletimToEditDTOofBoletim(Boletim boletim) {
+    public BoletimToEditDTO boletimToEditDTOofBoletim(Boletim boletim) {
         BoletimToEditDTO boletimEdit = new BoletimToEditDTO();
         boletimEdit.setId(boletim.getId());
         boletimEdit.setAno(boletim.getAno());
         boletimEdit.setIdAluno(boletim.getAluno().getId());
         boletimEdit.setIdProfessor(boletim.getProfessor().getId());
         boletimEdit.setIdCurso(boletim.getCurso().getId());
-        List<MateriaNotaBimestreListDTO> notas = boletim.getNotas().stream().map(MateriaNotaBimestreListDTO::of).collect(Collectors.toList());
+        List<MateriaNotaBimestreListDTO> notas = boletim.getNotas().stream().map(nota -> this.materiaNotaBimestreService.materiaNotaBimestreListDTOofEntity(nota)).collect(Collectors.toList());
         boletimEdit.setNotas(notas);
         return boletimEdit;
     }

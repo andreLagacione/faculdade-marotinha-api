@@ -1,7 +1,5 @@
 package com.lagacione.faculdademarotinhaapi.curso.model;
 
-import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
-
 public class CursoListaDTO {
     private Integer id;
     private String nome;

@@ -3,9 +3,9 @@ package com.lagacione.faculdademarotinhaapi.professor.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
-import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorDTO;
 import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
 import com.lagacione.faculdademarotinhaapi.pessoa.entity.Pessoa;
+import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorDTO;
 
 import javax.persistence.*;
 import java.util.ArrayList;

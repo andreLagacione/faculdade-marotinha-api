@@ -1,7 +1,5 @@
 package com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model;
 
-import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.entity.MateriaNotaBimestre;
-
 public class MateriaNotaBimestreListDTO {
     private Integer id;
     private String nomeMateria;

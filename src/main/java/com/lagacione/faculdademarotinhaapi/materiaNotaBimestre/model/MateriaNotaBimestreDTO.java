@@ -1,6 +1,5 @@
 package com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model;
 
-import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.entity.MateriaNotaBimestre;
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
 
 import javax.validation.Valid;

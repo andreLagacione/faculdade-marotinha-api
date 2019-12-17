@@ -1,6 +1,5 @@
 package com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.entity;
 
-import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreDTO;
 import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
 
 import javax.persistence.*;

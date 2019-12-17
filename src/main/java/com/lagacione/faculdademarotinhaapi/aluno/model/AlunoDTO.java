@@ -1,13 +1,10 @@
 package com.lagacione.faculdademarotinhaapi.aluno.model;
 
-import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
-import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.pessoa.model.PessoaDTO;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AlunoDTO extends PessoaDTO {
 

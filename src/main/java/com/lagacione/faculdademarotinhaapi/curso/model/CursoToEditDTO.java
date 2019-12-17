@@ -1,11 +1,9 @@
 package com.lagacione.faculdademarotinhaapi.curso.model;
 
-import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CursoToEditDTO {
     private Integer id;
