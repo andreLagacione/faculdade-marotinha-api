@@ -1,5 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.boletim.service;
 
+import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
+import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.service.AlunoService;
 import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimDTO;
@@ -9,11 +11,15 @@ import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimToEditDTO;
 import com.lagacione.faculdademarotinhaapi.commons.models.GerarPDFBoletimDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.repository.BoletimRepository;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
+import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.entity.MateriaNotaBimestre;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreDTO;
+import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreListDTO;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestrePDFDTO;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.service.MateriaNotaBimestreService;
+import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
+import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorDTO;
 import com.lagacione.faculdademarotinhaapi.professor.service.ProfessorService;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,14 +54,14 @@ public class BoletimService {
 
     public List<BoletimListaDTO> findAll() {
         List<Boletim> boletins = this.boletimRepository.findAll();
-        List<BoletimListaDTO> boletimLista = boletins.stream().map(BoletimListaDTO::of).collect(Collectors.toList());
+        List<BoletimListaDTO> boletimLista = boletins.stream().map(boletim -> this.boletimListaDTOofBoletim(boletim)).collect(Collectors.toList());
         return boletimLista;
     }
 
     public Page<BoletimListaDTO> findPage(Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
         Page<Boletim> boletins = this.boletimRepository.findAll(pageRequest);
-        Page<BoletimListaDTO> boletimLista = boletins.map(BoletimListaDTO::of);
+        Page<BoletimListaDTO> boletimLista = boletins.map(boletim -> this.boletimListaDTOofBoletim(boletim));
         return boletimLista;
     }
 
@@ -70,22 +76,22 @@ public class BoletimService {
     }
 
     public BoletimToEditDTO find(Integer id) throws ObjectNotFoundException {
-        return BoletimToEditDTO.of(this.getBoletim(id));
+        return this.boletimToEditDTOofBoletim(this.getBoletim(id));
     }
 
     public BoletimDTO findBoletimDTO(Integer id) throws ObjectNotFoundException {
-        return BoletimDTO.of(this.getBoletim(id));
+        return this.boletimDTOofBoletim(this.getBoletim(id));
     }
 
     private BoletimDTO insert(Boletim boletim) {
         boletim.setId(null);
-        return BoletimDTO.of(this.boletimRepository.save(boletim));
+        return this.boletimDTOofBoletim(this.boletimRepository.save(boletim));
     }
 
     private BoletimDTO update(Boletim boletim) throws ObjectNotFoundException {
-        Boletim newBoletim = Boletim.of(this.findBoletimDTO(boletim.getId()), boletim.getAluno().getCursos(), boletim.getNotas(), boletim.getCurso());
+        Boletim newBoletim = this.boletimOfBoletimDTO(this.findBoletimDTO(boletim.getId()));
         this.updateData(newBoletim, boletim);
-        return BoletimDTO.of(this.boletimRepository.save(newBoletim));
+        return this.boletimDTOofBoletim(this.boletimRepository.save(newBoletim));
     }
 
     public void delete(Integer id) throws ObjectNotFoundException {
@@ -109,17 +115,11 @@ public class BoletimService {
     }
 
     public BoletimDTO salvarRegistro(BoletimDTO boletimDTO, Boolean adicionar) throws Exception {
-        List<Curso> cursos = this.alunoService.obterCursosById(boletimDTO.getAluno().getCursos());
         this.validarProfessor(boletimDTO);
         this.validarAluno(boletimDTO);
         this.validarCurso(boletimDTO);
 
-        Boletim boletim = Boletim.of(
-                boletimDTO,
-                cursos,
-                this.obterNotasById(boletimDTO.getNotas()),
-                Curso.of(boletimDTO.getCurso(), this.cursoService.getMateriasById(boletimDTO.getCurso().getMaterias()))
-        );
+        Boletim boletim = this.boletimOfBoletimDTO(boletimDTO);
 
         if (adicionar) {
             return this.insert(boletim);
@@ -142,49 +142,25 @@ public class BoletimService {
 
     public void adicionarNotaBoletim(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
         BoletimDTO boletimDTO = this.findBoletimDTO(materiaNotaBimestreDTO.getIdBoletim());
-        List<Curso> cursos = this.alunoService.obterCursosById(boletimDTO.getAluno().getCursos());
         List<Integer> notas = boletimDTO.getNotas();
         notas.add(materiaNotaBimestreDTO.getId());
         boletimDTO.setNotas(notas);
-        this.update(
-                Boletim.of(
-                        boletimDTO,
-                        cursos,
-                        this.obterNotasById(notas),
-                        Curso.of(boletimDTO.getCurso(), this.cursoService.getMateriasById(boletimDTO.getCurso().getMaterias()))
-                )
-        );
+        this.update(this.boletimOfBoletimDTO(boletimDTO));
     }
 
     public void alterarNotaBoletim(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
         BoletimDTO boletimDTO = this.findBoletimDTO(materiaNotaBimestreDTO.getIdBoletim());
-        List<Curso> cursos = this.alunoService.obterCursosById(boletimDTO.getAluno().getCursos());
         List<Integer> notas = this.findAndRemoveNota(boletimDTO.getNotas(), materiaNotaBimestreDTO.getId());
         notas.add(materiaNotaBimestreDTO.getId());
         boletimDTO.setNotas(notas);
-        this.update(
-                Boletim.of(
-                        boletimDTO,
-                        cursos,
-                        this.obterNotasById(notas),
-                        Curso.of(boletimDTO.getCurso(), this.cursoService.getMateriasById(boletimDTO.getCurso().getMaterias()))
-                )
-        );
+        this.update(this.boletimOfBoletimDTO(boletimDTO));
     }
 
     public void removerNotaBoletim(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
         BoletimDTO boletimDTO = this.findBoletimDTO(materiaNotaBimestreDTO.getIdBoletim());
-        List<Curso> cursos = this.alunoService.obterCursosById(boletimDTO.getAluno().getCursos());
         List<Integer> notas = this.findAndRemoveNota(boletimDTO.getNotas(), materiaNotaBimestreDTO.getId());
         boletimDTO.setNotas(notas);
-        this.update(
-                Boletim.of(
-                        boletimDTO,
-                        cursos,
-                        this.obterNotasById(notas),
-                        Curso.of(boletimDTO.getCurso(), this.cursoService.getMateriasById(boletimDTO.getCurso().getMaterias()))
-                )
-        );
+        this.update(this.boletimOfBoletimDTO(boletimDTO));
     }
 
     private List<Integer> findAndRemoveNota(List<Integer> notasId, Integer idNotaRemove) {
@@ -201,9 +177,7 @@ public class BoletimService {
     public void gerarBoletim(Integer id, HttpServletResponse response) throws Exception {
         try {
             BoletimDTO boletimDTO = this.findBoletimDTO(id);
-            List<MateriaNotaBimestrePDFDTO> notas = this.obterNotasByIdForPDF(boletimDTO.getNotas());
-
-            BoletimPDFDTO boletimPDF = BoletimPDFDTO.of(boletimDTO, notas);
+            BoletimPDFDTO boletimPDF = this.boletimPDFDTOofBoletimDTO(boletimDTO);
             GerarPDFBoletimDTO boletim = new GerarPDFBoletimDTO();
             boletim.gerarBoletim(boletimPDF, response);
         } catch (Exception e) {
@@ -212,25 +186,62 @@ public class BoletimService {
 
     }
 
-    private List<MateriaNotaBimestrePDFDTO> obterNotasByIdForPDF(List<Integer> notasId) {
-        List<MateriaNotaBimestrePDFDTO> notas = new ArrayList<>();
-
-        for (Integer id : notasId) {
-            MateriaNotaBimestreDTO nota = this.materiaNotaBimestreService.find(id);
-            notas.add(MateriaNotaBimestrePDFDTO.of(nota));
-        }
-
-        return notas;
+    public  Boletim boletimOfBoletimDTO(BoletimDTO boletimDTO) {
+        Boletim boletim = new Boletim();
+        boletim.setId(boletimDTO.getId());
+        boletim.setAno(boletimDTO.getAno());
+        boletim.setAluno(this.alunoService.alunoOfAlunoDTO(boletimDTO.getAluno()));
+        boletim.setProfessor(Professor.of(boletimDTO.getProfessor(), boletim.getProfessor().getCursosLecionados()));
+        boletim.setCurso(this.cursoService.cursoOfCursoDTO(boletimDTO.getCurso()));
+        List<MateriaNotaBimestreDTO> notasDTO = boletimDTO.getNotas().stream().map(id -> this.materiaNotaBimestreService.find(id)).collect(Collectors.toList());
+        List<MateriaNotaBimestre> notas = notasDTO.stream().map(nota -> this.materiaNotaBimestreService.materiaNotaBimestreOfDTO(nota)).collect(Collectors.toList());
+        boletim.setNotas(notas);
+        return boletim;
     }
 
-    private List<MateriaNotaBimestre> obterNotasById(List<Integer> notasId) {
-        List<MateriaNotaBimestre> notas = new ArrayList<>();
+    public BoletimDTO boletimDTOofBoletim(Boletim boletim) {
+        BoletimDTO boletimDTO = new BoletimDTO();
+        boletimDTO.setId(boletim.getId());
+        boletimDTO.setAno(boletim.getAno());
+        boletimDTO.setAluno(this.alunoService.alunoDTOofAluno(boletim.getAluno()));
+        boletimDTO.setProfessor(ProfessorDTO.of(boletim.getProfessor()));
+        boletimDTO.setCurso(this.cursoService.cursoDTOofCurso(boletim.getCurso()));
+        List<Integer> notas = boletim.getNotas().stream().map(nota -> nota.getId()).collect(Collectors.toList());
+        boletimDTO.setNotas(notas);
+        return boletimDTO;
+    }
 
-        for (Integer id : notasId) {
-            MateriaNotaBimestreDTO nota = this.materiaNotaBimestreService.find(id);
-            notas.add(MateriaNotaBimestre.of(nota));
-        }
+    public BoletimListaDTO boletimListaDTOofBoletim(Boletim boletim) {
+        BoletimListaDTO boletimListaDTO = new BoletimListaDTO();
+        boletimListaDTO.setId(boletim.getId());
+        boletimListaDTO.setAno(boletim.getAno());
+        boletimListaDTO.setNomeAluno(boletim.getAluno().getName());
+        boletimListaDTO.setNomeProfessor(boletim.getProfessor().getName());
+        boletimListaDTO.setNomeCurso(boletim.getCurso().getName());
+        return boletimListaDTO;
+    }
 
-        return notas;
+    public BoletimPDFDTO boletimPDFDTOofBoletimDTO(BoletimDTO boletimDTO) {
+        BoletimPDFDTO boletimPDFDTO = new BoletimPDFDTO();
+        boletimPDFDTO.setAno(boletimDTO.getAno());
+        boletimPDFDTO.setProfessor(boletimDTO.getProfessor().getName());
+        boletimPDFDTO.setAluno(boletimDTO.getAluno().getName());
+        boletimPDFDTO.setCurso(boletimDTO.getCurso().getName());
+        List<MateriaNotaBimestreDTO> notasDTO = boletimDTO.getNotas().stream().map(id -> this.materiaNotaBimestreService.find(id)).collect(Collectors.toList());
+        List<MateriaNotaBimestrePDFDTO> notas = notasDTO.stream().map(nota -> this.materiaNotaBimestreService.materiaNotaBimestrePDFDTOofDTO(nota)).collect(Collectors.toList());
+        boletimPDFDTO.setNotas(notas);
+        return boletimPDFDTO;
+    }
+
+    public static BoletimToEditDTO boletimToEditDTOofBoletim(Boletim boletim) {
+        BoletimToEditDTO boletimEdit = new BoletimToEditDTO();
+        boletimEdit.setId(boletim.getId());
+        boletimEdit.setAno(boletim.getAno());
+        boletimEdit.setIdAluno(boletim.getAluno().getId());
+        boletimEdit.setIdProfessor(boletim.getProfessor().getId());
+        boletimEdit.setIdCurso(boletim.getCurso().getId());
+        List<MateriaNotaBimestreListDTO> notas = boletim.getNotas().stream().map(MateriaNotaBimestreListDTO::of).collect(Collectors.toList());
+        boletimEdit.setNotas(notas);
+        return boletimEdit;
     }
 }

@@ -92,14 +92,4 @@ public class Boletim {
         this.notas = notas;
     }
 
-    public  static Boletim of(BoletimDTO boletimDTO, List<Curso> cursos, List<MateriaNotaBimestre> notas, Curso curso) {
-        Boletim boletim = new Boletim();
-        boletim.setId(boletimDTO.getId());
-        boletim.setAno(boletimDTO.getAno());
-        boletim.setAluno(Aluno.of(boletimDTO.getAluno(), cursos));
-        boletim.setProfessor(Professor.of(boletimDTO.getProfessor(), boletim.getProfessor().getCursosLecionados()));
-        boletim.setCurso(curso);
-        boletim.setNotas(notas);
-        return boletim;
-    }
 }

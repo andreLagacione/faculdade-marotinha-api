@@ -55,13 +55,4 @@ public class BoletimPDFDTO {
         this.notas = notas;
     }
 
-    public static BoletimPDFDTO of(BoletimDTO boletimDTO, List<MateriaNotaBimestrePDFDTO> notas) {
-        BoletimPDFDTO boletimPDFDTO = new BoletimPDFDTO();
-        boletimPDFDTO.setAno(boletimDTO.getAno());
-        boletimPDFDTO.setProfessor(boletimDTO.getProfessor().getName());
-        boletimPDFDTO.setAluno(boletimDTO.getAluno().getName());
-        boletimPDFDTO.setCurso(boletimDTO.getCurso().getName());
-        boletimPDFDTO.setNotas(notas);
-        return boletimPDFDTO;
-    }
 }

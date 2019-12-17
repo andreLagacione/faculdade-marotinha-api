@@ -51,13 +51,4 @@ public class BoletimListaDTO {
         this.nomeCurso = nomeCurso;
     }
 
-    public static BoletimListaDTO of(Boletim boletim) {
-        BoletimListaDTO boletimListaDTO = new BoletimListaDTO();
-        boletimListaDTO.setId(boletim.getId());
-        boletimListaDTO.setAno(boletim.getAno());
-        boletimListaDTO.setNomeAluno(boletim.getAluno().getName());
-        boletimListaDTO.setNomeProfessor(boletim.getProfessor().getName());
-        boletimListaDTO.setNomeCurso(boletim.getCurso().getName());
-        return boletimListaDTO;
-    }
 }

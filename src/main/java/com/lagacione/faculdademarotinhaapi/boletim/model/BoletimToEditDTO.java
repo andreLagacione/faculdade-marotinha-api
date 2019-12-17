@@ -65,15 +65,4 @@ public class BoletimToEditDTO {
         this.notas = notas;
     }
 
-    public static BoletimToEditDTO of(Boletim boletim) {
-        BoletimToEditDTO boletimEdit = new BoletimToEditDTO();
-        boletimEdit.setId(boletim.getId());
-        boletimEdit.setAno(boletim.getAno());
-        boletimEdit.setIdAluno(boletim.getAluno().getId());
-        boletimEdit.setIdProfessor(boletim.getProfessor().getId());
-        boletimEdit.setIdCurso(boletim.getCurso().getId());
-        List<MateriaNotaBimestreListDTO> notas = boletim.getNotas().stream().map(MateriaNotaBimestreListDTO::of).collect(Collectors.toList());
-        boletimEdit.setNotas(notas);
-        return boletimEdit;
-    }
 }
