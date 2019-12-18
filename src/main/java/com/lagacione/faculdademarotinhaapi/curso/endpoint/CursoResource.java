@@ -30,29 +30,29 @@ public class CursoResource {
         this.cursoService = cursoService;
     }
 
-    @RequestMapping(value="/lista", method= RequestMethod.GET)
+    @GetMapping(value="/combo-list")
     public List<CursoListaDTO> findAll() {
         return this.cursoService.findAll();
     }
 
-    @RequestMapping(method=RequestMethod.GET)
+    @GetMapping
     public Page<CursoListaDTO> findPage(@PageableDefault(page = 0, size = 25) Pageable pageable) {
         return this.cursoService.findPage(pageable);
     }
 
-    @RequestMapping(value="/{id}", method=RequestMethod.GET)
+    @GetMapping(value="/{id}")
     public CursoToEditDTO find(@PathVariable Integer id) throws ObjectNotFoundException {
         return this.cursoService.find(id);
     }
 
-    @RequestMapping(method=RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<PadraoMensagemRetornoDTO> insert(@Valid @RequestBody CursoDTO cursoDTO) throws ActionNotAllowedException {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(this.cursoService.salvarRegistro(cursoDTO, true).getId()).toUri();
         PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.CREATED, HttpStatus.valueOf("CREATED").value(), "Curso adicionado com sucesso!");
         return ResponseEntity.created(uri).body(mensagemRetorno);
     }
 
-    @RequestMapping(method=RequestMethod.PUT)
+    @PutMapping
     public PadraoMensagemRetornoDTO update(
             @Valid @RequestBody CursoDTO cursoDTO
     ) throws ActionNotAllowedException {
@@ -60,7 +60,7 @@ public class CursoResource {
         return new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Curso editado com sucesso!");
     }
 
-    @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+    @DeleteMapping(value="/{id}")
     public PadraoMensagemRetornoDTO delete(@PathVariable Integer id) throws ObjectNotFoundException {
         this.cursoService.delete(id);
         return new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Curso removido com sucesso!");
