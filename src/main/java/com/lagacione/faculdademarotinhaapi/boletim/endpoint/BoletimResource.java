@@ -29,7 +29,7 @@ public class BoletimResource {
         this.boletimService = boletimService;
     }
 
-    @GetMapping(value="/lista")
+    @GetMapping(value="/combo-list")
     public List<BoletimListaDTO> findAll() {
         return this.boletimService.findAll();
     }
