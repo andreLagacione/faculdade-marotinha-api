@@ -1,7 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.aluno.service;
 
 import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
-import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoCursoListaDTO;
+import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoForEditDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoListaDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.repository.AlunoRepository;
@@ -56,7 +56,7 @@ public class AlunoService {
         return aluno.get();
     }
 
-    public AlunoCursoListaDTO find(Integer id) throws ObjectNotFoundException {
+    public AlunoForEditDTO find(Integer id) throws ObjectNotFoundException {
         return this.alunoCursoListaDTOofAluno(this.findAluno(id));
     }
 
@@ -134,24 +134,22 @@ public class AlunoService {
         aluno.setAge(alunoDTO.getAge());
         aluno.setCpf(alunoDTO.getCpf());
         aluno.setPhone(alunoDTO.getPhone());
-
         List<CursoDTO> cursosDTO = alunoDTO.getCursos().stream().map(id -> this.cursoService.findOptional(id)).collect(Collectors.toList());
         List<Curso> cursos = cursosDTO.stream().map(curso -> this.cursoService.cursoOfCursoDTO(curso)).collect(Collectors.toList());
-
         aluno.setCursos(cursos);
         return aluno;
     }
 
-    public AlunoCursoListaDTO alunoCursoListaDTOofAluno(Aluno aluno) {
-        AlunoCursoListaDTO alunoCursoListaDTO = new AlunoCursoListaDTO();
-        alunoCursoListaDTO.setId(aluno.getId());
-        alunoCursoListaDTO.setName(aluno.getName());
-        alunoCursoListaDTO.setCpf(aluno.getCpf());
-        alunoCursoListaDTO.setAge(aluno.getAge());
-        alunoCursoListaDTO.setPhone(aluno.getPhone());
+    public AlunoForEditDTO alunoCursoListaDTOofAluno(Aluno aluno) {
+        AlunoForEditDTO alunoForEditDTO = new AlunoForEditDTO();
+        alunoForEditDTO.setId(aluno.getId());
+        alunoForEditDTO.setName(aluno.getName());
+        alunoForEditDTO.setCpf(aluno.getCpf());
+        alunoForEditDTO.setAge(aluno.getAge());
+        alunoForEditDTO.setPhone(aluno.getPhone());
         List<CursoNomeListaDTO> cursos = aluno.getCursos().stream().map(curso -> this.cursoService.cursoNomeListaDTOofCurso(curso)).collect(Collectors.toList());
-        alunoCursoListaDTO.setCursos(cursos);
-        return alunoCursoListaDTO;
+        alunoForEditDTO.setCursos(cursos);
+        return alunoForEditDTO;
     }
 
     public AlunoDTO alunoDTOofAluno(Aluno aluno) {
@@ -161,11 +159,7 @@ public class AlunoService {
         alunoDTO.setAge(aluno.getAge());
         alunoDTO.setCpf(aluno.getCpf());
         alunoDTO.setPhone(aluno.getPhone());
-
-
         List<Integer> cursosDTO = aluno.getCursos().stream().map(curso -> curso.getId()).collect(Collectors.toList());
-
-
         alunoDTO.setCursos(cursosDTO);
         return alunoDTO;
     }

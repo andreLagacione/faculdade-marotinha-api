@@ -6,11 +6,11 @@ import com.lagacione.faculdademarotinhaapi.pessoa.model.PessoaDTO;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlunoCursoListaDTO extends PessoaDTO {
+public class AlunoForEditDTO extends PessoaDTO {
     private Integer id;
     private List<CursoNomeListaDTO> cursos = new ArrayList<>();
 
-    public AlunoCursoListaDTO() {}
+    public AlunoForEditDTO() {}
 
     public Integer getId() {
         return id;

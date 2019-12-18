@@ -1,6 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.aluno.endpoint;
 
-import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoCursoListaDTO;
+import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoForEditDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoListaDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.service.AlunoService;
@@ -30,7 +30,7 @@ public class AlunoResource {
         this.alunoService = alunoService;
     }
 
-    @GetMapping(value="/lista")
+    @GetMapping(value="/combo-list")
     public List<AlunoListaDTO> findAll() {
         return this.alunoService.findAll();
     }
@@ -41,7 +41,7 @@ public class AlunoResource {
     }
 
     @GetMapping(value="/{id}")
-    public AlunoCursoListaDTO find(@PathVariable Integer id) throws ObjectNotFoundException {
+    public AlunoForEditDTO find(@PathVariable Integer id) throws ObjectNotFoundException {
         return this.alunoService.find(id);
     }
 
