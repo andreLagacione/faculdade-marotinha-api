@@ -29,29 +29,29 @@ public class BoletimResource {
         this.boletimService = boletimService;
     }
 
-    @RequestMapping(value="/lista", method= RequestMethod.GET)
+    @GetMapping(value="/lista")
     public List<BoletimListaDTO> findAll() {
         return this.boletimService.findAll();
     }
 
-    @RequestMapping(method=RequestMethod.GET)
+    @GetMapping
     public Page<BoletimListaDTO> findPage(Pageable pageable) {
         return this.boletimService.findPage(pageable);
     }
 
-    @RequestMapping(value="/{id}", method=RequestMethod.GET)
+    @GetMapping(value="/{id}")
     public ResponseEntity<BoletimToEditDTO> find(@PathVariable Integer id) throws ObjectNotFoundException {
         return ResponseEntity.ok().body(this.boletimService.find(id));
     }
 
-    @RequestMapping(method=RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<PadraoMensagemRetornoDTO> insert(@Valid @RequestBody BoletimDTO boletimDTO) throws Exception {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(this.boletimService.salvarRegistro(boletimDTO, true).getId()).toUri();
         PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.CREATED, HttpStatus.valueOf("CREATED").value(), "Boletim adicionado com sucesso!");
         return ResponseEntity.created(uri).body(mensagemRetorno);
     }
 
-    @RequestMapping(method=RequestMethod.PUT)
+    @PutMapping
     public PadraoMensagemRetornoDTO update(
             @Valid @RequestBody BoletimDTO boletimDTO
     ) throws Exception {
@@ -59,13 +59,13 @@ public class BoletimResource {
         return new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Boletim editado com sucesso!");
     }
 
-    @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+    @DeleteMapping(value="/{id}")
     public PadraoMensagemRetornoDTO delete(@PathVariable Integer id) throws ObjectNotFoundException {
         this.boletimService.delete(id);
         return new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Boletim removido com sucesso!");
     }
 
-    @RequestMapping(value="/gerar/{id}", method= RequestMethod.GET)
+    @GetMapping(value="/gerar/{id}")
     public void gerar(@PathVariable Integer id, HttpServletResponse response) throws Exception {
         this.boletimService.gerarBoletim(id, response);
     }
