@@ -16,13 +16,4 @@ public class ProfessorListaDTO extends PessoaDTO {
         this.id=id;
     }
 
-    public static ProfessorListaDTO of(Professor professor) {
-        ProfessorListaDTO professorListaDTO = new ProfessorListaDTO();
-        professorListaDTO.setId(professor.getId());
-        professorListaDTO.setName(professor.getName());
-        professorListaDTO.setAge(professor.getAge());
-        professorListaDTO.setCpf(professor.getCpf());
-        professorListaDTO.setPhone(professor.getPhone());
-        return professorListaDTO;
-    }
 }

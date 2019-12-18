@@ -4,6 +4,7 @@ import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedEx
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
+import com.lagacione.faculdademarotinhaapi.curso.model.CursoListaDTO;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
@@ -171,5 +172,31 @@ public class ProfessorService {
         professorDTO.setMateriasLecionadas(materiasDTO);
         professorDTO.setCursosLecionados(cursosDTO);
         return professorDTO;
+    }
+
+    public ProfessorListaDTO professorListaDTOofEntity(Professor professor) {
+        ProfessorListaDTO professorListaDTO = new ProfessorListaDTO();
+        professorListaDTO.setId(professor.getId());
+        professorListaDTO.setName(professor.getName());
+        professorListaDTO.setAge(professor.getAge());
+        professorListaDTO.setCpf(professor.getCpf());
+        professorListaDTO.setPhone(professor.getPhone());
+        return professorListaDTO;
+    }
+
+    public static ProfessorToEditDTO of(Professor professor) {
+        ProfessorToEditDTO professorToEditDTO = new ProfessorToEditDTO();
+        professorToEditDTO.setId(professor.getId());
+        professorToEditDTO.setName(professor.getName());
+        professorToEditDTO.setAge(professor.getAge());
+        professorToEditDTO.setCpf(professor.getCpf());
+        professorToEditDTO.setPhone(professor.getPhone());
+
+        List<MateriaDTO> materias = professor.getMateriasLecionadas().stream().map(MateriaDTO::of).collect(Collectors.toList());
+        List<CursoListaDTO> cursos = professor.getCursosLecionados().stream().map(CursoListaDTO::of).collect(Collectors.toList());
+
+        professorToEditDTO.setMaterias(materias);
+        professorToEditDTO.setCursos(cursos);
+        return professorToEditDTO;
     }
 }
