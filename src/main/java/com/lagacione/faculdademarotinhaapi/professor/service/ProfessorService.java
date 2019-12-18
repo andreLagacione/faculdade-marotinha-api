@@ -41,14 +41,14 @@ public class ProfessorService {
 
     public List<ProfessorListaDTO> findAll() {
         List<Professor> professores = this.professorRepository.findAll();
-        List<ProfessorListaDTO> professorLista = professores.stream().map(ProfessorListaDTO::of).collect(Collectors.toList());
+        List<ProfessorListaDTO> professorLista = professores.stream().map(professor -> this.professorListaDTOofEntity(professor)).collect(Collectors.toList());
         return professorLista;
     }
 
     public Page<ProfessorListaDTO> findPage(Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
         Page<Professor> professores = this.professorRepository.findAll(pageRequest);
-        Page<ProfessorListaDTO> professorLista = professores.map(ProfessorListaDTO::of);
+        Page<ProfessorListaDTO> professorLista = professores.map(professor -> this.professorListaDTOofEntity(professor));
         return professorLista;
     }
 
@@ -63,22 +63,22 @@ public class ProfessorService {
     }
 
     public ProfessorToEditDTO find(Integer id) throws ObjectNotFoundException {
-        return ProfessorToEditDTO.of(this.getProfessor(id));
+        return this.professorToEditDTOofEntity(this.getProfessor(id));
     }
 
     public ProfessorDTO findOptional(Integer id) throws ObjectNotFoundException {
-        return ProfessorDTO.of(this.getProfessor(id));
+        return this.professorDTOofEntity(this.getProfessor(id));
     }
 
     private ProfessorDTO insert(Professor professor) {
         professor.setId(null);
-        return ProfessorDTO.of(this.professorRepository.save(professor));
+        return this.professorDTOofEntity(this.professorRepository.save(professor));
     }
 
     private ProfessorDTO update(Professor professor) throws ObjectNotFoundException {
-        Professor newProfessor = Professor.of(this.findOptional(professor.getId()), professor.getCursosLecionados());
+        Professor newProfessor = this.professorOfDTO(this.findOptional(professor.getId()));
         this.updateData(newProfessor, professor);
-        return ProfessorDTO.of(this.professorRepository.save(newProfessor));
+        return this.professorDTOofEntity(this.professorRepository.save(newProfessor));
     }
 
     public void delete(Integer id) throws ObjectNotFoundException {
@@ -104,7 +104,7 @@ public class ProfessorService {
     public ProfessorDTO salvarRegistro(ProfessorDTO professorDTO, Boolean adicionar) throws ActionNotAllowedException {
         this.validarMaterias(professorDTO);
         this.validarCursos(professorDTO);
-        Professor professor = Professor.of(professorDTO, this.mapearCursos(professorDTO.getCursosLecionados()));
+        Professor professor = this.professorOfDTO(professorDTO);
 
         if (adicionar) {
             this.validarCpf(professorDTO);
@@ -167,8 +167,8 @@ public class ProfessorService {
         professorDTO.setAge(professor.getAge());
         professorDTO.setCpf(professor.getCpf());
         professorDTO.setPhone(professor.getPhone());
-        List<MateriaDTO> materiasDTO = professor.getMateriasLecionadas().stream().map(MateriaDTO::of).collect(Collectors.toList());
-        List<CursoDTO> cursosDTO = professor.getCursosLecionados().stream().map(CursoDTO::of).collect(Collectors.toList());
+        List<MateriaDTO> materiasDTO = professor.getMateriasLecionadas().stream().map(materia -> this.materiaService.materiaDTOofMateria(materia)).collect(Collectors.toList());
+        List<CursoDTO> cursosDTO = professor.getCursosLecionados().stream().map(curso -> this.cursoService.cursoDTOofCurso(curso)).collect(Collectors.toList());
         professorDTO.setMateriasLecionadas(materiasDTO);
         professorDTO.setCursosLecionados(cursosDTO);
         return professorDTO;
@@ -184,17 +184,15 @@ public class ProfessorService {
         return professorListaDTO;
     }
 
-    public static ProfessorToEditDTO of(Professor professor) {
+    public ProfessorToEditDTO professorToEditDTOofEntity(Professor professor) {
         ProfessorToEditDTO professorToEditDTO = new ProfessorToEditDTO();
         professorToEditDTO.setId(professor.getId());
         professorToEditDTO.setName(professor.getName());
         professorToEditDTO.setAge(professor.getAge());
         professorToEditDTO.setCpf(professor.getCpf());
         professorToEditDTO.setPhone(professor.getPhone());
-
-        List<MateriaDTO> materias = professor.getMateriasLecionadas().stream().map(MateriaDTO::of).collect(Collectors.toList());
-        List<CursoListaDTO> cursos = professor.getCursosLecionados().stream().map(CursoListaDTO::of).collect(Collectors.toList());
-
+        List<MateriaDTO> materias = professor.getMateriasLecionadas().stream().map(materia -> this.materiaService.materiaDTOofMateria(materia)).collect(Collectors.toList());
+        List<CursoListaDTO> cursos = professor.getCursosLecionados().stream().map(curso -> this.cursoService.cursoListaDTOofCurso(curso)).collect(Collectors.toList());
         professorToEditDTO.setMaterias(materias);
         professorToEditDTO.setCursos(cursos);
         return professorToEditDTO;

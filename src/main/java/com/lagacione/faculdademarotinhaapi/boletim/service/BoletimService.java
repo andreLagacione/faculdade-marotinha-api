@@ -186,7 +186,7 @@ public class BoletimService {
         boletim.setId(boletimDTO.getId());
         boletim.setAno(boletimDTO.getAno());
         boletim.setAluno(this.alunoService.alunoOfAlunoDTO(boletimDTO.getAluno()));
-        boletim.setProfessor(Professor.of(boletimDTO.getProfessor(), boletim.getProfessor().getCursosLecionados()));
+        boletim.setProfessor(this.professorService.professorOfDTO(boletimDTO.getProfessor()));
         boletim.setCurso(this.cursoService.cursoOfCursoDTO(boletimDTO.getCurso()));
         List<MateriaNotaBimestreDTO> notasDTO = boletimDTO.getNotas().stream().map(id -> this.materiaNotaBimestreService.find(id)).collect(Collectors.toList());
         List<MateriaNotaBimestre> notas = notasDTO.stream().map(nota -> this.materiaNotaBimestreService.materiaNotaBimestreOfDTO(nota)).collect(Collectors.toList());
@@ -199,7 +199,7 @@ public class BoletimService {
         boletimDTO.setId(boletim.getId());
         boletimDTO.setAno(boletim.getAno());
         boletimDTO.setAluno(this.alunoService.alunoDTOofAluno(boletim.getAluno()));
-        boletimDTO.setProfessor(ProfessorDTO.of(boletim.getProfessor()));
+        boletimDTO.setProfessor(this.professorService.professorDTOofEntity(boletim.getProfessor()));
         boletimDTO.setCurso(this.cursoService.cursoDTOofCurso(boletim.getCurso()));
         List<Integer> notas = boletim.getNotas().stream().map(nota -> nota.getId()).collect(Collectors.toList());
         boletimDTO.setNotas(notas);
