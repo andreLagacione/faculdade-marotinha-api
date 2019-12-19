@@ -1,9 +1,5 @@
 package com.lagacione.faculdademarotinhaapi.boletim.model;
 
-import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
-import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
-import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorDTO;
-
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +11,13 @@ public class BoletimDTO {
     private Integer ano;
 
     @NotNull(message = "Informe o professor!")
-    private ProfessorDTO professor;
+    private Integer idProfessor;
 
     @NotNull(message = "Informe o aluno!")
-    private AlunoDTO aluno;
+    private Integer idAluno;
 
     @NotNull(message = "Informe o curso!")
-    private CursoDTO curso;
+    private Integer idCurso;
 
     private List<Integer> notas = new ArrayList<>();
 
@@ -43,28 +39,28 @@ public class BoletimDTO {
         this.ano = ano;
     }
 
-    public ProfessorDTO getProfessor() {
-        return professor;
+    public Integer getIdProfessor() {
+        return idProfessor;
     }
 
-    public void setProfessor(ProfessorDTO professor) {
-        this.professor = professor;
+    public void setIdProfessor(Integer idProfessor) {
+        this.idProfessor = idProfessor;
     }
 
-    public AlunoDTO getAluno() {
-        return aluno;
+    public Integer getIdAluno() {
+        return idAluno;
     }
 
-    public void setAluno(AlunoDTO aluno) {
-        this.aluno = aluno;
+    public void setIdAluno(Integer idAluno) {
+        this.idAluno = idAluno;
     }
 
-    public CursoDTO getCurso() {
-        return curso;
+    public Integer getIdCurso() {
+        return idCurso;
     }
 
-    public void setCurso(CursoDTO curso) {
-        this.curso = curso;
+    public void setIdCurso(Integer idCurso) {
+        this.idCurso = idCurso;
     }
 
     public List<Integer> getNotas() {

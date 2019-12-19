@@ -1,5 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.boletim.service;
 
+import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.service.AlunoService;
 import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimDTO;
@@ -9,13 +10,13 @@ import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimToEditDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.repository.BoletimRepository;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import com.lagacione.faculdademarotinhaapi.commons.models.GerarPDFBoletimDTO;
+import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.entity.MateriaNotaBimestre;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreDTO;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreListDTO;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestrePDFDTO;
 import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.service.MateriaNotaBimestreService;
-import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorDTO;
 import com.lagacione.faculdademarotinhaapi.professor.service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,15 +125,15 @@ public class BoletimService {
     }
 
     private void validarProfessor(BoletimDTO boletimDTO) {
-        this.professorService.find(boletimDTO.getProfessor().getId());
+        this.professorService.find(boletimDTO.getIdProfessor());
     }
 
     private void validarAluno(BoletimDTO boletimDTO) {
-        this.alunoService.find(boletimDTO.getAluno().getId());
+        this.alunoService.find(boletimDTO.getIdAluno());
     }
 
     private void validarCurso(BoletimDTO boletimDTO) {
-        this.cursoService.find(boletimDTO.getCurso().getId());
+        this.cursoService.find(boletimDTO.getIdCurso());
     }
 
     public void adicionarNotaBoletim(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
@@ -183,25 +184,30 @@ public class BoletimService {
 
     public  Boletim boletimOfBoletimDTO(BoletimDTO boletimDTO) {
         Boletim boletim = new Boletim();
-        boletim.setId(boletimDTO.getId());
-        boletim.setAno(boletimDTO.getAno());
-        boletim.setAluno(this.alunoService.alunoOfAlunoDTO(boletimDTO.getAluno()));
-        boletim.setProfessor(this.professorService.professorOfDTO(boletimDTO.getProfessor()));
-        boletim.setCurso(this.cursoService.cursoOfCursoDTO(boletimDTO.getCurso()));
+        AlunoDTO alunoDTO = this.alunoService.findAlunoDTO(boletimDTO.getIdAluno());
+        ProfessorDTO professorDTO = this.professorService.findOptional(boletimDTO.getIdProfessor());
+        CursoDTO cursoDTO = this.cursoService.findOptional(boletimDTO.getIdCurso());
         List<MateriaNotaBimestreDTO> notasDTO = boletimDTO.getNotas().stream().map(id -> this.materiaNotaBimestreService.find(id)).collect(Collectors.toList());
         List<MateriaNotaBimestre> notas = notasDTO.stream().map(nota -> this.materiaNotaBimestreService.materiaNotaBimestreOfDTO(nota)).collect(Collectors.toList());
+
+        boletim.setId(boletimDTO.getId());
+        boletim.setAno(boletimDTO.getAno());
+        boletim.setAluno(this.alunoService.alunoOfAlunoDTO(alunoDTO));
+        boletim.setProfessor(this.professorService.professorOfDTO(professorDTO));
+        boletim.setCurso(this.cursoService.cursoOfCursoDTO(cursoDTO));
         boletim.setNotas(notas);
         return boletim;
     }
 
     public BoletimDTO boletimDTOofBoletim(Boletim boletim) {
         BoletimDTO boletimDTO = new BoletimDTO();
+        List<Integer> notas = boletim.getNotas().stream().map(nota -> nota.getId()).collect(Collectors.toList());
+
         boletimDTO.setId(boletim.getId());
         boletimDTO.setAno(boletim.getAno());
-        boletimDTO.setAluno(this.alunoService.alunoDTOofAluno(boletim.getAluno()));
-        boletimDTO.setProfessor(this.professorService.professorDTOofEntity(boletim.getProfessor()));
-        boletimDTO.setCurso(this.cursoService.cursoDTOofCurso(boletim.getCurso()));
-        List<Integer> notas = boletim.getNotas().stream().map(nota -> nota.getId()).collect(Collectors.toList());
+        boletimDTO.setIdAluno(boletim.getAluno().getId());
+        boletimDTO.setIdProfessor(boletim.getProfessor().getId());
+        boletimDTO.setIdCurso(boletim.getCurso().getId());
         boletimDTO.setNotas(notas);
         return boletimDTO;
     }
@@ -218,12 +224,16 @@ public class BoletimService {
 
     public BoletimPDFDTO boletimPDFDTOofBoletimDTO(BoletimDTO boletimDTO) {
         BoletimPDFDTO boletimPDFDTO = new BoletimPDFDTO();
-        boletimPDFDTO.setAno(boletimDTO.getAno());
-        boletimPDFDTO.setProfessor(boletimDTO.getProfessor().getName());
-        boletimPDFDTO.setAluno(boletimDTO.getAluno().getName());
-        boletimPDFDTO.setCurso(boletimDTO.getCurso().getName());
+        ProfessorDTO professorDTO = this.professorService.findOptional(boletimDTO.getIdProfessor());
+        AlunoDTO alunoDTO = this.alunoService.findAlunoDTO(boletimDTO.getIdAluno());
+        CursoDTO cursoDTO = this.cursoService.findOptional(boletimDTO.getIdCurso());
         List<MateriaNotaBimestreDTO> notasDTO = boletimDTO.getNotas().stream().map(id -> this.materiaNotaBimestreService.find(id)).collect(Collectors.toList());
         List<MateriaNotaBimestrePDFDTO> notas = notasDTO.stream().map(nota -> this.materiaNotaBimestreService.materiaNotaBimestrePDFDTOofDTO(nota)).collect(Collectors.toList());
+
+        boletimPDFDTO.setAno(boletimDTO.getAno());
+        boletimPDFDTO.setProfessor(professorDTO.getName());
+        boletimPDFDTO.setAluno(alunoDTO.getName());
+        boletimPDFDTO.setCurso(cursoDTO.getName());
         boletimPDFDTO.setNotas(notas);
         return boletimPDFDTO;
     }
