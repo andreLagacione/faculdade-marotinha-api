@@ -115,7 +115,7 @@ public class ProfessorService {
     }
 
     private void validarMaterias(ProfessorDTO professorDTO) throws ObjectNotFoundException {
-        List<MateriaDTO> materiasDTO = professorDTO.getMateriasLecionadas();
+        List<MateriaDTO> materiasDTO = professorDTO.getMaterias().stream().map(id -> this.materiaService.find(id)).collect(Collectors.toList());
 
         if (materiasDTO.size() == 0) {
             throw new ObjectNotFoundException("Informe pelo menos uma matéria!");
@@ -127,7 +127,7 @@ public class ProfessorService {
     }
 
     private void validarCursos(ProfessorDTO professorDTO) throws ObjectNotFoundException {
-        List<CursoDTO> cursosDTO = professorDTO.getCursosLecionados();
+        List<CursoDTO> cursosDTO = professorDTO.getCursos().stream().map(id -> this.cursoService.findOptional(id)).collect(Collectors.toList());
 
         if (cursosDTO.size() == 0) {
             throw new ObjectNotFoundException("Informe pelo menos um curso!");
@@ -148,29 +148,33 @@ public class ProfessorService {
 
     public Professor professorOfDTO(ProfessorDTO professorDTO) {
         Professor professor = new Professor();
+        List<MateriaDTO> materiasDTO = professorDTO.getMaterias().stream().map(id -> this.materiaService.find(id)).collect(Collectors.toList());
+        List<Materia> materias = materiasDTO.stream().map(materia -> this.materiaService.materiaOfMateriaDTO(materia)).collect(Collectors.toList());
+        List<CursoDTO> cursosDTO = professorDTO.getCursos().stream().map(id -> this.cursoService.findOptional(id)).collect(Collectors.toList());
+        List<Curso> cursos = cursosDTO.stream().map(curso -> this.cursoService.cursoOfCursoDTO(curso)).collect(Collectors.toList());
+
         professor.setId(professorDTO.getId());
         professor.setName(professorDTO.getName());
         professor.setAge(professorDTO.getAge());
         professor.setCpf(professorDTO.getCpf());
         professor.setPhone(professorDTO.getPhone());
-        List<Materia> materias = professorDTO.getMateriasLecionadas().stream().map(materia -> this.materiaService.materiaOfMateriaDTO(materia)).collect(Collectors.toList());
         professor.setMateriasLecionadas(materias);
-        List<Curso> cursos = professorDTO.getCursosLecionados().stream().map(curso -> this.cursoService.cursoOfCursoDTO(curso)).collect(Collectors.toList());
         professor.setCursosLecionados(cursos);
         return professor;
     }
 
     public ProfessorDTO professorDTOofEntity(Professor professor) {
         ProfessorDTO professorDTO = new ProfessorDTO();
+        List<Integer> materias = professor.getMateriasLecionadas().stream().map(materia -> materia.getId()).collect(Collectors.toList());
+        List<Integer> cursos = professor.getCursosLecionados().stream().map(curso -> curso.getId()).collect(Collectors.toList());
+
         professorDTO.setId(professor.getId());
         professorDTO.setName(professor.getName());
         professorDTO.setAge(professor.getAge());
         professorDTO.setCpf(professor.getCpf());
         professorDTO.setPhone(professor.getPhone());
-        List<MateriaDTO> materiasDTO = professor.getMateriasLecionadas().stream().map(materia -> this.materiaService.materiaDTOofMateria(materia)).collect(Collectors.toList());
-        List<CursoDTO> cursosDTO = professor.getCursosLecionados().stream().map(curso -> this.cursoService.cursoDTOofCurso(curso)).collect(Collectors.toList());
-        professorDTO.setMateriasLecionadas(materiasDTO);
-        professorDTO.setCursosLecionados(cursosDTO);
+        professorDTO.setMaterias(materias);
+        professorDTO.setCursos(cursos);
         return professorDTO;
     }
 

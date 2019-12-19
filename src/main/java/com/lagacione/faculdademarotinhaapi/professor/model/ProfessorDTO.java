@@ -15,10 +15,10 @@ public class ProfessorDTO extends PessoaDTO {
     private Integer id;
 
     @NotNull(message = "Informe pelo menos uma matéria.")
-    private List<MateriaDTO> materiasLecionadas = new ArrayList<>();
+    private List<Integer> materias = new ArrayList<>();
 
     @NotNull(message = "Informe pelo menos um curso.")
-    private List<CursoDTO> cursosLecionados = new ArrayList<>();
+    private List<Integer> cursos = new ArrayList<>();
 
     public ProfessorDTO() {}
 
@@ -30,20 +30,20 @@ public class ProfessorDTO extends PessoaDTO {
         this.id = id;
     }
 
-    public List<MateriaDTO> getMateriasLecionadas() {
-        return materiasLecionadas;
+    public List<Integer> getMaterias() {
+        return materias;
     }
 
-    public void setMateriasLecionadas(List<MateriaDTO> materiasLecionadas) {
-        this.materiasLecionadas = materiasLecionadas;
+    public void setMaterias(List<Integer> materias) {
+        this.materias = materias;
     }
 
-    public List<CursoDTO> getCursosLecionados() {
-        return cursosLecionados;
+    public List<Integer> getCursos() {
+        return cursos;
     }
 
-    public void setCursosLecionados(List<CursoDTO> cursosLecionados) {
-        this.cursosLecionados = cursosLecionados;
+    public void setCursos(List<Integer> cursos) {
+        this.cursos = cursos;
     }
 
 }
