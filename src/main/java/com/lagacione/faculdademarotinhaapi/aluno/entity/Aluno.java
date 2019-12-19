@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.pessoa.entity.Pessoa;
+import com.lagacione.faculdademarotinhaapi.turma.entity.Turma;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,17 +17,17 @@ public class Aluno extends Pessoa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToMany
-    @JoinTable(
-        name = "aluno_curso",
-        joinColumns = @JoinColumn(name = "aluno_id"),
-        inverseJoinColumns = @JoinColumn(name = "curso_id")
-    )
-    private List<Curso> cursos = new ArrayList<>();
-
     @JsonIgnore
     @OneToMany(mappedBy = "aluno")
     private List<Boletim> boletins = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "aluno_turma",
+            joinColumns = @JoinColumn(name = "id_aluno"),
+            inverseJoinColumns = @JoinColumn(name = "id_turma")
+    )
+    private List<Turma> turmas = new ArrayList<>();
 
     public Aluno() {}
 
@@ -38,11 +39,19 @@ public class Aluno extends Pessoa {
         this.id = id;
     }
 
-    public List<Curso> getCursos() {
-        return cursos;
+    public List<Boletim> getBoletins() {
+        return boletins;
     }
 
-    public void setCursos(List<Curso> cursos) {
-        this.cursos = cursos;
+    public void setBoletins(List<Boletim> boletins) {
+        this.boletins = boletins;
+    }
+
+    public List<Turma> getTurmas() {
+        return turmas;
+    }
+
+    public void setTurmas(List<Turma> turmas) {
+        this.turmas = turmas;
     }
 }

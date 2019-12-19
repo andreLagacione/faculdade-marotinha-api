@@ -5,6 +5,7 @@ import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
 import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim;
 import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
 import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
+import com.lagacione.faculdademarotinhaapi.turma.entity.Turma;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -34,20 +35,14 @@ public class Curso {
     private List<Professor> professores = new ArrayList<>();
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "cursos")
-    private List<Aluno> alunos = new ArrayList<>();
-
-    @JsonIgnore
     @OneToMany(mappedBy = "curso")
     private List<Boletim> boletins = new ArrayList<>();
 
-    public Curso() {}
+    @JsonIgnore
+    @OneToMany(mappedBy = "curso")
+    private List<Turma> turmas = new ArrayList<>();
 
-    public Curso(Integer id, String name, List<Materia> materias) {
-        this.id = id;
-        this.name = name;
-        this.materias = materias;
-    }
+    public Curso() {}
 
     public Integer getId() {
         return id;
@@ -73,4 +68,11 @@ public class Curso {
         this.materias = materias;
     }
 
+    public List<Turma> getTurmas() {
+        return turmas;
+    }
+
+    public void setTurmas(List<Turma> turmas) {
+        this.turmas = turmas;
+    }
 }

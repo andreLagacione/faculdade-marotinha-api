@@ -11,6 +11,10 @@ import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoNomeListaDTO;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
+import com.lagacione.faculdademarotinhaapi.turma.entity.Turma;
+import com.lagacione.faculdademarotinhaapi.turma.model.TurmaDTO;
+import com.lagacione.faculdademarotinhaapi.turma.model.TurmaListDTO;
+import com.lagacione.faculdademarotinhaapi.turma.service.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -26,23 +30,25 @@ import java.util.stream.Collectors;
 public class AlunoService {
     private AlunoRepository alunoRepository;
     private CursoService cursoService;
+    private TurmaService turmaService;
 
     @Autowired
-    public void AlunoService(AlunoRepository alunoRepository, CursoService cursoService) {
+    public void AlunoService(AlunoRepository alunoRepository, CursoService cursoService, TurmaService turmaService) {
         this.alunoRepository = alunoRepository;
         this.cursoService = cursoService;
+        this.turmaService = turmaService;
     }
 
     public List<AlunoListaDTO> findAll() {
         List<Aluno> alunos = this.alunoRepository.findAll();
-        List<AlunoListaDTO> alunoListaDTO = alunos.stream().map(AlunoListaDTO::of).collect(Collectors.toList());
+        List<AlunoListaDTO> alunoListaDTO = alunos.stream().map(aluno -> this.alunoListaDTOofEntity(aluno)).collect(Collectors.toList());
         return alunoListaDTO;
     }
 
     public Page<AlunoListaDTO> findPage(Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
         Page<Aluno> alunos = this.alunoRepository.findAll(pageRequest);
-        Page<AlunoListaDTO> alunoListaDTO = alunos.map(AlunoListaDTO::of);
+        Page<AlunoListaDTO> alunoListaDTO = alunos.map(aluno -> this.alunoListaDTOofEntity(aluno));
         return alunoListaDTO;
     }
 
@@ -91,31 +97,31 @@ public class AlunoService {
         newAluno.setCpf(aluno.getCpf());
         newAluno.setPhone(aluno.getPhone());
         newAluno.setId(aluno.getId());
-        newAluno.setCursos(aluno.getCursos());
+        newAluno.setTurmas(aluno.getTurmas());
     }
 
     public AlunoDTO salvarRegistro(AlunoDTO alunoDTO, Boolean adicionar) throws ActionNotAllowedException {
-        this.validarCurso(alunoDTO);
+        this.validarTurma(alunoDTO);
+        this.validarCpf(alunoDTO);
 
         Aluno aluno = this.alunoOfAlunoDTO(alunoDTO);
 
         if (adicionar) {
-            this.validarCpf(alunoDTO);
             return this.insert(aluno);
         }
 
         return this.update(aluno);
     }
 
-    private void validarCurso(AlunoDTO alunoDTO) throws ObjectNotFoundException {
-        List<Integer> cursos = alunoDTO.getCursos();
+    private void validarTurma(AlunoDTO alunoDTO) throws ObjectNotFoundException {
+        List<Integer> turmas = alunoDTO.getTurmas();
 
-        if (cursos == null || cursos.size() == 0) {
-            throw new ObjectNotFoundException("Por favor informe ao menos um curso!");
+        if (turmas == null || turmas.size() == 0) {
+            throw new ObjectNotFoundException("Por favor informe ao menos uma turma!");
         }
 
-        for (Integer idCurso : cursos) {
-            this.cursoService.find(idCurso);
+        for (Integer idTurma : turmas) {
+            this.turmaService.find(idTurma);
         }
     }
 
@@ -129,38 +135,51 @@ public class AlunoService {
 
     public Aluno alunoOfAlunoDTO(AlunoDTO alunoDTO) {
         Aluno aluno = new Aluno();
+        List<TurmaDTO> turmasDTO = alunoDTO.getTurmas().stream().map(id -> this.turmaService.findTurmaDTO(id)).collect(Collectors.toList());
+        List<Turma> turmas = turmasDTO.stream().map(turma -> this.turmaService.turmaOfTurmaDTO(turma)).collect(Collectors.toList());
+
         aluno.setId(alunoDTO.getId());
         aluno.setName(alunoDTO.getName());
         aluno.setAge(alunoDTO.getAge());
         aluno.setCpf(alunoDTO.getCpf());
         aluno.setPhone(alunoDTO.getPhone());
-        List<CursoDTO> cursosDTO = alunoDTO.getCursos().stream().map(id -> this.cursoService.findOptional(id)).collect(Collectors.toList());
-        List<Curso> cursos = cursosDTO.stream().map(curso -> this.cursoService.cursoOfCursoDTO(curso)).collect(Collectors.toList());
-        aluno.setCursos(cursos);
+        aluno.setTurmas(turmas);
         return aluno;
     }
 
     public AlunoForEditDTO alunoCursoListaDTOofAluno(Aluno aluno) {
         AlunoForEditDTO alunoForEditDTO = new AlunoForEditDTO();
+        List<TurmaListDTO> turmas = aluno.getTurmas().stream().map(turma -> this.turmaService.turmaListDTOofEntity(turma)).collect(Collectors.toList());
+
         alunoForEditDTO.setId(aluno.getId());
         alunoForEditDTO.setName(aluno.getName());
         alunoForEditDTO.setCpf(aluno.getCpf());
         alunoForEditDTO.setAge(aluno.getAge());
         alunoForEditDTO.setPhone(aluno.getPhone());
-        List<CursoNomeListaDTO> cursos = aluno.getCursos().stream().map(curso -> this.cursoService.cursoNomeListaDTOofCurso(curso)).collect(Collectors.toList());
-        alunoForEditDTO.setCursos(cursos);
+        alunoForEditDTO.setTurmas(turmas);
         return alunoForEditDTO;
     }
 
     public AlunoDTO alunoDTOofAluno(Aluno aluno) {
         AlunoDTO alunoDTO = new AlunoDTO();
+        List<Integer> turmas = aluno.getTurmas().stream().map(turma -> turma.getId()).collect(Collectors.toList());
+
         alunoDTO.setId(aluno.getId());
         alunoDTO.setName(aluno.getName());
         alunoDTO.setAge(aluno.getAge());
         alunoDTO.setCpf(aluno.getCpf());
         alunoDTO.setPhone(aluno.getPhone());
-        List<Integer> cursosDTO = aluno.getCursos().stream().map(curso -> curso.getId()).collect(Collectors.toList());
-        alunoDTO.setCursos(cursosDTO);
+        alunoDTO.setTurmas(turmas);
         return alunoDTO;
+    }
+
+    public AlunoListaDTO alunoListaDTOofEntity(Aluno aluno) {
+        AlunoListaDTO alunoListaDTO = new AlunoListaDTO();
+        alunoListaDTO.setId(aluno.getId());
+        alunoListaDTO.setName(aluno.getName());
+        alunoListaDTO.setCpf(aluno.getCpf());
+        alunoListaDTO.setAge(aluno.getAge());
+        alunoListaDTO.setPhone(aluno.getPhone());
+        return alunoListaDTO;
     }
 }

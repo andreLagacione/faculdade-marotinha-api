@@ -6,6 +6,7 @@ import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
 import com.lagacione.faculdademarotinhaapi.pessoa.entity.Pessoa;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorDTO;
+import com.lagacione.faculdademarotinhaapi.turma.entity.Turma;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -40,6 +41,10 @@ public class Professor extends Pessoa {
     @OneToMany(mappedBy = "professor")
     private List<Boletim> boletins = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "professor")
+    private List<Turma> turmas = new ArrayList<>();
+
     public Professor() {}
 
     public Integer getId() {
@@ -66,4 +71,11 @@ public class Professor extends Pessoa {
         this.cursosLecionados = cursosLecionados;
     }
 
+    public List<Turma> getTurmas() {
+        return turmas;
+    }
+
+    public void setTurmas(List<Turma> turmas) {
+        this.turmas = turmas;
+    }
 }

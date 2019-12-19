@@ -17,7 +17,7 @@ public interface TurmaRepository extends JpaRepository<Turma, Integer> {
             @Param("ano") Integer ano,
             @Param("idCurso") Integer idCurso,
             @Param("idProfessor") Integer idProfessor,
-            @Param("perido")Periodo periodo
+            @Param("perido") Periodo periodo
     );
 
 }

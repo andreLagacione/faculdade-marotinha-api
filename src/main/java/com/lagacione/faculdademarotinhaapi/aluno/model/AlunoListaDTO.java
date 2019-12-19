@@ -16,13 +16,4 @@ public class AlunoListaDTO extends PessoaDTO {
         this.id=id;
     }
 
-    public static AlunoListaDTO of(Aluno aluno) {
-        AlunoListaDTO alunoListaDTO = new AlunoListaDTO();
-        alunoListaDTO.setId(aluno.getId());
-        alunoListaDTO.setName(aluno.getName());
-        alunoListaDTO.setCpf(aluno.getCpf());
-        alunoListaDTO.setAge(aluno.getAge());
-        alunoListaDTO.setPhone(aluno.getPhone());
-        return alunoListaDTO;
-    }
 }

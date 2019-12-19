@@ -11,7 +11,7 @@ public class AlunoDTO extends PessoaDTO {
     private Integer id;
 
     @NotNull(message = "Informe um curso")
-    private List<Integer> cursos = new ArrayList<>();
+    private List<Integer> turmas = new ArrayList<>();
 
     public AlunoDTO() {}
 
@@ -23,11 +23,11 @@ public class AlunoDTO extends PessoaDTO {
         this.id = id;
     }
 
-    public List<Integer> getCursos() {
-        return cursos;
+    public List<Integer> getTurmas() {
+        return turmas;
     }
 
-    public void setCursos(List<Integer> cursos) {
-        this.cursos = cursos;
+    public void setTurmas(List<Integer> turmas) {
+        this.turmas = turmas;
     }
 }

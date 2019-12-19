@@ -2,13 +2,14 @@ package com.lagacione.faculdademarotinhaapi.aluno.model;
 
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoNomeListaDTO;
 import com.lagacione.faculdademarotinhaapi.pessoa.model.PessoaDTO;
+import com.lagacione.faculdademarotinhaapi.turma.model.TurmaListDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class AlunoForEditDTO extends PessoaDTO {
     private Integer id;
-    private List<CursoNomeListaDTO> cursos = new ArrayList<>();
+    private List<TurmaListDTO> turmas = new ArrayList<>();
 
     public AlunoForEditDTO() {}
 
@@ -20,11 +21,11 @@ public class AlunoForEditDTO extends PessoaDTO {
         this.id = id;
     }
 
-    public List<CursoNomeListaDTO> getCursos() {
-        return cursos;
+    public List<TurmaListDTO> getTurmas() {
+        return turmas;
     }
 
-    public void setCursos(List<CursoNomeListaDTO> cursoNomeListaDTOList) {
-        this.cursos = cursoNomeListaDTOList;
+    public void setTurmas(List<TurmaListDTO> turmas) {
+        this.turmas = turmas;
     }
 }
