@@ -8,6 +8,7 @@ import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimListaDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimPDFDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimToEditDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.repository.BoletimRepository;
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import com.lagacione.faculdademarotinhaapi.commons.models.GerarPDFBoletimDTO;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
@@ -114,6 +115,7 @@ public class BoletimService {
         this.validarProfessor(boletimDTO);
         this.validarAluno(boletimDTO);
         this.validarCurso(boletimDTO);
+        this.validarSeBoletimJaExiste(boletimDTO);
 
         Boletim boletim = this.boletimOfBoletimDTO(boletimDTO);
 
@@ -134,6 +136,14 @@ public class BoletimService {
 
     private void validarCurso(BoletimDTO boletimDTO) {
         this.cursoService.find(boletimDTO.getIdCurso());
+    }
+
+    private void validarSeBoletimJaExiste(BoletimDTO boletimDTO) {
+        Optional<Boletim> boletim = this.boletimRepository.validarSeBoletimJaExiste(boletimDTO.getAno(), boletimDTO.getIdProfessor(), boletimDTO.getIdAluno(), boletimDTO.getIdCurso());
+
+        if (boletim.isPresent()) {
+            throw new ActionNotAllowedException("Já existe um boletim cadastro para esse ano, com esse professor, para esse aluno e para esse curso!");
+        }
     }
 
     public void adicionarNotaBoletim(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {
