@@ -9,8 +9,7 @@ public class MateriaNotaBimestreDTO {
     private Integer id;
 
     @NotNull(message = "Informe a matéria")
-    @Valid
-    private MateriaDTO materiaDTO;
+    private MateriaDTO materia;
 
     private Double notaBimestre1;
     private Double notaBimestre2;
@@ -30,11 +29,11 @@ public class MateriaNotaBimestreDTO {
     }
 
     public MateriaDTO getMateria() {
-        return materiaDTO;
+        return materia;
     }
 
     public void setMateria(MateriaDTO materiaDTO) {
-        this.materiaDTO = materiaDTO;
+        this.materia = materiaDTO;
     }
 
     public Double getNotaBimestre1() {

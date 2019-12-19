@@ -26,12 +26,12 @@ public class MateriaResource {
         this.materiaService = materiaService;
     }
 
-    @RequestMapping(value="/lista", method= RequestMethod.GET)
+    @GetMapping(value="/combo-list")
     public List<MateriaDTO> findAll() {
         return this.materiaService.findAll();
     }
 
-    @RequestMapping(method=RequestMethod.GET)
+    @GetMapping
     public Page<MateriaDTO> findPage(Pageable pageable) {
         return this.materiaService.findPage(pageable);
     }
@@ -41,14 +41,14 @@ public class MateriaResource {
         return this.materiaService.find(id);
     }
 
-    @RequestMapping(method=RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<PadraoMensagemRetornoDTO> insert(@Valid @RequestBody MateriaDTO materiaDTO) {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(this.materiaService.salvarRegistro(materiaDTO, true).getId()).toUri();
         PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.CREATED, HttpStatus.valueOf("CREATED").value(), "Matéria adicionada com sucesso!");
         return ResponseEntity.created(uri).body(mensagemRetorno);
     }
 
-    @RequestMapping(method=RequestMethod.PUT)
+    @PutMapping
     public PadraoMensagemRetornoDTO update(
             @Valid @RequestBody MateriaDTO materiaDTO
     ) throws ObjectNotFoundException {
@@ -56,7 +56,7 @@ public class MateriaResource {
         return new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Matéria editada com sucesso!");
     }
 
-    @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+    @DeleteMapping(value="/{id}")
     public PadraoMensagemRetornoDTO delete(@PathVariable Integer id) throws ObjectNotFoundException {
         this.materiaService.delete(id);
         return new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Matéria removida com sucesso!");
