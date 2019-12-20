@@ -192,6 +192,14 @@ public class BoletimService {
 
     }
 
+    public void deleteBoletimByAlunoId(Integer idAluno) {
+        List<Boletim> boletins = this.boletimRepository.getBoletinsByAlunoId(idAluno);
+
+        for (Boletim boletim : boletins) {
+            this.delete(boletim.getId());
+        }
+    }
+
     public  Boletim boletimOfBoletimDTO(BoletimDTO boletimDTO) {
         Boletim boletim = new Boletim();
         AlunoDTO alunoDTO = this.alunoService.findAlunoDTO(boletimDTO.getIdAluno());

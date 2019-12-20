@@ -5,6 +5,7 @@ import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoForEditDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoListaDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.repository.AlunoRepository;
+import com.lagacione.faculdademarotinhaapi.boletim.service.BoletimService;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
@@ -31,12 +32,14 @@ public class AlunoService {
     private AlunoRepository alunoRepository;
     private CursoService cursoService;
     private TurmaService turmaService;
+    private BoletimService boletimService;
 
     @Autowired
-    public void AlunoService(AlunoRepository alunoRepository, CursoService cursoService, TurmaService turmaService) {
+    public void AlunoService(AlunoRepository alunoRepository, CursoService cursoService, TurmaService turmaService, BoletimService boletimService) {
         this.alunoRepository = alunoRepository;
         this.cursoService = cursoService;
         this.turmaService = turmaService;
+        this.boletimService = boletimService;
     }
 
     public List<AlunoListaDTO> findAll() {
@@ -86,6 +89,7 @@ public class AlunoService {
 
         try {
             this.alunoRepository.deleteById(id);
+            this.boletimService.deleteBoletimByAlunoId(id);
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException("Não é possível remover este aluno!");
         }

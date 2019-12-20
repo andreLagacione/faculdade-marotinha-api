@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -18,4 +19,7 @@ public interface BoletimRepository extends JpaRepository<Boletim, Integer> {
             @Param("idAluno") Integer idAluno,
             @Param("idCurso") Integer idCurso
     );
+
+    @Query("SELECT * FROM Boletim b WHERE b.aluno.id = :idAluno")
+    public List<Boletim> getBoletinsByAlunoId(@Param("idAluno") Integer idAluno);
 }
