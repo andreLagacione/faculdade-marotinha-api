@@ -135,15 +135,11 @@ public class AlunoService {
 
     public Aluno alunoOfAlunoDTO(AlunoDTO alunoDTO) {
         Aluno aluno = new Aluno();
-        List<TurmaDTO> turmasDTO = alunoDTO.getTurmas().stream().map(id -> this.turmaService.findTurmaDTO(id)).collect(Collectors.toList());
-        List<Turma> turmas = turmasDTO.stream().map(turma -> this.turmaService.turmaOfTurmaDTO(turma)).collect(Collectors.toList());
-
         aluno.setId(alunoDTO.getId());
         aluno.setName(alunoDTO.getName());
         aluno.setAge(alunoDTO.getAge());
         aluno.setCpf(alunoDTO.getCpf());
         aluno.setPhone(alunoDTO.getPhone());
-        aluno.setTurmas(turmas);
         return aluno;
     }
 
