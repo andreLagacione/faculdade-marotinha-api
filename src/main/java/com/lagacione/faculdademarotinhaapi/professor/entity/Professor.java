@@ -29,14 +29,6 @@ public class Professor extends Pessoa {
     )
     private List<Materia> materiasLecionadas = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-        name = "professor_cursos",
-        joinColumns = @JoinColumn(name = "professor_id"),
-        inverseJoinColumns = @JoinColumn(name = "curso_id")
-    )
-    private List<Curso> cursosLecionados = new ArrayList<>();
-
     @JsonIgnore
     @OneToMany(mappedBy = "professor")
     private List<Boletim> boletins = new ArrayList<>();
@@ -61,14 +53,6 @@ public class Professor extends Pessoa {
 
     public void setMateriasLecionadas(List<Materia> materiasLecionadas) {
         this.materiasLecionadas = materiasLecionadas;
-    }
-
-    public List<Curso> getCursosLecionados() {
-        return cursosLecionados;
-    }
-
-    public void setCursosLecionados(List<Curso> cursosLecionados) {
-        this.cursosLecionados = cursosLecionados;
     }
 
     public List<Turma> getTurmas() {

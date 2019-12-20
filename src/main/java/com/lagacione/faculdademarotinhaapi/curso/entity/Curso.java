@@ -31,10 +31,6 @@ public class Curso {
     private List<Materia> materias = new ArrayList<>();
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "cursosLecionados")
-    private List<Professor> professores = new ArrayList<>();
-
-    @JsonIgnore
     @OneToMany(mappedBy = "curso")
     private List<Boletim> boletins = new ArrayList<>();
 

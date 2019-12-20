@@ -1,5 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.curso.service;
 
+import com.lagacione.faculdademarotinhaapi.boletim.service.BoletimService;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
@@ -11,6 +12,7 @@ import com.lagacione.faculdademarotinhaapi.curso.repository.CursoRepository;
 import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
 import com.lagacione.faculdademarotinhaapi.materia.service.MateriaService;
+import com.lagacione.faculdademarotinhaapi.turma.service.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -26,11 +28,15 @@ import java.util.stream.Collectors;
 public class CursoService {
     private CursoRepository cursoRepository;
     private MateriaService materiaService;
+    private TurmaService turmaService;
+    private BoletimService boletimService;
 
     @Autowired
-    public void CursoService(CursoRepository cursoRepository, MateriaService materiaService) {
+    public void CursoService(CursoRepository cursoRepository, MateriaService materiaService, TurmaService turmaService, BoletimService boletimService) {
         this.cursoRepository = cursoRepository;
         this.materiaService = materiaService;
+        this.turmaService = turmaService;
+        this.boletimService = boletimService;
     }
 
     public List<CursoListaDTO> findAll() {
@@ -78,8 +84,24 @@ public class CursoService {
     public void delete(Integer id) throws ObjectNotFoundException {
         this.find(id);
 
+        /*
+            Se tiver materias pode excluir, porém não exclui as materias
+            Se tiver boletim não pode excluir
+
+         */
+
+        if (this.turmaService.findTurmaByCursoId(id).size() > 0) {
+            throw new ActionNotAllowedException("Existem turmas atreladas a esse curso!");
+        }
+
+        if (this.boletimService.getBoletinsByCursoId(id).size() > 0) {
+            throw new ActionNotAllowedException("Existem boletins atrelados a esse curso!");
+        }
+
         try {
             this.cursoRepository.deleteById(id);
+
+
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException("Não é possível remover esse curso!");
         }
@@ -92,6 +114,7 @@ public class CursoService {
 
     public CursoDTO salvarRegistro(CursoDTO cursoDTO, Boolean adicionar) throws ActionNotAllowedException {
         Curso curso = this.cursoOfCursoDTO(cursoDTO);
+        this.validarCurso(cursoDTO);
         this.validarMaterias(curso);
 
         if (adicionar) {

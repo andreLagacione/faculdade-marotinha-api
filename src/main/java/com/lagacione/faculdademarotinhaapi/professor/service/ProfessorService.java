@@ -98,7 +98,6 @@ public class ProfessorService {
         newProfessor.setPhone(professor.getPhone());
         newProfessor.setId(professor.getId());
         newProfessor.setMateriasLecionadas(professor.getMateriasLecionadas());
-        newProfessor.setCursosLecionados(professor.getCursosLecionados());
     }
 
     public ProfessorDTO salvarRegistro(ProfessorDTO professorDTO, Boolean adicionar) throws ActionNotAllowedException {
@@ -150,8 +149,6 @@ public class ProfessorService {
         Professor professor = new Professor();
         List<MateriaDTO> materiasDTO = professorDTO.getMaterias().stream().map(id -> this.materiaService.find(id)).collect(Collectors.toList());
         List<Materia> materias = materiasDTO.stream().map(materia -> this.materiaService.materiaOfMateriaDTO(materia)).collect(Collectors.toList());
-        List<CursoDTO> cursosDTO = professorDTO.getCursos().stream().map(id -> this.cursoService.findOptional(id)).collect(Collectors.toList());
-        List<Curso> cursos = cursosDTO.stream().map(curso -> this.cursoService.cursoOfCursoDTO(curso)).collect(Collectors.toList());
 
         professor.setId(professorDTO.getId());
         professor.setName(professorDTO.getName());
@@ -159,14 +156,12 @@ public class ProfessorService {
         professor.setCpf(professorDTO.getCpf());
         professor.setPhone(professorDTO.getPhone());
         professor.setMateriasLecionadas(materias);
-        professor.setCursosLecionados(cursos);
         return professor;
     }
 
     public ProfessorDTO professorDTOofEntity(Professor professor) {
         ProfessorDTO professorDTO = new ProfessorDTO();
         List<Integer> materias = professor.getMateriasLecionadas().stream().map(materia -> materia.getId()).collect(Collectors.toList());
-        List<Integer> cursos = professor.getCursosLecionados().stream().map(curso -> curso.getId()).collect(Collectors.toList());
 
         professorDTO.setId(professor.getId());
         professorDTO.setName(professor.getName());
@@ -174,7 +169,6 @@ public class ProfessorService {
         professorDTO.setCpf(professor.getCpf());
         professorDTO.setPhone(professor.getPhone());
         professorDTO.setMaterias(materias);
-        professorDTO.setCursos(cursos);
         return professorDTO;
     }
 
@@ -190,15 +184,14 @@ public class ProfessorService {
 
     public ProfessorToEditDTO professorToEditDTOofEntity(Professor professor) {
         ProfessorToEditDTO professorToEditDTO = new ProfessorToEditDTO();
+        List<MateriaDTO> materias = professor.getMateriasLecionadas().stream().map(materia -> this.materiaService.materiaDTOofMateria(materia)).collect(Collectors.toList());
+
         professorToEditDTO.setId(professor.getId());
         professorToEditDTO.setName(professor.getName());
         professorToEditDTO.setAge(professor.getAge());
         professorToEditDTO.setCpf(professor.getCpf());
         professorToEditDTO.setPhone(professor.getPhone());
-        List<MateriaDTO> materias = professor.getMateriasLecionadas().stream().map(materia -> this.materiaService.materiaDTOofMateria(materia)).collect(Collectors.toList());
-        List<CursoListaDTO> cursos = professor.getCursosLecionados().stream().map(curso -> this.cursoService.cursoListaDTOofCurso(curso)).collect(Collectors.toList());
         professorToEditDTO.setMaterias(materias);
-        professorToEditDTO.setCursos(cursos);
         return professorToEditDTO;
     }
 }
