@@ -69,6 +69,7 @@ public class TurmaService {
 
     private TurmaDTO insert(Turma turma) {
         turma.setId(null);
+        turma.setPeriodo(turma.getPeriodo().toLowerCase());
         return this.turmaDTOofEntity(this.turmaRepository.save(turma));
     }
 
@@ -77,19 +78,20 @@ public class TurmaService {
     }
 
     private TurmaDTO update(Turma turma) throws ObjectNotFoundException {
+        turma.setPeriodo(turma.getPeriodo().toLowerCase());
         Turma newTurma = this.turmaOfTurmaDTO(this.findTurmaDTO(turma.getId()));
         this.updateData(newTurma, turma);
         return this.turmaDTOofEntity(this.turmaRepository.save(newTurma));
     }
 
     public void delete(Integer id) throws ObjectNotFoundException {
-        this.find(id);
+        TurmaEditDTO turma = this.find(id);
 
-        try {
-            this.turmaRepository.deleteById(id);
-        } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException("Não é possível remover esta turma!");
+        if (turma.getAlunos().size() > 0) {
+            throw new ActionNotAllowedException("Essa turma não pode ser excluída pois existem alunos atrelados à ela!");
         }
+
+        this.turmaRepository.deleteById(id);
     }
 
     private void updateData(Turma newTurma, Turma turma) {
@@ -100,7 +102,8 @@ public class TurmaService {
         newTurma.setPeriodo(turma.getPeriodo());
     }
 
-    public TurmaDTO salvarRegistro(TurmaDTO turmaDTO, Boolean adicionar) throws ActionNotAllowedException {
+    public TurmaDTO salvarRegistro(TurmaDTO turmaDTO, Boolean adicionar) throws Exception {
+        this.validarPeriodo(turmaDTO.getPeriodo().toLowerCase());
         this.validarTurma(turmaDTO);
 
         Turma turma = this.turmaOfTurmaDTO(turmaDTO);
@@ -110,6 +113,12 @@ public class TurmaService {
         }
 
         return this.update(turma);
+    }
+
+    private void validarPeriodo(String periodo) throws Exception {
+        if (!"manhã".equals(periodo) && !"tarde".equals(periodo) && !"noite".equals(periodo)) {
+            throw new Exception("O período informado é inválido!");
+        }
     }
 
     private void validarTurma(TurmaDTO turmaDTO) {
@@ -142,6 +151,7 @@ public class TurmaService {
         turmaDTO.setAno(turma.getAno());
         turmaDTO.setCurso(turma.getCurso().getId());
         turmaDTO.setProfessor(turma.getProfessor().getId());
+        turmaDTO.setAlunos(turma.getAlunos().stream().map(aluno -> aluno.getId()).collect(Collectors.toList()));
         turmaDTO.setPeriodo(turma.getPeriodo());
         return turmaDTO;
     }
@@ -153,6 +163,7 @@ public class TurmaService {
         turmaListDTO.setCurso(turma.getCurso().getName());
         turmaListDTO.setProfessor(turma.getProfessor().getName());
         turmaListDTO.setPeriodo(turma.getPeriodo());
+        turmaListDTO.setTotalAlunos(turma.getAlunos().size());
         return turmaListDTO;
     }
 
@@ -162,6 +173,7 @@ public class TurmaService {
         turmaEditDTO.setAno(turma.getAno());
         turmaEditDTO.setCurso(turma.getCurso());
         turmaEditDTO.setProfessor(turma.getProfessor());
+        turmaEditDTO.setAlunos(turma.getAlunos());
         turmaEditDTO.setPeriodo(turma.getPeriodo());
         return turmaEditDTO;
     }

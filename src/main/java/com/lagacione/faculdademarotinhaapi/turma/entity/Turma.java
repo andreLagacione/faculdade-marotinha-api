@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
-import com.lagacione.faculdademarotinhaapi.turma.enums.Periodo;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -29,12 +28,16 @@ public class Turma {
     @JoinColumn(name = "id_professor", referencedColumnName = "id")
     private Professor professor;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "turmas")
+    @ManyToMany
+    @JoinTable(
+            name = "aluno_turma",
+            joinColumns = @JoinColumn(name = "id_aluno"),
+            inverseJoinColumns = @JoinColumn(name = "id_turma")
+    )
     private List<Aluno> alunos = new ArrayList<>();
 
     @Column(name = "periodo")
-    private Periodo periodo;
+    private String periodo;
 
     public Turma() {}
 
@@ -78,11 +81,11 @@ public class Turma {
         this.alunos = alunos;
     }
 
-    public Periodo getPeriodo() {
+    public String getPeriodo() {
         return periodo;
     }
 
-    public void setPeriodo(Periodo periodo) {
+    public void setPeriodo(String periodo) {
         this.periodo = periodo;
     }
 }

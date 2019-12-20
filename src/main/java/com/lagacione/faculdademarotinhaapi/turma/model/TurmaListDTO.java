@@ -1,14 +1,12 @@
 package com.lagacione.faculdademarotinhaapi.turma.model;
 
-import com.lagacione.faculdademarotinhaapi.turma.enums.Periodo;
-
 public class TurmaListDTO {
     private Integer id;
     private Integer ano;
     private String curso;
     private String professor;
     private Integer totalAlunos;
-    private Periodo periodo;
+    private String periodo;
 
     public TurmaListDTO() {}
 
@@ -52,11 +50,11 @@ public class TurmaListDTO {
         this.totalAlunos = totalAlunos;
     }
 
-    public Periodo getPeriodo() {
+    public String getPeriodo() {
         return periodo;
     }
 
-    public void setPeriodo(Periodo periodo) {
+    public void setPeriodo(String periodo) {
         this.periodo = periodo;
     }
 }

@@ -3,7 +3,6 @@ package com.lagacione.faculdademarotinhaapi.turma.model;
 import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
-import com.lagacione.faculdademarotinhaapi.turma.enums.Periodo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ public class TurmaEditDTO {
     private Curso curso;
     private Professor professor;
     private List<Aluno> alunos = new ArrayList<>();
-    private Periodo periodo;
+    private String periodo;
 
     public TurmaEditDTO() {}
 
@@ -58,11 +57,11 @@ public class TurmaEditDTO {
         this.alunos = alunos;
     }
 
-    public Periodo getPeriodo() {
+    public String getPeriodo() {
         return periodo;
     }
 
-    public void setPeriodo(Periodo periodo) {
+    public void setPeriodo(String periodo) {
         this.periodo = periodo;
     }
 }

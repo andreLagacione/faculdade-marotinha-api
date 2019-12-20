@@ -46,7 +46,7 @@ public class TurmaResource {
     }
 
     @PostMapping
-    public ResponseEntity<PadraoMensagemRetornoDTO> insert(@Valid @RequestBody TurmaDTO turmaDTO) throws ActionNotAllowedException {
+    public ResponseEntity<PadraoMensagemRetornoDTO> insert(@Valid @RequestBody TurmaDTO turmaDTO) throws Exception {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(this.turmaService.salvarRegistro(turmaDTO, true).getId()).toUri();
         PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.CREATED, HttpStatus.valueOf("CREATED").value(), "Turma adicionada com sucesso!");
         return ResponseEntity.created(uri).body(mensagemRetorno);
@@ -55,7 +55,7 @@ public class TurmaResource {
     @PutMapping
     public PadraoMensagemRetornoDTO update(
             @Valid @RequestBody TurmaDTO turmaDTO
-    ) throws ActionNotAllowedException {
+    ) throws Exception {
         this.turmaService.salvarRegistro(turmaDTO, false);
         return new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Turma editada com sucesso!");
     }
