@@ -20,6 +20,9 @@ public interface BoletimRepository extends JpaRepository<Boletim, Integer> {
             @Param("idCurso") Integer idCurso
     );
 
-    @Query("SELECT * FROM Boletim b WHERE b.aluno.id = :idAluno")
+    @Query("SELECT b FROM Boletim b WHERE b.aluno.id = :idAluno")
     public List<Boletim> getBoletinsByAlunoId(@Param("idAluno") Integer idAluno);
+
+    @Query("SELECT b FROM Boletim b WHERE b.curso.id = :idCurso")
+    public List<Boletim> getBoletinsByCursoId(@Param("idCurso") Integer idCurso);
 }

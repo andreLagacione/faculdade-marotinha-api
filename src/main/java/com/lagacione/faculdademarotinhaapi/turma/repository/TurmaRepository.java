@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -18,5 +19,8 @@ public interface TurmaRepository extends JpaRepository<Turma, Integer> {
             @Param("idProfessor") Integer idProfessor,
             @Param("periodo") String periodo
     );
+
+    @Query("SELECT t FROM Turma t WHERE t.curso.id = :idCurso")
+    public List<Turma> findTurmaByCursoId(@Param("idCurso") Integer idCurso);
 
 }

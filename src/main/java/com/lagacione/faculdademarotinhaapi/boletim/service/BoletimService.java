@@ -200,6 +200,11 @@ public class BoletimService {
         }
     }
 
+    public List<BoletimDTO> getBoletinsByCursoId(Integer idCurso) {
+        List<Boletim> boletins = this.boletimRepository.getBoletinsByCursoId(idCurso);
+        return boletins.stream().map(boletim -> this.boletimDTOofBoletim(boletim)).collect(Collectors.toList());
+    }
+
     public  Boletim boletimOfBoletimDTO(BoletimDTO boletimDTO) {
         Boletim boletim = new Boletim();
         AlunoDTO alunoDTO = this.alunoService.findAlunoDTO(boletimDTO.getIdAluno());
