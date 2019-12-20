@@ -22,17 +22,18 @@ public class Turma {
     private Integer ano;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "id_curso", referencedColumnName = "id")
     private Curso curso;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "id_professor", referencedColumnName = "id")
     private Professor professor;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "turmas")
     private List<Aluno> alunos = new ArrayList<>();
 
+    @Column(name = "periodo")
     private Periodo periodo;
 
     public Turma() {}
