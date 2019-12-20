@@ -104,10 +104,10 @@ public class ProfessorService {
     public ProfessorDTO salvarRegistro(ProfessorDTO professorDTO, Boolean adicionar) throws ActionNotAllowedException {
         this.validarMaterias(professorDTO);
         this.validarCursos(professorDTO);
+        this.validarCpf(professorDTO);
         Professor professor = this.professorOfDTO(professorDTO);
 
         if (adicionar) {
-            this.validarCpf(professorDTO);
             return this.insert(professor);
         }
 
@@ -141,7 +141,7 @@ public class ProfessorService {
     private void validarCpf(ProfessorDTO professorDTO) throws ActionNotAllowedException {
         Optional<Professor> professor = this.professorRepository.pesquisarCpf(professorDTO.getCpf());
 
-        if (professor.isPresent()) {
+        if (professor.isPresent() && professor.get().getId() != professorDTO.getId()) {
             throw new ActionNotAllowedException("Já existe um professor cadastrado com esse CPF. Por favor informe outro CPF!");
         }
     }

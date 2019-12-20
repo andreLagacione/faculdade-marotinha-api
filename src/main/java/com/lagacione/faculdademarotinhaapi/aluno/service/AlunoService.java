@@ -128,7 +128,7 @@ public class AlunoService {
     private void validarCpf(AlunoDTO alunoDTO) throws ActionNotAllowedException {
         Optional<Aluno> aluno = this.alunoRepository.pesquisarCpf(alunoDTO.getCpf());
 
-        if (aluno.isPresent()) {
+        if (aluno.isPresent() && aluno.get().getId() != alunoDTO.getId()) {
             throw new ActionNotAllowedException("Já existe um aluno cadastrado com esse CPF. Por favor informe outro CPF!");
         }
     }

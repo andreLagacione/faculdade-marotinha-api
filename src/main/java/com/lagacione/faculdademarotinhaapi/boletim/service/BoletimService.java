@@ -141,7 +141,7 @@ public class BoletimService {
     private void validarSeBoletimJaExiste(BoletimDTO boletimDTO) {
         Optional<Boletim> boletim = this.boletimRepository.validarSeBoletimJaExiste(boletimDTO.getAno(), boletimDTO.getIdProfessor(), boletimDTO.getIdAluno(), boletimDTO.getIdCurso());
 
-        if (boletim.isPresent()) {
+        if (boletim.isPresent() && boletim.get().getId() != boletimDTO.getId()) {
             throw new ActionNotAllowedException("Já existe um boletim cadastro para esse ano, com esse professor, para esse aluno e para esse curso!");
         }
     }

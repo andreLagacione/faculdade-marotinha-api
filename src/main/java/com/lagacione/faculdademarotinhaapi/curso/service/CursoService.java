@@ -101,6 +101,14 @@ public class CursoService {
         return this.update(curso);
     }
 
+    private void validarCurso(CursoDTO cursoDTO) throws ActionNotAllowedException {
+       Optional<Curso> curso = this.cursoRepository.validarCurso(cursoDTO.getName());
+
+       if (curso.isPresent() && curso.get().getId() != cursoDTO.getId()) {
+           throw new ActionNotAllowedException("Já existe um curso cadastrado com esse nome!");
+       }
+    }
+
     private void validarMaterias(Curso curso) throws ActionNotAllowedException {
         List<Materia> materiasCurso = curso.getMaterias();
 

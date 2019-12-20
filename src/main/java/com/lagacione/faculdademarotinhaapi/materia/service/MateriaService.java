@@ -1,5 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.materia.service;
 
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.security.AccessControlException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -73,6 +75,7 @@ public class MateriaService {
     }
 
     public MateriaDTO salvarRegistro(MateriaDTO materiaDTO, Boolean adicionar) throws ObjectNotFoundException {
+        this.validarMateria(materiaDTO);
         Materia materia = this.materiaOfMateriaDTO(materiaDTO);
 
         if (adicionar) {
@@ -80,6 +83,14 @@ public class MateriaService {
         }
 
         return this.update(materia);
+    }
+
+    private void validarMateria(MateriaDTO materiaDTO) throws ActionNotAllowedException {
+        Optional<Materia> materia = this.materiaRepository.validarMateria(materiaDTO.getName());
+
+        if (materia.isPresent() && materia.get().getId() != materiaDTO.getId()) {
+            throw new ActionNotAllowedException("Já existe uma matéria cadastrada com esse nome!");
+        }
     }
 
     public Materia materiaOfMateriaDTO(MateriaDTO materiaDTO) {
