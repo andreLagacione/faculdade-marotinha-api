@@ -12,8 +12,9 @@ import java.util.Optional;
 @Repository
 public interface TurmaRepository extends JpaRepository<Turma, Integer> {
 
-    @Query("SELECT t FROM Turma t WHERE t.ano = :ano AND t.curso.id = :idCurso AND t.professor.id = :idProfessor AND t.periodo = :periodo")
-    public Optional<Turma> valdarTurma(
+//    @Query("SELECT t FROM Turma t WHERE t.ano = :ano AND t.curso.id = :idCurso AND t.professor.id = :idProfessor AND t.periodo = :periodo")
+    @Query("SELECT t FROM Turma t WHERE t.ano = :idCurso")
+    public Optional<Turma> validarTurma(
             @Param("ano") Integer ano,
             @Param("idCurso") Integer idCurso,
             @Param("idProfessor") Integer idProfessor,

@@ -113,7 +113,7 @@ public class TurmaService {
     }
 
     private void validarTurma(TurmaDTO turmaDTO) {
-        Optional<Turma> turma = this.turmaRepository.valdarTurma(turmaDTO.getAno(), turmaDTO.getCurso(), turmaDTO.getProfessor(), turmaDTO.getPeriodo());
+        Optional<Turma> turma = this.turmaRepository.validarTurma(turmaDTO.getAno(), turmaDTO.getCurso(), turmaDTO.getProfessor(), turmaDTO.getPeriodo());
 
         if (turma.isPresent()) {
             throw new ActionNotAllowedException("Já existe uma turma para esse ano e para esse curso, com esse mesmo professor nesse mesmo período!");
