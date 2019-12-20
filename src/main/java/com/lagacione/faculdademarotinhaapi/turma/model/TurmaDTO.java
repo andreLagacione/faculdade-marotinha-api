@@ -1,28 +1,27 @@
 package com.lagacione.faculdademarotinhaapi.turma.model;
 
-import com.lagacione.faculdademarotinhaapi.turma.enums.Periodo;
-
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TurmaDTO {
     private Integer id;
 
-    @NotEmpty(message = "Informe o ano!")
+    @NotNull(message = "Informe o ano!")
     private Integer ano;
 
-    @NotEmpty(message = "Informe o curso!")
+    @NotNull(message = "Informe o curso!")
     private Integer curso;
 
-    @NotEmpty(message = "Informe o professor!")
+    @NotNull(message = "Informe o professor!")
     private Integer professor;
 
-    @NotEmpty(message = "Informe ao menos um aluno!")
+    @NotNull(message = "Informe ao menos um aluno!")
     private List<Integer> alunos = new ArrayList<>();
 
     @NotEmpty(message = "Informe o periodo!")
-    private Periodo periodo;
+    private String periodo;
 
     public TurmaDTO() {}
 
@@ -66,11 +65,11 @@ public class TurmaDTO {
         this.alunos = alunos;
     }
 
-    public Periodo getPeriodo() {
+    public String getPeriodo() {
         return periodo;
     }
 
-    public void setPeriodo(Periodo periodo) {
+    public void setPeriodo(String periodo) {
         this.periodo = periodo;
     }
 }
