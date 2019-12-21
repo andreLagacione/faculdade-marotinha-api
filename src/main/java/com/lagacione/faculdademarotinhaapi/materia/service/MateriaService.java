@@ -5,7 +5,7 @@ import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundExce
 import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
 import com.lagacione.faculdademarotinhaapi.materia.repository.MateriaRepository;
-import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.service.MateriaNotaBimestreService;
+import com.lagacione.faculdademarotinhaapi.nota.service.NotaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -20,12 +20,12 @@ import java.util.stream.Collectors;
 @Service
 public class MateriaService {
     private MateriaRepository materiaRepository;
-    private MateriaNotaBimestreService materiaNotaBimestreService;
+    private NotaService notaService;
 
     @Autowired
-    public void MateriaService(MateriaRepository materiaRepository, MateriaNotaBimestreService materiaNotaBimestreService) {
+    public void MateriaService(MateriaRepository materiaRepository, NotaService notaService) {
         this.materiaRepository = materiaRepository;
-        this.materiaNotaBimestreService = materiaNotaBimestreService;
+        this.notaService = notaService;
     }
 
     public List<MateriaDTO> findAll() {
@@ -66,7 +66,7 @@ public class MateriaService {
         this.find(id);
 
         try {
-            if (this.materiaNotaBimestreService.verificarSePodeRemoverNotas(id).size() > 0) {
+            if (this.notaService.verificarSePodeRemoverNotas(id).size() > 0) {
                 throw new ActionNotAllowedException("Não é possível remover essa matéria pois existem notas atreladas a ela!");
             }
 

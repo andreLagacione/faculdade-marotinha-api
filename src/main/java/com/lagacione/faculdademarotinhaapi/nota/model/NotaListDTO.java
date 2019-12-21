@@ -1,17 +1,15 @@
-package com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model;
+package com.lagacione.faculdademarotinhaapi.nota.model;
 
-public class MateriaNotaBimestrePDFDTO {
-
+public class NotaListDTO {
     private Integer id;
     private String nomeMateria;
-    private String notaBimestre1;
-    private String notaBimestre2;
-    private String notaBimestre3;
-    private String notaBimestre4;
-    private Integer idBoletim;
+    private Double notaBimestre1;
+    private Double notaBimestre2;
+    private Double notaBimestre3;
+    private Double notaBimestre4;
     private String mediaFinal = "N/A";
 
-    public MateriaNotaBimestrePDFDTO() {}
+    public NotaListDTO() {}
 
     public Integer getId() {
         return id;
@@ -29,44 +27,36 @@ public class MateriaNotaBimestrePDFDTO {
         this.nomeMateria = nomeMateria;
     }
 
-    public String getNotaBimestre1() {
+    public Double getNotaBimestre1() {
         return notaBimestre1;
     }
 
-    public void setNotaBimestre1(String notaBimestre1) {
+    public void setNotaBimestre1(Double notaBimestre1) {
         this.notaBimestre1 = notaBimestre1;
     }
 
-    public String getNotaBimestre2() {
+    public Double getNotaBimestre2() {
         return notaBimestre2;
     }
 
-    public void setNotaBimestre2(String notaBimestre2) {
+    public void setNotaBimestre2(Double notaBimestre2) {
         this.notaBimestre2 = notaBimestre2;
     }
 
-    public String getNotaBimestre3() {
+    public Double getNotaBimestre3() {
         return notaBimestre3;
     }
 
-    public void setNotaBimestre3(String notaBimestre3) {
+    public void setNotaBimestre3(Double notaBimestre3) {
         this.notaBimestre3 = notaBimestre3;
     }
 
-    public String getNotaBimestre4() {
+    public Double getNotaBimestre4() {
         return notaBimestre4;
     }
 
-    public void setNotaBimestre4(String notaBimestre4) {
+    public void setNotaBimestre4(Double notaBimestre4) {
         this.notaBimestre4 = notaBimestre4;
-    }
-
-    public Integer getIdBoletim() {
-        return idBoletim;
-    }
-
-    public void setIdBoletim(Integer idBoletim) {
-        this.idBoletim = idBoletim;
     }
 
     public String getMediaFinal() {

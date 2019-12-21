@@ -2,7 +2,7 @@ package com.lagacione.faculdademarotinhaapi.materia.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
-import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.entity.MateriaNotaBimestre;
+import com.lagacione.faculdademarotinhaapi.nota.entity.Nota;
 import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
 
 import javax.persistence.*;
@@ -29,7 +29,7 @@ public class Materia {
 
     @JsonIgnore
     @OneToMany(mappedBy = "materia")
-    private List<MateriaNotaBimestre> materiaNotasBimestre = new ArrayList<>();
+    private List<Nota> materiaNotasBimestre = new ArrayList<>();
 
     public Materia() {}
 

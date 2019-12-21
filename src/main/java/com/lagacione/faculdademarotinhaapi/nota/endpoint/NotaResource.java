@@ -1,10 +1,10 @@
-package com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.endpoint;
+package com.lagacione.faculdademarotinhaapi.nota.endpoint;
 
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import com.lagacione.faculdademarotinhaapi.commons.models.PadraoMensagemRetornoDTO;
-import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreDTO;
-import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestreListDTO;
-import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.service.MateriaNotaBimestreService;
+import com.lagacione.faculdademarotinhaapi.nota.model.NotaDTO;
+import com.lagacione.faculdademarotinhaapi.nota.model.NotaListDTO;
+import com.lagacione.faculdademarotinhaapi.nota.service.NotaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,50 +19,50 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value="/nota")
-public class MateriaNotaBimestreResource {
-    private MateriaNotaBimestreService materiaNotaBimestreService;
+public class NotaResource {
+    private NotaService notaService;
 
     @Autowired
-    public void MateriaNotaBimestreResource(MateriaNotaBimestreService materiaNotaBimestreService) {
-        this.materiaNotaBimestreService = materiaNotaBimestreService;
+    public void MateriaNotaBimestreResource(NotaService notaService) {
+        this.notaService = notaService;
     }
 
     @GetMapping(value="/combo-list")
-    public List<MateriaNotaBimestreListDTO> findAll() {
-        return this.materiaNotaBimestreService.findAll();
+    public List<NotaListDTO> findAll() {
+        return this.notaService.findAll();
     }
 
     @GetMapping
-    public Page<MateriaNotaBimestreListDTO> findPage(Pageable pageable) {
-        return this.materiaNotaBimestreService.findPage(pageable);
+    public Page<NotaListDTO> findPage(Pageable pageable) {
+        return this.notaService.findPage(pageable);
     }
 
     @GetMapping(value="/{id}")
-    public MateriaNotaBimestreDTO find(@PathVariable Integer id) throws ObjectNotFoundException {
-        return this.materiaNotaBimestreService.find(id);
+    public NotaDTO find(@PathVariable Integer id) throws ObjectNotFoundException {
+        return this.notaService.find(id);
     }
 
     @PostMapping
     public ResponseEntity<PadraoMensagemRetornoDTO> insert(
-            @Valid @RequestBody MateriaNotaBimestreDTO materiaNotaBimestreDTO
+            @Valid @RequestBody NotaDTO notaDTO
     ) throws Exception {
         URI uri;
-        uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(this.materiaNotaBimestreService.salvarRegistro(materiaNotaBimestreDTO, true).getId()).toUri();
+        uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(this.notaService.salvarRegistro(notaDTO, true).getId()).toUri();
         PadraoMensagemRetornoDTO mensagemRetorno = new PadraoMensagemRetornoDTO(HttpStatus.CREATED, HttpStatus.valueOf("CREATED").value(), "Nota adicionada com sucesso!");
         return ResponseEntity.created(uri).body(mensagemRetorno);
     }
 
     @PutMapping
     public PadraoMensagemRetornoDTO update(
-            @Valid @RequestBody MateriaNotaBimestreDTO materiaNotaBimestreDTO
+            @Valid @RequestBody NotaDTO notaDTO
     ) throws Exception {
-        this.materiaNotaBimestreService.salvarRegistro(materiaNotaBimestreDTO, false);
+        this.notaService.salvarRegistro(notaDTO, false);
         return new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Nota editada com sucesso!");
     }
 
     @DeleteMapping(value="/{id}")
     public PadraoMensagemRetornoDTO delete(@PathVariable Integer id) throws ObjectNotFoundException {
-        this.materiaNotaBimestreService.delete(id, false);
+        this.notaService.delete(id, false);
         return new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Nota removida com sucesso!");
     }
 }

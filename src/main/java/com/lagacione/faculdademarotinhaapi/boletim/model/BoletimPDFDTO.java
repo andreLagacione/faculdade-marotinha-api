@@ -1,6 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.boletim.model;
 
-import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model.MateriaNotaBimestrePDFDTO;
+import com.lagacione.faculdademarotinhaapi.nota.model.NotaPDFDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ public class BoletimPDFDTO {
     private String professor;
     private String aluno;
     private String curso;
-    private List<MateriaNotaBimestrePDFDTO> notas = new ArrayList<>();
+    private List<NotaPDFDTO> notas = new ArrayList<>();
 
     public BoletimPDFDTO() {}
 
@@ -46,11 +46,11 @@ public class BoletimPDFDTO {
         this.curso = curso;
     }
 
-    public List<MateriaNotaBimestrePDFDTO> getNotas() {
+    public List<NotaPDFDTO> getNotas() {
         return notas;
     }
 
-    public void setNotas(List<MateriaNotaBimestrePDFDTO> notas) {
+    public void setNotas(List<NotaPDFDTO> notas) {
         this.notas = notas;
     }
 

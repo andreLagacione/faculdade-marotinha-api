@@ -2,7 +2,7 @@ package com.lagacione.faculdademarotinhaapi.boletim.entity;
 
 import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
-import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.entity.MateriaNotaBimestre;
+import com.lagacione.faculdademarotinhaapi.nota.entity.Nota;
 import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
 
 import javax.persistence.*;
@@ -37,7 +37,7 @@ public class Boletim {
         joinColumns = @JoinColumn(name = "id_boletim", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "id_nota", referencedColumnName = "id")
     )
-    private List<MateriaNotaBimestre> notas = new ArrayList<>();
+    private List<Nota> notas = new ArrayList<>();
 
     public Boletim() {}
 
@@ -81,11 +81,11 @@ public class Boletim {
         this.curso = curso;
     }
 
-    public List<MateriaNotaBimestre> getNotas() {
+    public List<Nota> getNotas() {
         return notas;
     }
 
-    public void setNotas(List<MateriaNotaBimestre> notas) {
+    public void setNotas(List<Nota> notas) {
         this.notas = notas;
     }
 

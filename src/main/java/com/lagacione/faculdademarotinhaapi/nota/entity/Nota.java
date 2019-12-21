@@ -1,23 +1,39 @@
-package com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model;
+package com.lagacione.faculdademarotinhaapi.nota.entity;
 
-import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
+import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
 
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
 
-public class MateriaNotaBimestreDTO {
+@Entity
+@Table(name = "nota")
+public class Nota {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull(message = "Informe a matéria")
-    private MateriaDTO materia;
+    @ManyToOne
+    @JoinColumn(name = "materia_id", referencedColumnName = "id")
+    private Materia materia;
 
+    @Column(name = "nota_bimestre_1")
     private Double notaBimestre1;
+
+    @Column(name = "nota_bimestre_2")
     private Double notaBimestre2;
+
+    @Column(name = "nota_bimestre_3")
     private Double notaBimestre3;
+
+    @Column(name = "nota_bimestre_4")
     private Double notaBimestre4;
+
+    @Column(name = "boletim_id")
     private Integer idBoletim;
+
+    @Column(name = "media_final")
     private String mediaFinal = "N/A";
 
-    public MateriaNotaBimestreDTO() {}
+    public Nota() {}
 
     public Integer getId() {
         return id;
@@ -27,12 +43,12 @@ public class MateriaNotaBimestreDTO {
         this.id = id;
     }
 
-    public MateriaDTO getMateria() {
+    public Materia getMateria() {
         return materia;
     }
 
-    public void setMateria(MateriaDTO materiaDTO) {
-        this.materia = materiaDTO;
+    public void setMateria(Materia materia) {
+        this.materia = materia;
     }
 
     public Double getNotaBimestre1() {
