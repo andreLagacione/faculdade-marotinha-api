@@ -13,4 +13,7 @@ public interface MatreriaNotaBimestreRespository extends JpaRepository<MateriaNo
 
     @Query("SELECT nota FROM MateriaNotaBimestre as nota WHERE nota.idBoletim = :idBoletim")
     public List<MateriaNotaBimestre> obterMateriaByIdBoletim(@Param("idBoletim") Integer idBoletim);
+
+    @Query("SELECT nota FROM MateriaNotaBimestre as nota WHERE nota.materia.id = :idMateria")
+    public List<MateriaNotaBimestre> obterMateriaByIdMateria(@Param("idMateria") Integer idMateria);
 }

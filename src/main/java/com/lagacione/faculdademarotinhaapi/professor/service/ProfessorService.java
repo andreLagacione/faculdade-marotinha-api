@@ -1,5 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.professor.service;
 
+import com.lagacione.faculdademarotinhaapi.boletim.service.BoletimService;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
@@ -14,6 +15,7 @@ import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorDTO;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorListaDTO;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorToEditDTO;
 import com.lagacione.faculdademarotinhaapi.professor.repository.ProfessorRepository;
+import com.lagacione.faculdademarotinhaapi.turma.service.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -31,12 +33,16 @@ public class ProfessorService {
     private ProfessorRepository professorRepository;
     private MateriaService materiaService;
     private CursoService cursoService;
+    private BoletimService boletimService;
+    private TurmaService turmaService;
 
     @Autowired
-    public void ProfessorService(ProfessorRepository professorRepository, MateriaService materiaService, CursoService cursoService) {
+    public void ProfessorService(ProfessorRepository professorRepository, MateriaService materiaService, CursoService cursoService, BoletimService boletimService, TurmaService turmaService) {
         this.professorRepository = professorRepository;
         this.materiaService = materiaService;
         this.cursoService = cursoService;
+        this.boletimService = boletimService;
+        this.turmaService = turmaService;
     }
 
     public List<ProfessorListaDTO> findAll() {
@@ -83,6 +89,14 @@ public class ProfessorService {
 
     public void delete(Integer id) throws ObjectNotFoundException {
         this.find(id);
+
+        if (this.boletimService.getBoletinsByProfessorId(id).size() > 0) {
+            throw new ActionNotAllowedException("Não é possível remover este professor pois existem boletins atrelados à ele!");
+        }
+
+        if (this.turmaService.findTurmaByProfessorId(id).size() > 0) {
+            throw new ActionNotAllowedException("Não é possível remover este professor pois existem turmas atreladas à ele!");
+        }
 
         try {
             this.professorRepository.deleteById(id);

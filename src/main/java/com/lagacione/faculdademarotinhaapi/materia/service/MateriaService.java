@@ -5,6 +5,7 @@ import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundExce
 import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
 import com.lagacione.faculdademarotinhaapi.materia.repository.MateriaRepository;
+import com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.service.MateriaNotaBimestreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -20,10 +21,12 @@ import java.util.stream.Collectors;
 @Service
 public class MateriaService {
     private MateriaRepository materiaRepository;
+    private MateriaNotaBimestreService materiaNotaBimestreService;
 
     @Autowired
-    public void MateriaService(MateriaRepository materiaRepository) {
+    public void MateriaService(MateriaRepository materiaRepository, MateriaNotaBimestreService materiaNotaBimestreService) {
         this.materiaRepository = materiaRepository;
+        this.materiaNotaBimestreService = materiaNotaBimestreService;
     }
 
     public List<MateriaDTO> findAll() {
@@ -65,6 +68,7 @@ public class MateriaService {
 
         try {
             this.materiaRepository.deleteById(id);
+            this.materiaNotaBimestreService.removerNotaByIdMateria(id);
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException("Não é possível remover essa cidade, pois existem registros atrelados a ela!");
         }

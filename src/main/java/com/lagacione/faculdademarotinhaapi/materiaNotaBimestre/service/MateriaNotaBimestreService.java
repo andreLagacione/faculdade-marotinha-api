@@ -136,11 +136,7 @@ public class MateriaNotaBimestreService {
     }
 
     public void removerNotasBoletim(Integer idBoletim) {
-        List<MateriaNotaBimestre> notas = this.matreriaNotaBimestreRespository.obterMateriaByIdBoletim(idBoletim);
-
-        for (MateriaNotaBimestre nota : notas) {
-            this.delete(nota.getId());
-        }
+        this.removeItensByList(this.matreriaNotaBimestreRespository.obterMateriaByIdBoletim(idBoletim));
     }
 
     private void validarBoletim(Integer idBoletim) {
@@ -159,6 +155,16 @@ public class MateriaNotaBimestreService {
         }
 
         return notaDTO;
+    }
+
+    public void removerNotaByIdMateria(Integer idMateria) {
+        this.removeItensByList(this.matreriaNotaBimestreRespository.obterMateriaByIdMateria(idMateria));
+    }
+
+    private void removeItensByList(List<MateriaNotaBimestre> notas) {
+        for (MateriaNotaBimestre nota : notas) {
+            this.delete(nota.getId());
+        }
     }
 
     public MateriaNotaBimestre materiaNotaBimestreOfDTO(MateriaNotaBimestreDTO materiaNotaBimestreDTO) {

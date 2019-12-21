@@ -134,6 +134,11 @@ public class TurmaService {
         return turmas.stream().map(turma -> this.turmaDTOofEntity(turma)).collect(Collectors.toList());
     }
 
+    public List<TurmaDTO> findTurmaByProfessorId(Integer idProfessor) {
+        List<Turma> turmas = this.turmaRepository.findTurmaByProfessorId(idProfessor);
+        return turmas.stream().map(turma -> this.turmaDTOofEntity(turma)).collect(Collectors.toList());
+    }
+
     public Turma turmaOfTurmaDTO(TurmaDTO turmaDTO) {
         Turma turma = new Turma();
         CursoDTO cursoDTO = this.cursoService.findOptional(turmaDTO.getCurso());

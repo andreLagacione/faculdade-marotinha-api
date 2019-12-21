@@ -84,12 +84,6 @@ public class CursoService {
     public void delete(Integer id) throws ObjectNotFoundException {
         this.find(id);
 
-        /*
-            Se tiver materias pode excluir, porém não exclui as materias
-            Se tiver boletim não pode excluir
-
-         */
-
         if (this.turmaService.findTurmaByCursoId(id).size() > 0) {
             throw new ActionNotAllowedException("Existem turmas atreladas a esse curso!");
         }
@@ -100,8 +94,6 @@ public class CursoService {
 
         try {
             this.cursoRepository.deleteById(id);
-
-
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException("Não é possível remover esse curso!");
         }

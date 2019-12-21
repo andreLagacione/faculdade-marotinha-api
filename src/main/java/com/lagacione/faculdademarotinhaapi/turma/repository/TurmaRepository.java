@@ -23,4 +23,7 @@ public interface TurmaRepository extends JpaRepository<Turma, Integer> {
     @Query("SELECT t FROM Turma t WHERE t.curso.id = :idCurso")
     public List<Turma> findTurmaByCursoId(@Param("idCurso") Integer idCurso);
 
+    @Query("SELECT t FROM Turma t WHERE t.professor.id = :idProfessor")
+    public List<Turma> findTurmaByProfessorId(@Param("idProfessor") Integer idProfessor);
+
 }
