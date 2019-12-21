@@ -1,6 +1,5 @@
 package com.lagacione.faculdademarotinhaapi.turma.endpoint;
 
-import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import com.lagacione.faculdademarotinhaapi.commons.models.PadraoMensagemRetornoDTO;
 import com.lagacione.faculdademarotinhaapi.turma.model.TurmaDTO;

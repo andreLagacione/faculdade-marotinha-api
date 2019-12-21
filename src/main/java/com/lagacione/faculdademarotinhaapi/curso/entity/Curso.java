@@ -1,10 +1,8 @@
 package com.lagacione.faculdademarotinhaapi.curso.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
 import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim;
 import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
-import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
 import com.lagacione.faculdademarotinhaapi.turma.entity.Turma;
 
 import javax.persistence.*;

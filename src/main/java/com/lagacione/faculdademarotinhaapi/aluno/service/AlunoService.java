@@ -1,19 +1,14 @@
 package com.lagacione.faculdademarotinhaapi.aluno.service;
 
 import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
-import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoForEditDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
+import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoForEditDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoListaDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.repository.AlunoRepository;
 import com.lagacione.faculdademarotinhaapi.boletim.service.BoletimService;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
-import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
-import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
-import com.lagacione.faculdademarotinhaapi.curso.model.CursoNomeListaDTO;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
-import com.lagacione.faculdademarotinhaapi.turma.entity.Turma;
-import com.lagacione.faculdademarotinhaapi.turma.model.TurmaDTO;
 import com.lagacione.faculdademarotinhaapi.turma.model.TurmaListDTO;
 import com.lagacione.faculdademarotinhaapi.turma.service.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;

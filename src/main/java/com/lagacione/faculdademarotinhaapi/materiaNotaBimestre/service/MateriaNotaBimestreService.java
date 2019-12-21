@@ -1,7 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.service;
 
 import com.lagacione.faculdademarotinhaapi.boletim.service.BoletimService;
-import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;

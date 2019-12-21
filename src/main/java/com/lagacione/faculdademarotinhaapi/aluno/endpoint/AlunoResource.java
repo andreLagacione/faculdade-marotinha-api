@@ -1,7 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.aluno.endpoint;
 
-import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoForEditDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
+import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoForEditDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoListaDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.service.AlunoService;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;

@@ -3,11 +3,9 @@ package com.lagacione.faculdademarotinhaapi.professor.model;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoListaDTO;
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
 import com.lagacione.faculdademarotinhaapi.pessoa.model.PessoaDTO;
-import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ProfessorToEditDTO extends PessoaDTO {
     private Integer id;

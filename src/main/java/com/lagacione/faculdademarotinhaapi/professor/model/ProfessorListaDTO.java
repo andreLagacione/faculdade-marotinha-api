@@ -1,7 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.professor.model;
 
 import com.lagacione.faculdademarotinhaapi.pessoa.model.PessoaDTO;
-import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
 
 public class ProfessorListaDTO extends PessoaDTO {
     private Integer id;

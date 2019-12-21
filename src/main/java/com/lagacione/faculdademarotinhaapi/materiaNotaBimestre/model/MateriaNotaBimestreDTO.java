@@ -2,7 +2,6 @@ package com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.model;
 
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 public class MateriaNotaBimestreDTO {

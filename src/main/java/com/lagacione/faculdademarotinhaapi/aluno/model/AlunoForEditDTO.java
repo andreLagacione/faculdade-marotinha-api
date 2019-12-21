@@ -1,6 +1,5 @@
 package com.lagacione.faculdademarotinhaapi.aluno.model;
 
-import com.lagacione.faculdademarotinhaapi.curso.model.CursoNomeListaDTO;
 import com.lagacione.faculdademarotinhaapi.pessoa.model.PessoaDTO;
 import com.lagacione.faculdademarotinhaapi.turma.model.TurmaListDTO;
 

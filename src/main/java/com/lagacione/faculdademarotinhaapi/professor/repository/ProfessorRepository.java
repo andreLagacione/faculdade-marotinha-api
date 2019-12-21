@@ -10,6 +10,8 @@ import java.util.Optional;
 
 @Repository
 public interface ProfessorRepository extends JpaRepository<Professor, Integer> {
+
     @Query("SELECT p FROM Professor p WHERE p.cpf = :cpf")
     public Optional<Professor> pesquisarCpf(@Param("cpf") String cpf);
+
 }

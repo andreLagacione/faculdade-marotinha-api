@@ -1,6 +1,5 @@
 package com.lagacione.faculdademarotinhaapi.aluno.model;
 
-import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
 import com.lagacione.faculdademarotinhaapi.pessoa.model.PessoaDTO;
 
 public class AlunoListaDTO extends PessoaDTO {
