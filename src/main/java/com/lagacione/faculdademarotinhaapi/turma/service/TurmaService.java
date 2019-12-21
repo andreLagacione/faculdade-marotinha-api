@@ -84,7 +84,7 @@ public class TurmaService {
         return this.turmaDTOofEntity(this.turmaRepository.save(newTurma));
     }
 
-    public void delete(Integer id) throws ObjectNotFoundException {
+    public void delete(Integer id) {
         TurmaEditDTO turma = this.find(id);
 
         if (turma.getAlunos().size() > 0) {

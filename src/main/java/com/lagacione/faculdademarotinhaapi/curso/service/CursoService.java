@@ -81,7 +81,7 @@ public class CursoService {
         return this.cursoDTOofCurso(this.cursoRepository.save(newCurso));
     }
 
-    public void delete(Integer id) throws ObjectNotFoundException {
+    public void delete(Integer id) {
         this.find(id);
 
         if (this.turmaService.findTurmaByCursoId(id).size() > 0) {
@@ -92,11 +92,7 @@ public class CursoService {
             throw new ActionNotAllowedException("Existem boletins atrelados a esse curso!");
         }
 
-        try {
-            this.cursoRepository.deleteById(id);
-        } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException("Não é possível remover esse curso!");
-        }
+        this.cursoRepository.deleteById(id);
     }
 
     private void updateData(Curso newCurso, Curso curso) {

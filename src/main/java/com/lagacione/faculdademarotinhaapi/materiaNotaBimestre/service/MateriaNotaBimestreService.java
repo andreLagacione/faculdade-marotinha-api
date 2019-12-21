@@ -1,6 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.materiaNotaBimestre.service;
 
 import com.lagacione.faculdademarotinhaapi.boletim.service.BoletimService;
+import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
@@ -72,13 +73,15 @@ public class MateriaNotaBimestreService {
         return notaDTO;
     }
 
-    public void delete(Integer id) throws ObjectNotFoundException {
-        this.find(id);
+    public void delete(Integer id, Boolean boletimRemoved) throws ObjectNotFoundException {
+        MateriaNotaBimestreDTO nota = this.find(id);
 
         try {
-            MateriaNotaBimestreDTO nota = this.find(id);
+            if (!boletimRemoved) {
+                this.boletimService.removerNotaBoletim(nota);
+            }
+
             this.matreriaNotaBimestreRespository.deleteById(id);
-            this.boletimService.removerNotaBoletim(nota);
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException("Não é possível remover esta nota!");
         }
@@ -136,7 +139,7 @@ public class MateriaNotaBimestreService {
     }
 
     public void removerNotasBoletim(Integer idBoletim) {
-        this.removeItensByList(this.matreriaNotaBimestreRespository.obterMateriaByIdBoletim(idBoletim));
+        this.removeItensByList(this.matreriaNotaBimestreRespository.obterMateriaByIdBoletim(idBoletim), false);
     }
 
     private void validarBoletim(Integer idBoletim) {
@@ -157,13 +160,14 @@ public class MateriaNotaBimestreService {
         return notaDTO;
     }
 
-    public void removerNotaByIdMateria(Integer idMateria) {
-        this.removeItensByList(this.matreriaNotaBimestreRespository.obterMateriaByIdMateria(idMateria));
+    public List<MateriaNotaBimestreDTO> verificarSePodeRemoverNotas(Integer idMateria) {
+        List<MateriaNotaBimestre> notas = this.matreriaNotaBimestreRespository.obterNotasByIdMateria(idMateria);
+        return notas.stream().map(nota -> this.materiaNotaBimestreDTOofEntity(nota)).collect(Collectors.toList());
     }
 
-    private void removeItensByList(List<MateriaNotaBimestre> notas) {
+    private void removeItensByList(List<MateriaNotaBimestre> notas, Boolean boletimRemoved) {
         for (MateriaNotaBimestre nota : notas) {
-            this.delete(nota.getId());
+            this.delete(nota.getId(), boletimRemoved);
         }
     }
 

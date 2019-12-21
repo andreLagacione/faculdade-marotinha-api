@@ -62,7 +62,7 @@ public class MateriaNotaBimestreResource {
 
     @DeleteMapping(value="/{id}")
     public PadraoMensagemRetornoDTO delete(@PathVariable Integer id) throws ObjectNotFoundException {
-        this.materiaNotaBimestreService.delete(id);
+        this.materiaNotaBimestreService.delete(id, false);
         return new PadraoMensagemRetornoDTO(HttpStatus.OK, HttpStatus.valueOf("OK").value(), "Nota removida com sucesso!");
     }
 }

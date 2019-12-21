@@ -88,8 +88,8 @@ public class AlunoService {
         this.find(id);
 
         try {
-            this.alunoRepository.deleteById(id);
             this.boletimService.deleteBoletimByAlunoId(id);
+            this.alunoRepository.deleteById(id);
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException("Não é possível remover este aluno!");
         }

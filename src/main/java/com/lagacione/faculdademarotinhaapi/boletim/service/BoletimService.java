@@ -95,8 +95,8 @@ public class BoletimService {
         this.find(id);
 
         try {
-            this.boletimRepository.deleteById(id);
             this.materiaNotaBimestreService.removerNotasBoletim(id);
+            this.boletimRepository.deleteById(id);
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException("Não é possível remover este boletim!");
         }

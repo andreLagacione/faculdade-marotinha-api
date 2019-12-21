@@ -67,8 +67,11 @@ public class MateriaService {
         this.find(id);
 
         try {
+            if (this.materiaNotaBimestreService.verificarSePodeRemoverNotas(id).size() > 0) {
+                throw new ActionNotAllowedException("Não é possível remover essa matéria pois existem notas atreladas a ela!");
+            }
+
             this.materiaRepository.deleteById(id);
-            this.materiaNotaBimestreService.removerNotaByIdMateria(id);
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException("Não é possível remover essa cidade, pois existem registros atrelados a ela!");
         }

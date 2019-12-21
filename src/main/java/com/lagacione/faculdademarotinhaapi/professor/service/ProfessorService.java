@@ -87,7 +87,7 @@ public class ProfessorService {
         return this.professorDTOofEntity(this.professorRepository.save(newProfessor));
     }
 
-    public void delete(Integer id) throws ObjectNotFoundException {
+    public void delete(Integer id) {
         this.find(id);
 
         if (this.boletimService.getBoletinsByProfessorId(id).size() > 0) {
@@ -98,11 +98,7 @@ public class ProfessorService {
             throw new ActionNotAllowedException("Não é possível remover este professor pois existem turmas atreladas à ele!");
         }
 
-        try {
-            this.professorRepository.deleteById(id);
-        } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityViolationException("Não é possível remover este professor, pois existem registros atrelados a ele!");
-        }
+        this.professorRepository.deleteById(id);
     }
 
     private void updateData(Professor newProfessor, Professor professor) {

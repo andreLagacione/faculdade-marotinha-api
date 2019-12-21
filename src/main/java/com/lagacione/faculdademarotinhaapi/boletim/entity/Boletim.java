@@ -33,7 +33,7 @@ public class Boletim {
 
     @ManyToMany
     @JoinTable(
-        name = "materias_boletim",
+        name = "notas_boletim",
         joinColumns = @JoinColumn(name = "id_boletim", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "id_nota", referencedColumnName = "id")
     )
