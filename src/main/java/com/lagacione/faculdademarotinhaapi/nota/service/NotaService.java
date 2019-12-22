@@ -96,9 +96,9 @@ public class NotaService {
     }
 
     public NotaDTO salvarRegistro(NotaDTO notaDTO, Boolean adicionar) throws Exception {
-        this.validarBoletim(notaDTO.getIdBoletim());
-        this.validarMateria(notaDTO);
-        this.obterNotasAdicionadas(notaDTO);
+        MateriaDTO materiaDTO = this.materiaService.find(notaDTO.getIdMateria());
+        this.boletimService.findBoletimDTO(notaDTO.getIdBoletim());
+        this.obterNotasAdicionadas(notaDTO, materiaDTO);
 
         notaDTO = this.calcularMediaFinal(notaDTO);
         Nota nota = this.notaOfDTO(notaDTO);
@@ -110,22 +110,11 @@ public class NotaService {
         return this.update(nota);
     }
 
-    private void validarMateria(NotaDTO notaDTO) {
-        Materia materia = this.materiaService.materiaOfMateriaDTO(notaDTO.getMateria());
-
-        if (materia == null) {
-            throw new ObjectNotFoundException("Informe a matéria!");
-        }
-
-        this.materiaService.find(materia.getId());
-    }
-
-    private void obterNotasAdicionadas(NotaDTO notaDTO) throws Exception {
+    private void obterNotasAdicionadas(NotaDTO notaDTO, MateriaDTO materiaDTO) throws Exception {
         List<Nota> notas = this.notaRespository.obterMateriaByIdBoletim(notaDTO.getIdBoletim());
-        MateriaDTO materia = this.materiaService.find(notaDTO.getMateria().getId());
 
         if (notas.size() > 0) {
-            this.validarSeMateriaJaFoiAdicionada(notas, materia.getName());
+            this.validarSeMateriaJaFoiAdicionada(notas, materiaDTO.getName());
         }
     }
 
@@ -139,10 +128,6 @@ public class NotaService {
 
     public void removerNotasBoletim(Integer idBoletim) {
         this.removeItensByList(this.notaRespository.obterMateriaByIdBoletim(idBoletim), false);
-    }
-
-    private void validarBoletim(Integer idBoletim) {
-        this.boletimService.findBoletimDTO(idBoletim);
     }
 
     private NotaDTO calcularMediaFinal(NotaDTO notaDTO) {
@@ -172,8 +157,10 @@ public class NotaService {
 
     public Nota notaOfDTO(NotaDTO notaDTO) {
         Nota nota = new Nota();
+        MateriaDTO materiaDTO = this.materiaService.find(notaDTO.getIdMateria());
+
         nota.setId(notaDTO.getId());
-        nota.setMateria(this.materiaService.materiaOfMateriaDTO(notaDTO.getMateria()));
+        nota.setMateria(this.materiaService.materiaOfMateriaDTO(materiaDTO));
         nota.setNotaBimestre1(notaDTO.getNotaBimestre1());
         nota.setNotaBimestre2(notaDTO.getNotaBimestre2());
         nota.setNotaBimestre3(notaDTO.getNotaBimestre3());
@@ -185,8 +172,10 @@ public class NotaService {
 
     public NotaDTO notaDTOofNota(Nota nota) {
         NotaDTO notaDTO = new NotaDTO();
+        MateriaDTO materiaDTO = this.materiaService.find(nota.getMateria().getId());
+
         notaDTO.setId(nota.getId());
-        notaDTO.setMateria(this.materiaService.materiaDTOofMateria(nota.getMateria()));
+        notaDTO.setIdMateria(materiaDTO.getId());
         notaDTO.setNotaBimestre1(nota.getNotaBimestre1());
         notaDTO.setNotaBimestre2(nota.getNotaBimestre2());
         notaDTO.setNotaBimestre3(nota.getNotaBimestre3());
@@ -198,8 +187,10 @@ public class NotaService {
 
     public NotaPDFDTO notaPDFDTOofnotaDTO(NotaDTO notaDTO) {
         NotaPDFDTO notaPDFDTO = new NotaPDFDTO();
+        MateriaDTO materiaDTO = this.materiaService.find(notaDTO.getIdMateria());
+
         notaPDFDTO.setId(notaDTO.getId());
-        notaPDFDTO.setNomeMateria(notaDTO.getMateria().getName());
+        notaPDFDTO.setNomeMateria(materiaDTO.getName());
         notaPDFDTO.setNotaBimestre1(this.convertNota(notaDTO.getNotaBimestre1()));
         notaPDFDTO.setNotaBimestre2(this.convertNota(notaDTO.getNotaBimestre2()));
         notaPDFDTO.setNotaBimestre3(this.convertNota(notaDTO.getNotaBimestre3()));
