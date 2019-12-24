@@ -17,9 +17,6 @@ public class TurmaDTO {
     @NotNull(message = "Informe o professor!")
     private Integer professor;
 
-    @NotNull(message = "Informe ao menos um aluno!")
-    private List<Integer> alunos = new ArrayList<>();
-
     @NotEmpty(message = "Informe o periodo!")
     private String periodo;
 
@@ -55,14 +52,6 @@ public class TurmaDTO {
 
     public void setProfessor(Integer professor) {
         this.professor = professor;
-    }
-
-    public List<Integer> getAlunos() {
-        return alunos;
-    }
-
-    public void setAlunos(List<Integer> alunos) {
-        this.alunos = alunos;
     }
 
     public String getPeriodo() {

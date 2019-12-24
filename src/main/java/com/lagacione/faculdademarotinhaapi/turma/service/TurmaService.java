@@ -10,6 +10,7 @@ import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorDTO;
 import com.lagacione.faculdademarotinhaapi.professor.service.ProfessorService;
 import com.lagacione.faculdademarotinhaapi.turma.entity.Turma;
+import com.lagacione.faculdademarotinhaapi.turma.model.TurmaComboListDTO;
 import com.lagacione.faculdademarotinhaapi.turma.model.TurmaDTO;
 import com.lagacione.faculdademarotinhaapi.turma.model.TurmaEditDTO;
 import com.lagacione.faculdademarotinhaapi.turma.model.TurmaListDTO;
@@ -39,9 +40,9 @@ public class TurmaService {
         this.alunoService = alunoService;
     }
 
-    public List<TurmaListDTO> findAll() {
+    public List<TurmaComboListDTO> findAll() {
         List<Turma> turmas = this.turmaRepository.findAll();
-        List<TurmaListDTO> turmaListDTO = turmas.stream().map(turma -> this.turmaListDTOofEntity(turma)).collect(Collectors.toList());
+        List<TurmaComboListDTO> turmaListDTO = turmas.stream().map(turma -> this.turmaComboListDTOofEntity(turma)).collect(Collectors.toList());
         return turmaListDTO;
     }
 
@@ -84,7 +85,7 @@ public class TurmaService {
     }
 
     public void delete(Integer id) {
-        TurmaEditDTO turma = this.find(id);
+        Turma turma = this.findTurma(id);
 
         if (turma.getAlunos().size() > 0) {
             throw new ActionNotAllowedException("Essa turma não pode ser excluída pois existem alunos atrelados à ela!");
@@ -142,14 +143,11 @@ public class TurmaService {
         Turma turma = new Turma();
         CursoDTO cursoDTO = this.cursoService.findOptional(turmaDTO.getCurso());
         ProfessorDTO professorDTO = this.professorService.findOptional(turmaDTO.getProfessor());
-        List<AlunoDTO> alunoDTO = turmaDTO.getAlunos().stream().map(id -> this.alunoService.findAlunoDTO(id)).collect(Collectors.toList());
-        List<Aluno> alunos = alunoDTO.stream().map(aluno -> this.alunoService.alunoOfAlunoDTO(aluno)).collect(Collectors.toList());
 
         turma.setId(turmaDTO.getId());
         turma.setAno(turmaDTO.getAno());
         turma.setCurso(this.cursoService.cursoOfCursoDTO(cursoDTO));
         turma.setProfessor(this.professorService.professorOfDTO(professorDTO));
-        turma.setAlunos(alunos);
         turma.setPeriodo(turmaDTO.getPeriodo());
         return turma;
     }
@@ -160,7 +158,6 @@ public class TurmaService {
         turmaDTO.setAno(turma.getAno());
         turmaDTO.setCurso(turma.getCurso().getId());
         turmaDTO.setProfessor(turma.getProfessor().getId());
-        turmaDTO.setAlunos(turma.getAlunos().stream().map(aluno -> aluno.getId()).collect(Collectors.toList()));
         turmaDTO.setPeriodo(turma.getPeriodo());
         return turmaDTO;
     }
@@ -182,8 +179,14 @@ public class TurmaService {
         turmaEditDTO.setAno(turma.getAno());
         turmaEditDTO.setCurso(turma.getCurso());
         turmaEditDTO.setProfessor(turma.getProfessor());
-        turmaEditDTO.setAlunos(turma.getAlunos());
         turmaEditDTO.setPeriodo(turma.getPeriodo());
         return turmaEditDTO;
+    }
+
+    public TurmaComboListDTO turmaComboListDTOofEntity(Turma turma) {
+        TurmaComboListDTO turmaComboListDTO = new TurmaComboListDTO();
+        turmaComboListDTO.setId(turma.getId());
+        turmaComboListDTO.setName(turma.getCurso().getName() + " - período da " + turma.getPeriodo());
+        return turmaComboListDTO;
     }
 }

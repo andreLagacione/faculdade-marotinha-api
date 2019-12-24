@@ -2,6 +2,7 @@ package com.lagacione.faculdademarotinhaapi.turma.endpoint;
 
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import com.lagacione.faculdademarotinhaapi.commons.models.PadraoMensagemRetornoDTO;
+import com.lagacione.faculdademarotinhaapi.turma.model.TurmaComboListDTO;
 import com.lagacione.faculdademarotinhaapi.turma.model.TurmaDTO;
 import com.lagacione.faculdademarotinhaapi.turma.model.TurmaEditDTO;
 import com.lagacione.faculdademarotinhaapi.turma.model.TurmaListDTO;
@@ -30,7 +31,7 @@ public class TurmaResource {
     }
 
     @GetMapping(value="/combo-list")
-    public List<TurmaListDTO> findAll() {
+    public List<TurmaComboListDTO> findAll() {
         return this.turmaService.findAll();
     }
 

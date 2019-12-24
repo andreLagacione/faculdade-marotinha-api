@@ -1,5 +1,6 @@
 package com.lagacione.faculdademarotinhaapi.turma.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
@@ -27,12 +28,8 @@ public class Turma {
     @JoinColumn(name = "id_professor", referencedColumnName = "id")
     private Professor professor;
 
-    @ManyToMany
-    @JoinTable(
-            name = "aluno_turma",
-            joinColumns = @JoinColumn(name = "id_aluno"),
-            inverseJoinColumns = @JoinColumn(name = "id_turma")
-    )
+    @JsonIgnore
+    @ManyToMany(mappedBy = "turmas")
     private List<Aluno> alunos = new ArrayList<>();
 
     @Column(name = "periodo")

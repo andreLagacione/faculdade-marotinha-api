@@ -12,7 +12,6 @@ public class TurmaEditDTO {
     private Integer ano;
     private Curso curso;
     private Professor professor;
-    private List<Aluno> alunos = new ArrayList<>();
     private String periodo;
 
     public TurmaEditDTO() {}
@@ -47,14 +46,6 @@ public class TurmaEditDTO {
 
     public void setProfessor(Professor professor) {
         this.professor = professor;
-    }
-
-    public List<Aluno> getAlunos() {
-        return alunos;
-    }
-
-    public void setAlunos(List<Aluno> alunos) {
-        this.alunos = alunos;
     }
 
     public String getPeriodo() {
