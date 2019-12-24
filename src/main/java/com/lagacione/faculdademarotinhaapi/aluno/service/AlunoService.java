@@ -105,8 +105,6 @@ public class AlunoService {
     public AlunoDTO salvarRegistro(AlunoDTO alunoDTO, Boolean adicionar) throws ActionNotAllowedException {
         this.validarTurma(alunoDTO);
         this.validarCpf(alunoDTO);
-//        this.turmaService.addAlunoInTurma(alunoDTO.getTurmas(), alunoDTO.getId());
-
         Aluno aluno = this.alunoOfAlunoDTO(alunoDTO);
 
         if (adicionar) {
