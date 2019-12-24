@@ -9,6 +9,9 @@ import com.lagacione.faculdademarotinhaapi.boletim.service.BoletimService;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
+import com.lagacione.faculdademarotinhaapi.turma.entity.Turma;
+import com.lagacione.faculdademarotinhaapi.turma.model.TurmaComboListDTO;
+import com.lagacione.faculdademarotinhaapi.turma.model.TurmaDTO;
 import com.lagacione.faculdademarotinhaapi.turma.model.TurmaListDTO;
 import com.lagacione.faculdademarotinhaapi.turma.service.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +105,7 @@ public class AlunoService {
     public AlunoDTO salvarRegistro(AlunoDTO alunoDTO, Boolean adicionar) throws ActionNotAllowedException {
         this.validarTurma(alunoDTO);
         this.validarCpf(alunoDTO);
+//        this.turmaService.addAlunoInTurma(alunoDTO.getTurmas(), alunoDTO.getId());
 
         Aluno aluno = this.alunoOfAlunoDTO(alunoDTO);
 
@@ -134,17 +138,21 @@ public class AlunoService {
 
     public Aluno alunoOfAlunoDTO(AlunoDTO alunoDTO) {
         Aluno aluno = new Aluno();
+        List<TurmaDTO> turmasDTO = alunoDTO.getTurmas().stream().map(idTurma -> this.turmaService.findTurmaDTO(idTurma)).collect(Collectors.toList());
+        List<Turma> turmas = turmasDTO.stream().map(turmaDTO -> this.turmaService.turmaOfTurmaDTO(turmaDTO)).collect(Collectors.toList());
+
         aluno.setId(alunoDTO.getId());
         aluno.setName(alunoDTO.getName());
         aluno.setAge(alunoDTO.getAge());
         aluno.setCpf(alunoDTO.getCpf());
         aluno.setPhone(alunoDTO.getPhone());
+        aluno.setTurmas(turmas);
         return aluno;
     }
 
     public AlunoForEditDTO alunoCursoListaDTOofAluno(Aluno aluno) {
         AlunoForEditDTO alunoForEditDTO = new AlunoForEditDTO();
-        List<TurmaListDTO> turmas = aluno.getTurmas().stream().map(turma -> this.turmaService.turmaListDTOofEntity(turma)).collect(Collectors.toList());
+        List<TurmaComboListDTO> turmas = aluno.getTurmas().stream().map(turma -> this.turmaService.turmaComboListDTOofEntity(turma)).collect(Collectors.toList());
 
         alunoForEditDTO.setId(aluno.getId());
         alunoForEditDTO.setName(aluno.getName());

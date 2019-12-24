@@ -13,4 +13,5 @@ public interface AlunoRepository extends JpaRepository<Aluno, Integer> {
 
     @Query("SELECT a FROM Aluno a WHERE a.cpf = :cpf")
     public Optional<Aluno> pesquisarCpf(@Param("cpf") String cpf);
+
 }

@@ -20,8 +20,12 @@ public class Aluno extends Pessoa {
     @OneToMany(mappedBy = "aluno")
     private List<Boletim> boletins = new ArrayList<>();
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "alunos")
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "aluno_turma",
+            joinColumns = @JoinColumn(name = "id_aluno"),
+            inverseJoinColumns = @JoinColumn(name = "id_turma")
+    )
     private List<Turma> turmas = new ArrayList<>();
 
     public Aluno() {}
