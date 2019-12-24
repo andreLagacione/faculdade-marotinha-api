@@ -6,14 +6,14 @@ public class PadraoMensagemRetornoDTO {
 
     private HttpStatus httpStatus;
     private Integer httpStatusCode;
-    private String mensagem;
+    private String message;
 
     public PadraoMensagemRetornoDTO() {}
 
-    public PadraoMensagemRetornoDTO(HttpStatus httpStatus, Integer httpStatusCode, String mensagem) {
+    public PadraoMensagemRetornoDTO(HttpStatus httpStatus, Integer httpStatusCode, String message) {
         this.httpStatus = httpStatus;
         this.httpStatusCode = httpStatusCode;
-        this.mensagem = mensagem;
+        this.message = message;
     }
 
     public HttpStatus getHttpStatus() {
@@ -32,11 +32,11 @@ public class PadraoMensagemRetornoDTO {
         this.httpStatusCode = httpStatusCode;
     }
 
-    public String getMensagem() {
-        return mensagem;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
+    public void setMessage(String mensagem) {
+        this.message = message;
     }
 }
