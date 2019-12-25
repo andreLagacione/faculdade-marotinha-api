@@ -13,9 +13,6 @@ public class ProfessorDTO extends PessoaDTO {
     @NotNull(message = "Informe pelo menos uma matéria.")
     private List<Integer> materias = new ArrayList<>();
 
-    @NotNull(message = "Informe pelo menos um curso.")
-    private List<Integer> cursos = new ArrayList<>();
-
     public ProfessorDTO() {}
 
     public Integer getId() {
@@ -32,14 +29,6 @@ public class ProfessorDTO extends PessoaDTO {
 
     public void setMaterias(List<Integer> materias) {
         this.materias = materias;
-    }
-
-    public List<Integer> getCursos() {
-        return cursos;
-    }
-
-    public void setCursos(List<Integer> cursos) {
-        this.cursos = cursos;
     }
 
 }

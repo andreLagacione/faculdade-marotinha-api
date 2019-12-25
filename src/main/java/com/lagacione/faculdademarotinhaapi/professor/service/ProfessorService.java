@@ -13,6 +13,7 @@ import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorDTO;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorListaDTO;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorToEditDTO;
 import com.lagacione.faculdademarotinhaapi.professor.repository.ProfessorRepository;
+import com.lagacione.faculdademarotinhaapi.turma.model.TurmaDTO;
 import com.lagacione.faculdademarotinhaapi.turma.service.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -108,7 +109,6 @@ public class ProfessorService {
 
     public ProfessorDTO salvarRegistro(ProfessorDTO professorDTO, Boolean adicionar) throws ActionNotAllowedException {
         this.validarMaterias(professorDTO);
-        this.validarCursos(professorDTO);
         this.validarCpf(professorDTO);
         Professor professor = this.professorOfDTO(professorDTO);
 
@@ -124,22 +124,6 @@ public class ProfessorService {
 
         if (materiasDTO.size() == 0) {
             throw new ObjectNotFoundException("Informe pelo menos uma matéria!");
-        }
-
-        for (MateriaDTO materiaDTO : materiasDTO) {
-            this.materiaService.find(materiaDTO.getId());
-        }
-    }
-
-    private void validarCursos(ProfessorDTO professorDTO) throws ObjectNotFoundException {
-        List<CursoDTO> cursosDTO = professorDTO.getCursos().stream().map(id -> this.cursoService.findOptional(id)).collect(Collectors.toList());
-
-        if (cursosDTO.size() == 0) {
-            throw new ObjectNotFoundException("Informe pelo menos um curso!");
-        }
-
-        for (CursoDTO cursoDTO : cursosDTO) {
-            this.cursoService.find(cursoDTO.getId());
         }
     }
 
