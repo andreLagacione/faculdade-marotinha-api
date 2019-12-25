@@ -28,14 +28,12 @@ public class CursoService {
     private CursoRepository cursoRepository;
     private MateriaService materiaService;
     private TurmaService turmaService;
-    private BoletimService boletimService;
 
     @Autowired
-    public void CursoService(CursoRepository cursoRepository, MateriaService materiaService, TurmaService turmaService, BoletimService boletimService) {
+    public void CursoService(CursoRepository cursoRepository, MateriaService materiaService, TurmaService turmaService) {
         this.cursoRepository = cursoRepository;
         this.materiaService = materiaService;
         this.turmaService = turmaService;
-        this.boletimService = boletimService;
     }
 
     public List<CursoListaDTO> findAll() {
@@ -85,10 +83,6 @@ public class CursoService {
 
         if (this.turmaService.findTurmaByCursoId(id).size() > 0) {
             throw new ActionNotAllowedException("Existem turmas atreladas a esse curso!");
-        }
-
-        if (this.boletimService.getBoletinsByCursoId(id).size() > 0) {
-            throw new ActionNotAllowedException("Existem boletins atrelados a esse curso!");
         }
 
         this.cursoRepository.deleteById(id);

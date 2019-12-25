@@ -30,10 +30,6 @@ public class Curso {
 
     @JsonIgnore
     @OneToMany(mappedBy = "curso")
-    private List<Boletim> boletins = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "curso")
     private List<Turma> turmas = new ArrayList<>();
 
     public Curso() {}

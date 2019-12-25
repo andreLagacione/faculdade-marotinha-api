@@ -16,8 +16,8 @@ public class BoletimDTO {
     @NotNull(message = "Informe o aluno!")
     private Integer idAluno;
 
-    @NotNull(message = "Informe o curso!")
-    private Integer idCurso;
+    @NotNull(message = "Informe a turma!")
+    private Integer idTurma;
 
     private List<Integer> notas = new ArrayList<>();
 
@@ -55,12 +55,12 @@ public class BoletimDTO {
         this.idAluno = idAluno;
     }
 
-    public Integer getIdCurso() {
-        return idCurso;
+    public Integer getIdTurma() {
+        return idTurma;
     }
 
-    public void setIdCurso(Integer idCurso) {
-        this.idCurso = idCurso;
+    public void setIdTurma(Integer idTurma) {
+        this.idTurma = idTurma;
     }
 
     public List<Integer> getNotas() {

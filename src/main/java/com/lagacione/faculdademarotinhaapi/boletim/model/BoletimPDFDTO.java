@@ -9,7 +9,7 @@ public class BoletimPDFDTO {
     private Integer ano;
     private String professor;
     private String aluno;
-    private String curso;
+    private String turma;
     private List<NotaPDFDTO> notas = new ArrayList<>();
 
     public BoletimPDFDTO() {}
@@ -38,12 +38,12 @@ public class BoletimPDFDTO {
         this.aluno = aluno;
     }
 
-    public String getCurso() {
-        return curso;
+    public String getTurma() {
+        return turma;
     }
 
-    public void setCurso(String curso) {
-        this.curso = curso;
+    public void setTurma(String turma) {
+        this.turma = turma;
     }
 
     public List<NotaPDFDTO> getNotas() {

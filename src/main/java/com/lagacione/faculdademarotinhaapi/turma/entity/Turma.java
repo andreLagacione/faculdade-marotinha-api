@@ -2,6 +2,7 @@ package com.lagacione.faculdademarotinhaapi.turma.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
+import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
 
@@ -34,6 +35,10 @@ public class Turma {
 
     @Column(name = "periodo")
     private String periodo;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "turma")
+    private List<Boletim> boletins = new ArrayList<>();
 
     public Turma() {}
 
@@ -83,5 +88,13 @@ public class Turma {
 
     public void setPeriodo(String periodo) {
         this.periodo = periodo;
+    }
+
+    public List<Boletim> getBoletins() {
+        return boletins;
+    }
+
+    public void setBoletins(List<Boletim> boletins) {
+        this.boletins = boletins;
     }
 }

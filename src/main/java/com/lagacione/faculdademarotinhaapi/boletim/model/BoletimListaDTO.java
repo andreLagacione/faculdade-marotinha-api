@@ -5,7 +5,7 @@ public class BoletimListaDTO {
     private Integer ano;
     private String nomeAluno;
     private String nomeProfessor;
-    private String nomeCurso;
+    private String nomeTurma;
 
     public BoletimListaDTO() {}
 
@@ -41,12 +41,12 @@ public class BoletimListaDTO {
         this.nomeProfessor = nomeProfessor;
     }
 
-    public String getNomeCurso() {
-        return nomeCurso;
+    public String getNomeTurma() {
+        return nomeTurma;
     }
 
-    public void setNomeCurso(String nomeCurso) {
-        this.nomeCurso = nomeCurso;
+    public void setNomeTurma(String nomeTurma) {
+        this.nomeTurma = nomeTurma;
     }
 
 }

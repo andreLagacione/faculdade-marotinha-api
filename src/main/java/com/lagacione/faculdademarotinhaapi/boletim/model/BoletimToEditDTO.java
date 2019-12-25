@@ -10,7 +10,7 @@ public class BoletimToEditDTO {
     private Integer ano;
     private Integer idAluno;
     private Integer idProfessor;
-    private Integer idCurso;
+    private Integer idTurma;
     private List<NotaListDTO> notas = new ArrayList<>();
 
     public BoletimToEditDTO() {}
@@ -47,12 +47,12 @@ public class BoletimToEditDTO {
         this.idProfessor = idProfessor;
     }
 
-    public Integer getIdCurso() {
-        return idCurso;
+    public Integer getIdTurma() {
+        return idTurma;
     }
 
-    public void setIdCurso(Integer idCurso) {
-        this.idCurso = idCurso;
+    public void setIdTurma(Integer idTurma) {
+        this.idTurma = idTurma;
     }
 
     public List<NotaListDTO> getNotas() {

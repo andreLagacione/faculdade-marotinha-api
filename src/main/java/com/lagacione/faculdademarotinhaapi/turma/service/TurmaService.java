@@ -1,6 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.turma.service;
 
 import com.lagacione.faculdademarotinhaapi.aluno.service.AlunoService;
+import com.lagacione.faculdademarotinhaapi.boletim.service.BoletimService;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
@@ -28,14 +29,14 @@ public class TurmaService {
     private TurmaRepository turmaRepository;
     private CursoService cursoService;
     private ProfessorService professorService;
-    private AlunoService alunoService;
+    private BoletimService boletimService;
 
     @Autowired
-    public void TurmaService(TurmaRepository turmaRepository, CursoService cursoService, ProfessorService professorService, AlunoService alunoService) {
+    public void TurmaService(TurmaRepository turmaRepository, CursoService cursoService, ProfessorService professorService, BoletimService boletimService) {
         this.turmaRepository = turmaRepository;
         this.cursoService = cursoService;
         this.professorService = professorService;
-        this.alunoService = alunoService;
+        this.boletimService = boletimService;
     }
 
     public List<TurmaComboListDTO> findAll() {
@@ -87,6 +88,10 @@ public class TurmaService {
 
         if (turma.getAlunos().size() > 0) {
             throw new ActionNotAllowedException("Essa turma não pode ser excluída pois existem alunos atrelados à ela!");
+        }
+
+        if (this.boletimService.getBoletinsByTurmaId(id).size() > 0) {
+            throw new ActionNotAllowedException("Existem boletins atrelados a esse curso!");
         }
 
         this.turmaRepository.deleteById(id);

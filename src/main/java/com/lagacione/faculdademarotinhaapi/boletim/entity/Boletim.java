@@ -4,6 +4,7 @@ import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.nota.entity.Nota;
 import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
+import com.lagacione.faculdademarotinhaapi.turma.entity.Turma;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -28,8 +29,8 @@ public class Boletim {
     private Aluno aluno;
 
     @ManyToOne
-    @JoinColumn(name = "id_curso", referencedColumnName = "id")
-    private Curso curso;
+    @JoinColumn(name = "id_turma", referencedColumnName = "id")
+    private Turma turma;
 
     @ManyToMany
     @JoinTable(
@@ -73,14 +74,6 @@ public class Boletim {
         this.aluno = aluno;
     }
 
-    public Curso getCurso() {
-        return curso;
-    }
-
-    public void setCurso(Curso curso) {
-        this.curso = curso;
-    }
-
     public List<Nota> getNotas() {
         return notas;
     }
@@ -89,4 +82,11 @@ public class Boletim {
         this.notas = notas;
     }
 
+    public Turma getTurma() {
+        return turma;
+    }
+
+    public void setTurma(Turma turma) {
+        this.turma = turma;
+    }
 }
