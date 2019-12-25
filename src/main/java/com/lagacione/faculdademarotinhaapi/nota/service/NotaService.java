@@ -2,7 +2,6 @@ package com.lagacione.faculdademarotinhaapi.nota.service;
 
 import com.lagacione.faculdademarotinhaapi.boletim.service.BoletimService;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
-import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
 import com.lagacione.faculdademarotinhaapi.materia.service.MateriaService;
 import com.lagacione.faculdademarotinhaapi.nota.entity.Nota;

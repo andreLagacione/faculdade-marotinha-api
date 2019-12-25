@@ -1,7 +1,5 @@
 package com.lagacione.faculdademarotinhaapi.turma.service;
 
-import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
-import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.service.AlunoService;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;

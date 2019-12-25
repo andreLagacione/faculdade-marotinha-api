@@ -12,7 +12,6 @@ import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import com.lagacione.faculdademarotinhaapi.turma.entity.Turma;
 import com.lagacione.faculdademarotinhaapi.turma.model.TurmaComboListDTO;
 import com.lagacione.faculdademarotinhaapi.turma.model.TurmaDTO;
-import com.lagacione.faculdademarotinhaapi.turma.model.TurmaListDTO;
 import com.lagacione.faculdademarotinhaapi.turma.service.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;

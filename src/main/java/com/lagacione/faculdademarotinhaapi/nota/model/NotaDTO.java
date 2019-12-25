@@ -1,7 +1,5 @@
 package com.lagacione.faculdademarotinhaapi.nota.model;
 
-import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
-
 import javax.validation.constraints.NotNull;
 
 public class NotaDTO {

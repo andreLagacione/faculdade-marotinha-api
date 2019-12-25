@@ -1,11 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.turma.model;
 
-import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
 import com.lagacione.faculdademarotinhaapi.curso.entity.Curso;
 import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TurmaEditDTO {
     private Integer id;

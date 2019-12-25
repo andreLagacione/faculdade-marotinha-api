@@ -2,8 +2,6 @@ package com.lagacione.faculdademarotinhaapi.turma.model;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TurmaDTO {
     private Integer id;
