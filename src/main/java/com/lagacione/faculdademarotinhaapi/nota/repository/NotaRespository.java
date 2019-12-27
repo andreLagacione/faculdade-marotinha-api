@@ -12,7 +12,7 @@ import java.util.List;
 public interface NotaRespository extends JpaRepository<Nota, Integer> {
 
     @Query("SELECT nota FROM Nota as nota WHERE nota.idBoletim = :idBoletim")
-    public List<Nota> obterMateriaByIdBoletim(@Param("idBoletim") Integer idBoletim);
+    public List<Nota> obterNotaByIdBoletim(@Param("idBoletim") Integer idBoletim);
 
     @Query("SELECT nota FROM Nota as nota WHERE nota.materia.id = :idMateria")
     public List<Nota> obterNotasByIdMateria(@Param("idMateria") Integer idMateria);

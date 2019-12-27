@@ -40,7 +40,7 @@ public class NotaService {
     }
 
     public List<NotaListDTO> findByBoletimId(Integer idBoletim) {
-        List<Nota> notas = this.notaRespository.obterMateriaByIdBoletim(idBoletim);
+        List<Nota> notas = this.notaRespository.obterNotaByIdBoletim(idBoletim);
         List<NotaListDTO> notasDTO = notas.stream().map(nota -> this.notaListDTOofNota(nota)).collect(Collectors.toList());
         return notasDTO;
     }
@@ -109,7 +109,7 @@ public class NotaService {
     }
 
     private void obterNotasAdicionadas(NotaDTO notaDTO, MateriaDTO materiaDTO) throws Exception {
-        List<Nota> notas = this.notaRespository.obterMateriaByIdBoletim(notaDTO.getIdBoletim());
+        List<Nota> notas = this.notaRespository.obterNotaByIdBoletim(notaDTO.getIdBoletim());
 
         if (notas.size() > 0) {
             this.validarSeMateriaJaFoiAdicionada(notas, notaDTO, materiaDTO.getName());
@@ -127,7 +127,7 @@ public class NotaService {
     }
 
     public void removerNotasBoletim(Integer idBoletim) {
-        this.removeItensByList(this.notaRespository.obterMateriaByIdBoletim(idBoletim), false);
+        this.removeItensByList(this.notaRespository.obterNotaByIdBoletim(idBoletim), false);
     }
 
     private NotaDTO calcularMediaFinal(NotaDTO notaDTO) {
@@ -153,6 +153,11 @@ public class NotaService {
         for (Nota nota : notas) {
             this.delete(nota.getId(), boletimRemoved);
         }
+    }
+
+    public List<NotaDTO> obterNotaByIdBoletim(Integer idBoletim) {
+        List<Nota> notas = this.notaRespository.obterNotaByIdBoletim(idBoletim);
+        return notas.stream().map(nota -> this.notaDTOofNota(nota)).collect(Collectors.toList());
     }
 
     public Nota notaOfDTO(NotaDTO notaDTO) {
