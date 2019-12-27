@@ -39,10 +39,9 @@ public class NotaService {
         return notasDTO;
     }
 
-    public Page<NotaListDTO> findPage(Pageable pageable) {
-        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
-        Page<Nota> notas = this.notaRespository.findAll(pageRequest);
-        Page<NotaListDTO> notasDTO = notas.map(nota -> this.notaListDTOofNota(nota));
+    public List<NotaListDTO> findByBoletimId(Integer idBoletim) {
+        List<Nota> notas = this.notaRespository.obterMateriaByIdBoletim(idBoletim);
+        List<NotaListDTO> notasDTO = notas.stream().map(nota -> this.notaListDTOofNota(nota)).collect(Collectors.toList());
         return notasDTO;
     }
 

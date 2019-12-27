@@ -32,9 +32,9 @@ public class NotaResource {
         return this.notaService.findAll();
     }
 
-    @GetMapping
-    public Page<NotaListDTO> findPage(Pageable pageable) {
-        return this.notaService.findPage(pageable);
+    @GetMapping(value="/id-boletim/{idBoletim}")
+    public List<NotaListDTO> findByBoletimId(@PathVariable Integer idBoletim) {
+        return this.notaService.findByBoletimId(idBoletim);
     }
 
     @GetMapping(value="/{id}")
