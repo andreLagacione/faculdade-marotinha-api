@@ -213,6 +213,16 @@ public class BoletimService {
         return boletins.stream().map(boletim -> this.boletimDTOofBoletim(boletim)).collect(Collectors.toList());
     }
 
+    private Boolean verifyIfBoletimHasNota(Integer idBoletim) {
+        List<NotaDTO> notas = this.notaService.obterNotaByIdBoletim(idBoletim);
+
+        if (notas.size() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
     public  Boletim boletimOfBoletimDTO(BoletimDTO boletimDTO) {
         Boletim boletim = new Boletim();
         AlunoDTO alunoDTO = this.alunoService.findAlunoDTO(boletimDTO.getIdAluno());
@@ -250,6 +260,7 @@ public class BoletimService {
         boletimListaDTO.setNomeAluno(boletim.getAluno().getName());
         boletimListaDTO.setNomeProfessor(boletim.getProfessor().getName());
         boletimListaDTO.setNomeTurma(boletim.getTurma().getCurso().getName() + " - período da " + boletim.getTurma().getPeriodo());
+        boletimListaDTO.setCanPrint(this.verifyIfBoletimHasNota(boletim.getId()));
         return boletimListaDTO;
     }
 

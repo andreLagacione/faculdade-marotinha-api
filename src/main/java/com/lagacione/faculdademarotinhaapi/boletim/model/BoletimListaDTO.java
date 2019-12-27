@@ -6,6 +6,7 @@ public class BoletimListaDTO {
     private String nomeAluno;
     private String nomeProfessor;
     private String nomeTurma;
+    private Boolean canPrint;
 
     public BoletimListaDTO() {}
 
@@ -49,4 +50,11 @@ public class BoletimListaDTO {
         this.nomeTurma = nomeTurma;
     }
 
+    public Boolean getCanPrint() {
+        return canPrint;
+    }
+
+    public void setCanPrint(Boolean canPrint) {
+        this.canPrint = canPrint;
+    }
 }
