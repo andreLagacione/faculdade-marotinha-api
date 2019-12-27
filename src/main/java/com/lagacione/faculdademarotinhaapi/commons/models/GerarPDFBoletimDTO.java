@@ -28,9 +28,9 @@ public class GerarPDFBoletimDTO {
 
         Date date = new Date();
         long time = date.getTime();
-        String idBoletim = String.valueOf(time).toString();
+        String idBoletim = String.valueOf(time);
 
-        JasperReport jasperReport = JasperCompileManager.compileReport(this.getPathToReportPackage() + "Boletim.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(this.pathToReportPackage + "Boletim.jrxml");
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap<>(), new JRBeanCollectionDataSource(dadosBoletim));
 
         response.setContentType("application/x-download");
