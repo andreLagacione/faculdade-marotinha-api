@@ -112,14 +112,16 @@ public class NotaService {
         List<Nota> notas = this.notaRespository.obterMateriaByIdBoletim(notaDTO.getIdBoletim());
 
         if (notas.size() > 0) {
-            this.validarSeMateriaJaFoiAdicionada(notas, materiaDTO.getName());
+            this.validarSeMateriaJaFoiAdicionada(notas, notaDTO, materiaDTO.getName());
         }
     }
 
-    private void validarSeMateriaJaFoiAdicionada(List<Nota> notas, String nomeMateria) throws Exception {
+    private void validarSeMateriaJaFoiAdicionada(List<Nota> notas, NotaDTO notaDTO, String nomeMateria) throws Exception {
         for (Nota nota : notas) {
-            if (nota.getMateria().getName() == nomeMateria) {
-                throw new Exception("A matéria " + nomeMateria + " já está cadastrada para este boletim!");
+            if (nota.getId() != notaDTO.getId()) {
+                if (nota.getMateria().getName() == nomeMateria) {
+                    throw new Exception("A matéria " + nomeMateria + " já está cadastrada para este boletim!");
+                }
             }
         }
     }
@@ -210,10 +212,10 @@ public class NotaService {
         NotaListDTO notaListDTO = new NotaListDTO();
         notaListDTO.setId(nota.getId());
         notaListDTO.setNomeMateria(nota.getMateria().getName());
-        notaListDTO.setNotaBimestre1(nota.getNotaBimestre1());
-        notaListDTO.setNotaBimestre2(nota.getNotaBimestre2());
-        notaListDTO.setNotaBimestre3(nota.getNotaBimestre3());
-        notaListDTO.setNotaBimestre4(nota.getNotaBimestre4());
+        notaListDTO.setNotaBimestre1(this.convertNota(nota.getNotaBimestre1()));
+        notaListDTO.setNotaBimestre2(this.convertNota(nota.getNotaBimestre2()));
+        notaListDTO.setNotaBimestre3(this.convertNota(nota.getNotaBimestre3()));
+        notaListDTO.setNotaBimestre4(this.convertNota(nota.getNotaBimestre4()));
         notaListDTO.setMediaFinal(nota.getMediaFinal());
         return notaListDTO;
     }
