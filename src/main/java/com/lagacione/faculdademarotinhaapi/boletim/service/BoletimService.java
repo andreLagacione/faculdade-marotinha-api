@@ -72,6 +72,10 @@ public class BoletimService {
             throw new ObjectNotFoundException("Boletim não encontrado!");
         }
 
+        List<NotaDTO> notasDTO = this.notaService.obterNotaByIdBoletim(id);
+        List<Nota> notas = notasDTO.stream().map(nota -> this.notaService.notaOfDTO(nota)).collect(Collectors.toList());
+        boletim.get().setNotas(notas);
+
         return boletim.get();
     }
 
