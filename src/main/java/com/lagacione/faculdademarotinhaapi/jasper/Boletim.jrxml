@@ -137,7 +137,7 @@
 	</field>
 	<field name="professor" class="java.lang.String"/>
 	<field name="aluno" class="java.lang.String"/>
-	<field name="curso" class="java.lang.String"/>
+	<field name="turma" class="java.lang.String"/>
 	<field name="notas" class="java.util.List">
 		<property name="notaBimestre1" value=""/>
 	</field>
@@ -205,15 +205,8 @@
 				<textElement verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<text><![CDATA[Curso:]]></text>
+				<text><![CDATA[Turma:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="59" y="91" width="744" height="20" uuid="e339c83b-a43f-49c7-8c55-84b499321843"/>
-				<textElement verticalAlignment="Middle">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{curso}]]></textFieldExpression>
-			</textField>
 			<line>
 				<reportElement x="0" y="36" width="802" height="1" uuid="b00e295e-6fce-4101-926b-25447016c90e"/>
 			</line>
@@ -223,6 +216,13 @@
 			<line>
 				<reportElement x="1" y="119" width="802" height="1" uuid="b796b683-ce9c-40bf-9725-7c488168c788"/>
 			</line>
+			<textField>
+				<reportElement x="59" y="91" width="743" height="20" uuid="5977c659-c109-4aa2-8376-9b28a5dda33a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{turma}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
