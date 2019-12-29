@@ -20,7 +20,7 @@ public class Aluno extends Pessoa {
     @OneToMany(mappedBy = "aluno")
     private List<Boletim> boletins = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany
     @JoinTable(
             name = "aluno_turma",
             joinColumns = @JoinColumn(name = "id_aluno"),
