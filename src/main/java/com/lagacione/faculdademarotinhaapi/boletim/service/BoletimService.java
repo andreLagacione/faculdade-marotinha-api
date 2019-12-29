@@ -3,10 +3,7 @@ package com.lagacione.faculdademarotinhaapi.boletim.service;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.service.AlunoService;
 import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim;
-import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimDTO;
-import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimListaDTO;
-import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimPDFDTO;
-import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimToEditDTO;
+import com.lagacione.faculdademarotinhaapi.boletim.model.*;
 import com.lagacione.faculdademarotinhaapi.boletim.repository.BoletimRepository;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
@@ -58,8 +55,12 @@ public class BoletimService {
         return boletimLista;
     }
 
-    public Page<BoletimListaDTO> findPage(Pageable pageable) {
+    public Page<BoletimListaDTO> findPage(Pageable pageable, BoletimFilterDTO filtro) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
+        List<BoletimVO> vos =
+
+
+
         Page<Boletim> boletins = this.boletimRepository.findAll(pageRequest);
         Page<BoletimListaDTO> boletimLista = boletins.map(boletim -> this.boletimListaDTOofBoletim(boletim));
         return boletimLista;
@@ -296,4 +297,6 @@ public class BoletimService {
         boletimEdit.setNotas(notas);
         return boletimEdit;
     }
+
+
 }
