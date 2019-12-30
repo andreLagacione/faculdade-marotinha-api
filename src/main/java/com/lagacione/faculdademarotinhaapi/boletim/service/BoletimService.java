@@ -27,6 +27,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Optional;
@@ -55,11 +56,16 @@ public class BoletimService {
         return boletimLista;
     }
 
-    public Page<BoletimListaDTO> findPage(Pageable pageable) {
-        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
-        Page<Boletim> boletins = this.boletimRepository.findAll(pageRequest);
-        Page<BoletimListaDTO> boletimLista = boletins.map(boletim -> this.boletimListaDTOofBoletim(boletim));
-        return boletimLista;
+    public Page<BoletimListaDTO> findPage(Pageable pageable, BoletimFilter filtro) {
+        TypedQuery<BoletimListaDTO> query =
+
+
+
+
+//        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
+//        Page<Boletim> boletins = this.boletimRepository.findAll(pageRequest);
+//        Page<BoletimListaDTO> boletimLista = boletins.map(boletim -> this.boletimListaDTOofBoletim(boletim));
+//        return boletimLista;
     }
 
     private Boletim getBoletim(Integer id) throws ObjectNotFoundException {

@@ -1,6 +1,7 @@
 package com.lagacione.faculdademarotinhaapi.boletim.endpoint;
 
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimDTO;
+import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimFilter;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimListaDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.model.BoletimToEditDTO;
 import com.lagacione.faculdademarotinhaapi.boletim.service.BoletimService;
@@ -35,8 +36,8 @@ public class BoletimResource {
     }
 
     @GetMapping
-    public Page<BoletimListaDTO> findPage(Pageable pageable) {
-        return this.boletimService.findPage(pageable);
+    public Page<BoletimListaDTO> findPage(@RequestBody BoletimFilter filtro, Pageable pageable) {
+        return this.boletimService.findPage(pageable, filtro);
     }
 
     @GetMapping(value="/{id}")
