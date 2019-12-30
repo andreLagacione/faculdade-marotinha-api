@@ -55,12 +55,8 @@ public class BoletimService {
         return boletimLista;
     }
 
-    public Page<BoletimListaDTO> findPage(Pageable pageable, BoletimFilterDTO filtro) {
+    public Page<BoletimListaDTO> findPage(Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
-        List<BoletimVO> vos =
-
-
-
         Page<Boletim> boletins = this.boletimRepository.findAll(pageRequest);
         Page<BoletimListaDTO> boletimLista = boletins.map(boletim -> this.boletimListaDTOofBoletim(boletim));
         return boletimLista;
@@ -297,6 +293,4 @@ public class BoletimService {
         boletimEdit.setNotas(notas);
         return boletimEdit;
     }
-
-
 }
