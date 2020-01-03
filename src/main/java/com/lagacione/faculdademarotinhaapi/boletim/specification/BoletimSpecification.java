@@ -14,19 +14,19 @@ public class BoletimSpecification {
             ArrayList<Predicate> predicates = new ArrayList<>();
 
             if (filter.getAno() != null) {
-                predicates.add(root.get("ano").in(filter.getAno()));
+                predicates.add(criteriaBuilder.equal(root.get("ano"), filter.getAno()));
             }
 
-            if (filter.getIdProfessor() != null) {
-                predicates.add(root.get("professor").in(filter.getIdProfessor()));
+            if (filter.getProfessor() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("professor"), filter.getProfessor()));
             }
 
-            if (filter.getIdAluno() != null) {
-                predicates.add(root.get("aluno").in(filter.getIdAluno()));
+            if (filter.getAluno() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("aluno"), filter.getAluno()));
             }
 
-            if (filter.getIdTurma() != null) {
-                predicates.add(root.get("turma").in(filter.getIdTurma()));
+            if (filter.getTurma() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("turma"), filter.getTurma()));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[]{}));

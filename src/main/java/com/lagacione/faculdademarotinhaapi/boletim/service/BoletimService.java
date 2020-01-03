@@ -332,6 +332,8 @@ public class BoletimService {
                 boletimRoot.get("turma")
         );
 
+        criteriaQuery.orderBy(criteriaBuilder.asc(boletimRoot.get("ano")));
+
         TypedQuery<Boletim> typedQuery = this.entityManager.createQuery(criteriaQuery);
 
         if (pageable != null) {

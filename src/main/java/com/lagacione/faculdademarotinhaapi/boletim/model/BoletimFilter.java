@@ -1,25 +1,29 @@
 package com.lagacione.faculdademarotinhaapi.boletim.model;
 
+import com.lagacione.faculdademarotinhaapi.aluno.entity.Aluno;
+import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
+import com.lagacione.faculdademarotinhaapi.turma.entity.Turma;
+
 public class BoletimFilter {
 
     private Integer ano;
-    private Integer idProfessor;
-    private Integer idAluno;
-    private Integer idTurma;
+    private Professor professor;
+    private Aluno aluno;
+    private Turma turma;
 
     public Integer getAno() {
         return ano;
     }
 
-    public Integer getIdProfessor() {
-        return idProfessor;
+    public Professor getProfessor() {
+        return professor;
     }
 
-    public Integer getIdAluno() {
-        return idAluno;
+    public Aluno getAluno() {
+        return aluno;
     }
 
-    public Integer getIdTurma() {
-        return idTurma;
+    public Turma getTurma() {
+        return turma;
     }
 }
