@@ -79,10 +79,10 @@ public class BoletimService {
     }
 
     public Page<BoletimListaDTO> findPage(Pageable pageable, BoletimFilter filter) {
-        TypedQuery<Boletim> query = this.getCriteriaQuery(filter, pageable);
-        List<BoletimListaDTO> boletimLista = query.getResultStream().map(boletim -> this.boletimListaDTOofBoletim(boletim)).collect(Collectors.toList());
-        long totalItems = boletimLista.size();
-        return new PageImpl<>(boletimLista, pageable, totalItems);
+        List<Boletim> boletimList = this.getCriteriaQuery(filter, pageable);
+        List<BoletimListaDTO> boletimListaDTO = boletimList.stream().map(boletim -> this.boletimListaDTOofBoletim(boletim)).collect(Collectors.toList());
+        long totalItems = boletimListaDTO.size();
+        return new PageImpl<>(boletimListaDTO, pageable, totalItems);
     }
 
     private Boletim getBoletim(Integer id) throws ObjectNotFoundException {
@@ -317,30 +317,15 @@ public class BoletimService {
         return boletimEdit;
     }
 
-    private TypedQuery<Boletim>getCriteriaQuery(BoletimFilter filter, Pageable pageable) {
+    private List<Boletim>getCriteriaQuery(BoletimFilter filter, Pageable pageable) {
         CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<Boletim> criteriaQuery = criteriaBuilder.createQuery(Boletim.class);
         Root<Boletim> boletimRoot = criteriaQuery.from(Boletim.class);
-        BoletimSpecification boletimSpecification = new BoletimSpecification();
-        Predicate toPredicate = boletimSpecification.filtroTelaBoletim(filter).toPredicate(boletimRoot, criteriaQuery, criteriaBuilder);
-        criteriaQuery.where(toPredicate);
-
-        criteriaQuery.multiselect(
-                boletimRoot.get("ano"),
-                boletimRoot.get("professor"),
-                boletimRoot.get("aluno"),
-                boletimRoot.get("turma")
+        criteriaQuery.where(
+                criteriaBuilder.equal(boletimRoot.get("ano"), filter.getAno()),
+                criteriaBuilder.equal(boletimRoot.get("professor"), filter.getIdProfessor())
         );
 
-        criteriaQuery.orderBy(criteriaBuilder.asc(boletimRoot.get("ano")));
-
-        TypedQuery<Boletim> typedQuery = this.entityManager.createQuery(criteriaQuery);
-
-        if (pageable != null) {
-            typedQuery.setMaxResults(pageable.getPageSize());
-            typedQuery.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
-        }
-
-        return typedQuery;
+        return this.entityManager.createQuery(criteriaQuery).getResultList();
     }
 }

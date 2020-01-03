@@ -17,8 +17,8 @@ public class BoletimSpecification {
                 predicates.add(criteriaBuilder.equal(root.get("ano"), filter.getAno()));
             }
 
-            if (filter.getProfessor() != null) {
-                predicates.add(criteriaBuilder.equal(root.get("professor"), filter.getProfessor()));
+            if (filter.getIdProfessor() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("professor"), filter.getIdProfessor()));
             }
 
             if (filter.getAluno() != null) {

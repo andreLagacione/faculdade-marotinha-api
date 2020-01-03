@@ -7,7 +7,7 @@ import com.lagacione.faculdademarotinhaapi.turma.entity.Turma;
 public class BoletimFilter {
 
     private Integer ano;
-    private Professor professor;
+    private Integer idProfessor;
     private Aluno aluno;
     private Turma turma;
 
@@ -15,8 +15,8 @@ public class BoletimFilter {
         return ano;
     }
 
-    public Professor getProfessor() {
-        return professor;
+    public Integer getIdProfessor() {
+        return idProfessor;
     }
 
     public Aluno getAluno() {
