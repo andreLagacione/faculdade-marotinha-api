@@ -3,8 +3,10 @@ package com.lagacione.faculdademarotinhaapi.boletim.service;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.service.AlunoService;
 import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim;
+import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim_;
 import com.lagacione.faculdademarotinhaapi.boletim.model.*;
 import com.lagacione.faculdademarotinhaapi.boletim.repository.BoletimRepository;
+import com.lagacione.faculdademarotinhaapi.boletim.specification.BoletimSpecification;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import com.lagacione.faculdademarotinhaapi.commons.models.GerarPDFBoletimDTO;
@@ -21,14 +23,25 @@ import com.lagacione.faculdademarotinhaapi.turma.entity.Turma;
 import com.lagacione.faculdademarotinhaapi.turma.model.TurmaDTO;
 import com.lagacione.faculdademarotinhaapi.turma.service.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletResponse;
+import java.security.PrivateKey;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,14 +53,23 @@ public class BoletimService {
     private AlunoService alunoService;
     private NotaService notaService;
     private TurmaService turmaService;
+    private EntityManager entityManager;
 
     @Autowired
-    public void BoletimService(BoletimRepository boletimRepository, ProfessorService professorService, AlunoService alunoService, NotaService notaService, TurmaService turmaService) {
+    public void BoletimService(
+            BoletimRepository boletimRepository,
+            ProfessorService professorService,
+            AlunoService alunoService,
+            NotaService notaService,
+            TurmaService turmaService,
+            @Qualifier("entityManagerFactory") EntityManager entityManager
+    ) {
         this.boletimRepository = boletimRepository;
         this.professorService = professorService;
         this.alunoService = alunoService;
         this.notaService = notaService;
         this.turmaService = turmaService;
+        this.entityManager = entityManager;
     }
 
     public List<BoletimListaDTO> findAll() {
@@ -56,16 +78,11 @@ public class BoletimService {
         return boletimLista;
     }
 
-    public Page<BoletimListaDTO> findPage(Pageable pageable, BoletimFilter filtro) {
-        TypedQuery<BoletimListaDTO> query =
-
-
-
-
-//        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
-//        Page<Boletim> boletins = this.boletimRepository.findAll(pageRequest);
-//        Page<BoletimListaDTO> boletimLista = boletins.map(boletim -> this.boletimListaDTOofBoletim(boletim));
-//        return boletimLista;
+    public Page<BoletimListaDTO> findPage(Pageable pageable, BoletimFilter filter) {
+        TypedQuery<Boletim> query = this.getCriteriaQuery(filter, pageable);
+        List<BoletimListaDTO> boletimLista = query.getResultStream().map(boletim -> this.boletimListaDTOofBoletim(boletim)).collect(Collectors.toList());
+        long totalItems = boletimLista.size();
+        return new PageImpl<>(boletimLista, pageable, totalItems);
     }
 
     private Boletim getBoletim(Integer id) throws ObjectNotFoundException {
@@ -298,5 +315,30 @@ public class BoletimService {
         List<NotaListDTO> notas = boletim.getNotas().stream().map(nota -> this.notaService.notaListDTOofNota(nota)).collect(Collectors.toList());
         boletimEdit.setNotas(notas);
         return boletimEdit;
+    }
+
+    private TypedQuery<Boletim>getCriteriaQuery(BoletimFilter filter, Pageable pageable) {
+        CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+        CriteriaQuery<Boletim> criteriaQuery = criteriaBuilder.createQuery(Boletim.class);
+        Root<Boletim> boletimRoot = criteriaQuery.from(Boletim.class);
+        BoletimSpecification boletimSpecification = new BoletimSpecification();
+        Predicate toPredicate = boletimSpecification.filtroTelaBoletim(filter).toPredicate(boletimRoot, criteriaQuery, criteriaBuilder);
+        criteriaQuery.where(toPredicate);
+
+        criteriaQuery.multiselect(
+                boletimRoot.get("ano"),
+                boletimRoot.get("professor"),
+                boletimRoot.get("aluno"),
+                boletimRoot.get("turma")
+        );
+
+        TypedQuery<Boletim> typedQuery = this.entityManager.createQuery(criteriaQuery);
+
+        if (pageable != null) {
+            typedQuery.setMaxResults(pageable.getPageSize());
+            typedQuery.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
+        }
+
+        return typedQuery;
     }
 }
