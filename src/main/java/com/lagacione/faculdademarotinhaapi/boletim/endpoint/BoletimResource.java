@@ -35,7 +35,7 @@ public class BoletimResource {
         return this.boletimService.findAll();
     }
 
-    @GetMapping
+    @PostMapping(value="/list")
     public Page<BoletimListaDTO> findPage(@RequestBody BoletimFilter filtro, Pageable pageable) {
         return this.boletimService.findPage(pageable, filtro);
     }
