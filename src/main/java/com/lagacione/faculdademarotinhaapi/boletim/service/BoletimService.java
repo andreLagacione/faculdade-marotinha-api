@@ -3,20 +3,17 @@ package com.lagacione.faculdademarotinhaapi.boletim.service;
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.service.AlunoService;
 import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim;
-import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim_;
 import com.lagacione.faculdademarotinhaapi.boletim.model.*;
 import com.lagacione.faculdademarotinhaapi.boletim.repository.BoletimRepository;
-import com.lagacione.faculdademarotinhaapi.boletim.specification.BoletimSpecification;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ActionNotAllowedException;
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import com.lagacione.faculdademarotinhaapi.commons.models.GerarPDFBoletimDTO;
-import com.lagacione.faculdademarotinhaapi.curso.model.CursoDTO;
-import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import com.lagacione.faculdademarotinhaapi.nota.entity.Nota;
 import com.lagacione.faculdademarotinhaapi.nota.model.NotaDTO;
 import com.lagacione.faculdademarotinhaapi.nota.model.NotaListDTO;
 import com.lagacione.faculdademarotinhaapi.nota.model.NotaPDFDTO;
 import com.lagacione.faculdademarotinhaapi.nota.service.NotaService;
+import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorDTO;
 import com.lagacione.faculdademarotinhaapi.professor.service.ProfessorService;
 import com.lagacione.faculdademarotinhaapi.turma.entity.Turma;
@@ -27,21 +24,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletResponse;
-import java.security.PrivateKey;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -323,12 +314,12 @@ public class BoletimService {
         Root<Boletim> boletimRoot = criteriaQuery.from(Boletim.class);
         Predicate orClause = criteriaBuilder.or(
                 criteriaBuilder.equal(boletimRoot.get("ano"), filter.getAno()),
-                criteriaBuilder.equal(boletimRoot.get("professor"), filter.getIdProfessor())
+                criteriaBuilder.equal(boletimRoot.get("professor"), filter.getIdProfessor()),
+                criteriaBuilder.equal(boletimRoot.get("aluno"), filter.getIdAluno()),
+                criteriaBuilder.equal(boletimRoot.get("turma"), filter.getIdTurma())
         );
 
-
         criteriaQuery.where(orClause);
-
         return this.entityManager.createQuery(criteriaQuery).getResultList();
     }
 }
