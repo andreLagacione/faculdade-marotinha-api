@@ -35,7 +35,7 @@ public class AlunoResource {
         return this.alunoService.findAll();
     }
 
-    @GetMapping
+    @PostMapping(value = "/list")
     public Page<AlunoListaDTO> findPage(@PageableDefault(page = 0, size = 25) Pageable pageable) {
         return this.alunoService.findPage(pageable);
     }

@@ -34,7 +34,7 @@ public class ProfessorResource {
         return this.professorService.findAll();
     }
 
-    @GetMapping
+    @PostMapping(value = "/list")
     public Page<ProfessorListaDTO> findPage(Pageable pageable) {
         return this.professorService.findPage(pageable);
     }

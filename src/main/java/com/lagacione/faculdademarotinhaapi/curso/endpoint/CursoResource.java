@@ -35,7 +35,7 @@ public class CursoResource {
         return this.cursoService.findAll();
     }
 
-    @GetMapping
+    @PostMapping(value = "/list")
     public Page<CursoListaDTO> findPage(@PageableDefault(page = 0, size = 25) Pageable pageable) {
         return this.cursoService.findPage(pageable);
     }

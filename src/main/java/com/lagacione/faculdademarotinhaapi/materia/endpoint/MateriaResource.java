@@ -31,7 +31,7 @@ public class MateriaResource {
         return this.materiaService.findAll();
     }
 
-    @GetMapping
+    @PostMapping(value = "/list")
     public Page<MateriaDTO> findPage(Pageable pageable) {
         return this.materiaService.findPage(pageable);
     }
