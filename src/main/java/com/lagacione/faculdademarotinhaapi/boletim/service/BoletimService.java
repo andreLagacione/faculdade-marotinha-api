@@ -13,7 +13,6 @@ import com.lagacione.faculdademarotinhaapi.nota.model.NotaDTO;
 import com.lagacione.faculdademarotinhaapi.nota.model.NotaListDTO;
 import com.lagacione.faculdademarotinhaapi.nota.model.NotaPDFDTO;
 import com.lagacione.faculdademarotinhaapi.nota.service.NotaService;
-import com.lagacione.faculdademarotinhaapi.professor.entity.Professor;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorDTO;
 import com.lagacione.faculdademarotinhaapi.professor.service.ProfessorService;
 import com.lagacione.faculdademarotinhaapi.turma.entity.Turma;
@@ -70,7 +69,7 @@ public class BoletimService {
     }
 
     public Page<BoletimListaDTO> findPage(Pageable pageable, BoletimFilter filter) {
-        List<Boletim> boletimList = this.getCriteriaQuery(filter, pageable);
+        List<Boletim> boletimList = this.getCriteriaQuery(filter);
         List<BoletimListaDTO> boletimListaDTO = boletimList.stream().map(boletim -> this.boletimListaDTOofBoletim(boletim)).collect(Collectors.toList());
         long totalItems = boletimListaDTO.size();
         return new PageImpl<>(boletimListaDTO, pageable, totalItems);
@@ -308,18 +307,18 @@ public class BoletimService {
         return boletimEdit;
     }
 
-    private List<Boletim>getCriteriaQuery(BoletimFilter filter, Pageable pageable) {
+    private List<Boletim>getCriteriaQuery(BoletimFilter filter) {
         CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<Boletim> criteriaQuery = criteriaBuilder.createQuery(Boletim.class);
         Root<Boletim> boletimRoot = criteriaQuery.from(Boletim.class);
-        Predicate orClause = criteriaBuilder.or(
+        Predicate predicate = criteriaBuilder.or(
                 criteriaBuilder.equal(boletimRoot.get("ano"), filter.getAno()),
                 criteriaBuilder.equal(boletimRoot.get("professor"), filter.getIdProfessor()),
                 criteriaBuilder.equal(boletimRoot.get("aluno"), filter.getIdAluno()),
                 criteriaBuilder.equal(boletimRoot.get("turma"), filter.getIdTurma())
         );
 
-        criteriaQuery.where(orClause);
+        criteriaQuery.where(predicate);
         return this.entityManager.createQuery(criteriaQuery).getResultList();
     }
 }
