@@ -9,17 +9,21 @@ import com.lagacione.faculdademarotinhaapi.curso.service.CursoService;
 import com.lagacione.faculdademarotinhaapi.professor.model.ProfessorDTO;
 import com.lagacione.faculdademarotinhaapi.professor.service.ProfessorService;
 import com.lagacione.faculdademarotinhaapi.turma.entity.Turma;
-import com.lagacione.faculdademarotinhaapi.turma.model.TurmaComboListDTO;
-import com.lagacione.faculdademarotinhaapi.turma.model.TurmaDTO;
-import com.lagacione.faculdademarotinhaapi.turma.model.TurmaEditDTO;
-import com.lagacione.faculdademarotinhaapi.turma.model.TurmaListDTO;
+import com.lagacione.faculdademarotinhaapi.turma.model.*;
 import com.lagacione.faculdademarotinhaapi.turma.repository.TurmaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,13 +34,21 @@ public class TurmaService {
     private CursoService cursoService;
     private ProfessorService professorService;
     private BoletimService boletimService;
+    private EntityManager entityManager;
 
     @Autowired
-    public void TurmaService(TurmaRepository turmaRepository, CursoService cursoService, ProfessorService professorService, BoletimService boletimService) {
+    public void TurmaService(
+            TurmaRepository turmaRepository,
+            CursoService cursoService,
+            ProfessorService professorService,
+            BoletimService boletimService,
+            @Qualifier("entityManagerFactory") EntityManager entityManager
+    ) {
         this.turmaRepository = turmaRepository;
         this.cursoService = cursoService;
         this.professorService = professorService;
         this.boletimService = boletimService;
+        this.entityManager = entityManager;
     }
 
     public List<TurmaComboListDTO> findAll() {
@@ -45,11 +57,11 @@ public class TurmaService {
         return turmaListDTO;
     }
 
-    public Page<TurmaListDTO> findPage(Pageable pageable) {
-        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
-        Page<Turma> turmas = this.turmaRepository.findAll(pageRequest);
-        Page<TurmaListDTO> alunoListaDTO = turmas.map(turma -> this.turmaListDTOofEntity(turma));
-        return alunoListaDTO;
+    public Page<TurmaListDTO> findPage(Pageable pageable, TurmaFilter filter) {
+        List<Turma> turmaList = this.getCriteriaQuery(filter);
+        List<TurmaListDTO> turmaListaDTO = turmaList.stream().map(turma -> this.turmaListDTOofEntity(turma)).collect(Collectors.toList());
+        long totalitems = turmaListaDTO.size();
+        return new PageImpl<>(turmaListaDTO, pageable, totalitems);
     }
 
     private Turma findTurma(Integer id) throws ObjectNotFoundException {
@@ -191,5 +203,20 @@ public class TurmaService {
         turmaComboListDTO.setId(turma.getId());
         turmaComboListDTO.setName(turma.getCurso().getName() + " - período da " + turma.getPeriodo());
         return turmaComboListDTO;
+    }
+
+    private List<Turma> getCriteriaQuery(TurmaFilter filter) {
+        CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
+        CriteriaQuery<Turma> criteriaQuery = criteriaBuilder.createQuery(Turma.class);
+        Root<Turma> turmaRoot = criteriaQuery.from(Turma.class);
+        Predicate predicate = criteriaBuilder.or(
+                criteriaBuilder.equal(turmaRoot.get("ano"), filter.getAno()),
+                criteriaBuilder.equal(turmaRoot.get("curso"), filter.getIdCurso()),
+                criteriaBuilder.equal(turmaRoot.get("professor"), filter.getIdProfessor()),
+                criteriaBuilder.equal(turmaRoot.get("periodo"), filter.getPeriodo())
+        );
+
+        criteriaQuery.where(predicate);
+        return this.entityManager.createQuery(criteriaQuery).getResultList();
     }
 }

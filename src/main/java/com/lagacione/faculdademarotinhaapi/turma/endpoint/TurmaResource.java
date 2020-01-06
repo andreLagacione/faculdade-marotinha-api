@@ -2,10 +2,7 @@ package com.lagacione.faculdademarotinhaapi.turma.endpoint;
 
 import com.lagacione.faculdademarotinhaapi.commons.exceptions.ObjectNotFoundException;
 import com.lagacione.faculdademarotinhaapi.commons.models.PadraoMensagemRetornoDTO;
-import com.lagacione.faculdademarotinhaapi.turma.model.TurmaComboListDTO;
-import com.lagacione.faculdademarotinhaapi.turma.model.TurmaDTO;
-import com.lagacione.faculdademarotinhaapi.turma.model.TurmaEditDTO;
-import com.lagacione.faculdademarotinhaapi.turma.model.TurmaListDTO;
+import com.lagacione.faculdademarotinhaapi.turma.model.*;
 import com.lagacione.faculdademarotinhaapi.turma.service.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,9 +32,9 @@ public class TurmaResource {
         return this.turmaService.findAll();
     }
 
-    @GetMapping
-    public Page<TurmaListDTO> findPage(@PageableDefault(size = 25) Pageable pageable) {
-        return this.turmaService.findPage(pageable);
+    @PostMapping(value = "/list")
+    public Page<TurmaListDTO> findPage(@RequestBody TurmaFilter filter, Pageable pageable) {
+        return this.turmaService.findPage(pageable, filter);
     }
 
     @GetMapping(value="/{id}")
