@@ -321,10 +321,13 @@ public class BoletimService {
         CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<Boletim> criteriaQuery = criteriaBuilder.createQuery(Boletim.class);
         Root<Boletim> boletimRoot = criteriaQuery.from(Boletim.class);
-        criteriaQuery.where(
+        Predicate orClause = criteriaBuilder.or(
                 criteriaBuilder.equal(boletimRoot.get("ano"), filter.getAno()),
                 criteriaBuilder.equal(boletimRoot.get("professor"), filter.getIdProfessor())
         );
+
+
+        criteriaQuery.where(orClause);
 
         return this.entityManager.createQuery(criteriaQuery).getResultList();
     }
