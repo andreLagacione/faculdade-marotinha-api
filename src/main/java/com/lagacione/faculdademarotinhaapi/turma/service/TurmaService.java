@@ -11,12 +11,14 @@ import com.lagacione.faculdademarotinhaapi.professor.service.ProfessorService;
 import com.lagacione.faculdademarotinhaapi.turma.entity.Turma;
 import com.lagacione.faculdademarotinhaapi.turma.model.*;
 import com.lagacione.faculdademarotinhaapi.turma.repository.TurmaRepository;
+import com.lagacione.faculdademarotinhaapi.turma.specification.TurmaSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -58,10 +60,11 @@ public class TurmaService {
     }
 
     public Page<TurmaListDTO> findPage(Pageable pageable, TurmaFilter filter) {
-        List<Turma> turmaList = this.getCriteriaQuery(filter);
-        List<TurmaListDTO> turmaListaDTO = turmaList.stream().map(turma -> this.turmaListDTOofEntity(turma)).collect(Collectors.toList());
-        long totalitems = turmaListaDTO.size();
-        return new PageImpl<>(turmaListaDTO, pageable, totalitems);
+        TurmaSpecification turmaSpecification = new TurmaSpecification();
+        Specification<Turma> specification = turmaSpecification.buildFilter(filter);
+        Page<Turma> turmaPage = this.turmaRepository.findAll(specification, pageable);
+        List<TurmaListDTO> turmaListDTO = turmaPage.getContent().stream().map(turma -> this.turmaListDTOofEntity(turma)).collect(Collectors.toList());
+        return new PageImpl<>(turmaListDTO, pageable, turmaPage.getTotalElements());
     }
 
     private Turma findTurma(Integer id) throws ObjectNotFoundException {
@@ -205,18 +208,4 @@ public class TurmaService {
         return turmaComboListDTO;
     }
 
-    private List<Turma> getCriteriaQuery(TurmaFilter filter) {
-        CriteriaBuilder criteriaBuilder = this.entityManager.getCriteriaBuilder();
-        CriteriaQuery<Turma> criteriaQuery = criteriaBuilder.createQuery(Turma.class);
-        Root<Turma> turmaRoot = criteriaQuery.from(Turma.class);
-        Predicate predicate = criteriaBuilder.or(
-                criteriaBuilder.equal(turmaRoot.get("ano"), filter.getAno()),
-                criteriaBuilder.equal(turmaRoot.get("curso"), filter.getIdCurso()),
-                criteriaBuilder.equal(turmaRoot.get("professor"), filter.getIdProfessor()),
-                criteriaBuilder.equal(turmaRoot.get("periodo"), filter.getPeriodo())
-        );
-
-        criteriaQuery.where(predicate);
-        return this.entityManager.createQuery(criteriaQuery).getResultList();
-    }
 }
