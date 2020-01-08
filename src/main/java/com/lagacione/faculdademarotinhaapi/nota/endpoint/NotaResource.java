@@ -32,7 +32,7 @@ public class NotaResource {
         return this.notaService.findAll();
     }
 
-    @PostMapping(value="/id-boletim/{idBoletim}")
+    @GetMapping(value="/id-boletim/{idBoletim}")
     public List<NotaListDTO> findByBoletimId(@PathVariable Integer idBoletim) {
         return this.notaService.findByBoletimId(idBoletim);
     }
