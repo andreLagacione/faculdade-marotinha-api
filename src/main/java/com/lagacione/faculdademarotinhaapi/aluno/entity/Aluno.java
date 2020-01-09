@@ -4,14 +4,21 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim;
 import com.lagacione.faculdademarotinhaapi.pessoa.entity.Pessoa;
 import com.lagacione.faculdademarotinhaapi.turma.entity.Turma;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "Aluno")
 public class Aluno extends Pessoa {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -28,29 +35,4 @@ public class Aluno extends Pessoa {
     )
     private List<Turma> turmas = new ArrayList<>();
 
-    public Aluno() {}
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public List<Boletim> getBoletins() {
-        return boletins;
-    }
-
-    public void setBoletins(List<Boletim> boletins) {
-        this.boletins = boletins;
-    }
-
-    public List<Turma> getTurmas() {
-        return turmas;
-    }
-
-    public void setTurmas(List<Turma> turmas) {
-        this.turmas = turmas;
-    }
 }
