@@ -16,5 +16,5 @@ public class CursoToEditDTO {
     private Integer id;
     private String nome;
     private List<MateriaDTO> materias = new ArrayList<>();
-    
+
 }
