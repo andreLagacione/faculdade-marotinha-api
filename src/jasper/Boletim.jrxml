@@ -242,13 +242,6 @@
 			<line>
 				<reportElement x="1" y="290" width="801" height="1" uuid="054d8d0a-562d-4bf5-9e73-575b30a810a7"/>
 			</line>
-			<subreport>
-				<reportElement x="15" y="58" width="772" height="209" uuid="b075a7a0-3aba-4e44-8f3c-88f6df8cbcee"/>
-				<subreportParameter name="REPORT_DATA_SOURCE">
-					<subreportParameterExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{notas})]]></subreportParameterExpression>
-				</subreportParameter>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Boletim_lista_notas.jasper"]]></subreportExpression>
-			</subreport>
 			<staticText>
 				<reportElement x="27" y="27" width="100" height="20" uuid="8dc6b746-c0d5-4fcf-9be3-17f27875dc75"/>
 				<textElement verticalAlignment="Middle"/>
@@ -306,6 +299,10 @@
 			<line>
 				<reportElement x="15" y="16" width="1" height="42" uuid="8df607eb-5a44-4011-bb53-a23ef97bac07"/>
 			</line>
+			<subreport isUsingCache="false">
+				<reportElement x="15" y="57" width="773" height="217" uuid="746f58cc-5be3-44e5-8c81-5737a7c97493"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+			</subreport>
 		</band>
 	</detail>
 	<columnFooter>
