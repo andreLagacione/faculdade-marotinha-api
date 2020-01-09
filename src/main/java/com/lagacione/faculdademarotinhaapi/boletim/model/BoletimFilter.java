@@ -1,5 +1,12 @@
 package com.lagacione.faculdademarotinhaapi.boletim.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class BoletimFilter {
 
     private Integer ano;
@@ -7,19 +14,4 @@ public class BoletimFilter {
     private Integer idAluno;
     private Integer idTurma;
 
-    public Integer getAno() {
-        return ano;
-    }
-
-    public Integer getIdProfessor() {
-        return idProfessor;
-    }
-
-    public Integer getIdAluno() {
-        return idAluno;
-    }
-
-    public Integer getIdTurma() {
-        return idTurma;
-    }
 }
