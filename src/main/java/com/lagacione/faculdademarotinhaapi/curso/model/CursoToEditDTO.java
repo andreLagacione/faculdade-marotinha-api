@@ -1,39 +1,20 @@
 package com.lagacione.faculdademarotinhaapi.curso.model;
 
 import com.lagacione.faculdademarotinhaapi.materia.model.MateriaDTO;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class CursoToEditDTO {
+
     private Integer id;
     private String nome;
     private List<MateriaDTO> materias = new ArrayList<>();
-
-    public CursoToEditDTO() {}
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id=id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome=nome;
-    }
-
-    public List<MateriaDTO> getMaterias() {
-        return materias;
-    }
-
-    public void setMaterias(List<MateriaDTO> idMaterias) {
-        this.materias=idMaterias;
-    }
-
+    
 }
