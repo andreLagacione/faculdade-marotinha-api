@@ -2,6 +2,7 @@ package com.lagacione.faculdademarotinhaapi.boletim.service;
 
 import com.lagacione.faculdademarotinhaapi.aluno.model.AlunoDTO;
 import com.lagacione.faculdademarotinhaapi.aluno.service.AlunoService;
+import com.lagacione.faculdademarotinhaapi.boletim.configuration.property.BoletimProperty;
 import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim;
 import com.lagacione.faculdademarotinhaapi.boletim.model.*;
 import com.lagacione.faculdademarotinhaapi.boletim.repository.BoletimRepository;
@@ -42,6 +43,7 @@ public class BoletimService {
     private NotaService notaService;
     private TurmaService turmaService;
     private EntityManager entityManager;
+    private BoletimProperty boletimProperty;
 
     @Autowired
     public void BoletimService(
@@ -50,7 +52,8 @@ public class BoletimService {
             AlunoService alunoService,
             NotaService notaService,
             TurmaService turmaService,
-            @Qualifier("entityManagerFactory") EntityManager entityManager
+            @Qualifier("entityManagerFactory") EntityManager entityManager,
+            BoletimProperty boletimProperty
     ) {
         this.boletimRepository = boletimRepository;
         this.professorService = professorService;
@@ -58,6 +61,7 @@ public class BoletimService {
         this.notaService = notaService;
         this.turmaService = turmaService;
         this.entityManager = entityManager;
+        this.boletimProperty = boletimProperty;
     }
 
     public List<BoletimListaDTO> findAll() {
@@ -201,7 +205,7 @@ public class BoletimService {
             BoletimDTO boletimDTO = this.findBoletimDTO(id);
             BoletimPDFDTO boletimPDF = this.boletimPDFDTOofBoletimDTO(boletimDTO);
             GerarPDFBoletimDTO boletim = new GerarPDFBoletimDTO();
-            boletim.gerarBoletim(boletimPDF, response);
+            boletim.gerarBoletim(boletimPDF, response, this.boletimProperty.getJasper());
         } catch (Exception e) {
             throw new Exception("Erro ao gerar boletim: " + e.getMessage());
         }

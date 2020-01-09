@@ -14,15 +14,9 @@ import java.util.List;
 
 public class GerarPDFBoletimDTO {
 
-    private String path;
-    private String pathToReportPackage;
+    public GerarPDFBoletimDTO() {}
 
-    public GerarPDFBoletimDTO() {
-        this.path = this.getClass().getClassLoader().getResource("").getPath();
-        this.pathToReportPackage = this.path + "com/lagacione/faculdademarotinhaapi/jasper/";
-    }
-
-    public void gerarBoletim(BoletimPDFDTO boletimPDF, HttpServletResponse response) throws JRException, IOException {
+    public void gerarBoletim(BoletimPDFDTO boletimPDF, HttpServletResponse response, String boletimPath) throws JRException, IOException {
         List<BoletimPDFDTO> dadosBoletim = new ArrayList<>();
         dadosBoletim.add(boletimPDF);
 
@@ -30,7 +24,7 @@ public class GerarPDFBoletimDTO {
         long time = date.getTime();
         String idBoletim = String.valueOf(time);
 
-        JasperReport jasperReport = JasperCompileManager.compileReport(this.pathToReportPackage + "Boletim.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(boletimPath + "Boletim.jrxml");
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap<>(), new JRBeanCollectionDataSource(dadosBoletim));
 
         response.setContentType("application/x-download");
@@ -39,11 +33,4 @@ public class GerarPDFBoletimDTO {
         JasperExportManager.exportReportToPdfStream(jasperPrint,out);
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public String getPathToReportPackage() {
-        return pathToReportPackage;
-    }
 }
