@@ -1,9 +1,17 @@
 package com.lagacione.faculdademarotinhaapi.turma.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class TurmaDTO {
+
     private Integer id;
 
     @NotNull(message = "Informe o ano!")
@@ -18,45 +26,4 @@ public class TurmaDTO {
     @NotEmpty(message = "Informe o periodo!")
     private String periodo;
 
-    public TurmaDTO() {}
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getAno() {
-        return ano;
-    }
-
-    public void setAno(Integer ano) {
-        this.ano = ano;
-    }
-
-    public Integer getCurso() {
-        return curso;
-    }
-
-    public void setCurso(Integer curso) {
-        this.curso = curso;
-    }
-
-    public Integer getProfessor() {
-        return professor;
-    }
-
-    public void setProfessor(Integer professor) {
-        this.professor = professor;
-    }
-
-    public String getPeriodo() {
-        return periodo;
-    }
-
-    public void setPeriodo(String periodo) {
-        this.periodo = periodo;
-    }
 }
