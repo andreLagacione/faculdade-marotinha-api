@@ -5,12 +5,18 @@ import com.lagacione.faculdademarotinhaapi.boletim.entity.Boletim;
 import com.lagacione.faculdademarotinhaapi.materia.entity.Materia;
 import com.lagacione.faculdademarotinhaapi.pessoa.entity.Pessoa;
 import com.lagacione.faculdademarotinhaapi.turma.entity.Turma;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "professor")
 public class Professor extends Pessoa {
 
@@ -34,29 +40,4 @@ public class Professor extends Pessoa {
     @OneToMany(mappedBy = "professor")
     private List<Turma> turmas = new ArrayList<>();
 
-    public Professor() {}
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public List<Materia> getMateriasLecionadas() {
-        return materiasLecionadas;
-    }
-
-    public void setMateriasLecionadas(List<Materia> materiasLecionadas) {
-        this.materiasLecionadas = materiasLecionadas;
-    }
-
-    public List<Turma> getTurmas() {
-        return turmas;
-    }
-
-    public void setTurmas(List<Turma> turmas) {
-        this.turmas = turmas;
-    }
 }
