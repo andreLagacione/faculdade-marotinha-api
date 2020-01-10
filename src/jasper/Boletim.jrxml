@@ -129,8 +129,9 @@
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
+	<subDataset name="dataset1" uuid="7310889a-a10f-494a-8bc3-951e27da95dc"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\Jobs\\estudando\\faculdade-marotinha-api\\src\\main\\java\\com\\lagacione\\faculdademarotinhaapi\\jasper\\"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["C:\\Jobs\\estudando\\faculdade-marotinha-api\\src\\jasper\\"]]></defaultValueExpression>
 	</parameter>
 	<field name="ano" class="java.lang.Integer">
 		<fieldDescription><![CDATA[ano]]></fieldDescription>
@@ -299,9 +300,10 @@
 			<line>
 				<reportElement x="15" y="16" width="1" height="42" uuid="8df607eb-5a44-4011-bb53-a23ef97bac07"/>
 			</line>
-			<subreport isUsingCache="false">
-				<reportElement x="15" y="57" width="773" height="217" uuid="746f58cc-5be3-44e5-8c81-5737a7c97493"/>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+			<subreport>
+				<reportElement x="15" y="57" width="772" height="56" uuid="02c6c65f-9a2c-4377-b2b5-3fdaa4bab8aa"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Boletim_lista_notas.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
