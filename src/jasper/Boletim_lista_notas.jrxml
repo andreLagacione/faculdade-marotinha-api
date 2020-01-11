@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Boletim_lista_notas" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7adfd63b-174a-46a0-af07-b060e52d320b">
-	<property name="ireport.zoom" value="3.7974983358324272"/>
+	<property name="ireport.zoom" value="1.1000000000000045"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<field name="nomeMateria" class="java.lang.String"/>
@@ -25,6 +25,7 @@
 		<band height="39" splitType="Stretch">
 			<textField>
 				<reportElement x="12" y="10" width="344" height="20" uuid="4403be15-cd98-473d-859f-9e49bdd1fc42"/>
+				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{nomeMateria}]]></textFieldExpression>
 			</textField>
 			<textField>

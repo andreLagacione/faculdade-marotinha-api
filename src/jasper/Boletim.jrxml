@@ -5,6 +5,7 @@
 	<property name="ireport.y" value="0"/>
 	<property name="ireport.background.image" value="C:\Users\Usuario\Downloads\download.png"/>
 	<property name="ireport.background.image.properties" value="true,true,0.25,-8,-8,0,0,403,146"/>
+	<import value="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -301,8 +302,8 @@
 				<reportElement x="15" y="16" width="1" height="42" uuid="8df607eb-5a44-4011-bb53-a23ef97bac07"/>
 			</line>
 			<subreport>
-				<reportElement x="15" y="57" width="772" height="56" uuid="02c6c65f-9a2c-4377-b2b5-3fdaa4bab8aa"/>
-				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<reportElement x="15" y="57" width="772" height="44" uuid="77f740f6-9b0e-4129-8286-31a82d7c8695"/>
+				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{notas})]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Boletim_lista_notas.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
